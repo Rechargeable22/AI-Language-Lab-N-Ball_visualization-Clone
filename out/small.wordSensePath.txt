@@ -1,0 +1,24 @@
+*root* *root*
+berlin.n.01 *root* entity.n.01 object.n.01 location.n.01 region.n.03 area.n.01 center.n.01 seat.n.05 capital.n.03 berlin.n.01 
+entity.n.01 *root* entity.n.01 
+object.n.01 *root* entity.n.01 object.n.01 
+location.n.01 *root* entity.n.01 object.n.01 location.n.01 
+region.n.03 *root* entity.n.01 object.n.01 location.n.01 region.n.03 
+area.n.01 *root* entity.n.01 object.n.01 location.n.01 region.n.03 area.n.01 
+center.n.01 *root* entity.n.01 object.n.01 location.n.01 region.n.03 area.n.01 center.n.01 
+seat.n.05 *root* entity.n.01 object.n.01 location.n.01 region.n.03 area.n.01 center.n.01 seat.n.05 
+capital.n.03 *root* entity.n.01 object.n.01 location.n.01 region.n.03 area.n.01 center.n.01 seat.n.05 capital.n.03 
+berlin.n.02 *root* entity.n.01 person.n.01 creator.n.02 artist.n.01 musician.n.02 composer.n.01 songwriter.n.01 berlin.n.02 
+person.n.01 *root* entity.n.01 person.n.01 
+creator.n.02 *root* entity.n.01 person.n.01 creator.n.02 
+artist.n.01 *root* entity.n.01 person.n.01 creator.n.02 artist.n.01 
+musician.n.02 *root* entity.n.01 person.n.01 creator.n.02 artist.n.01 musician.n.02 
+composer.n.01 *root* entity.n.01 person.n.01 creator.n.02 artist.n.01 musician.n.02 composer.n.01 
+songwriter.n.01 *root* entity.n.01 person.n.01 creator.n.02 artist.n.01 musician.n.02 composer.n.01 songwriter.n.01 
+berlin.n.03 *root* entity.n.01 object.n.01 whole.n.02 artifact.n.01 instrumentality.n.03 container.n.01 car.n.01 limousine.n.01 berlin.n.03 
+whole.n.02 *root* entity.n.01 object.n.01 whole.n.02 
+artifact.n.01 *root* entity.n.01 object.n.01 whole.n.02 artifact.n.01 
+instrumentality.n.03 *root* entity.n.01 object.n.01 whole.n.02 artifact.n.01 instrumentality.n.03 
+container.n.01 *root* entity.n.01 object.n.01 whole.n.02 artifact.n.01 instrumentality.n.03 container.n.01 
+car.n.01 *root* entity.n.01 object.n.01 whole.n.02 artifact.n.01 instrumentality.n.03 container.n.01 car.n.01 
+limousine.n.01 *root* entity.n.01 object.n.01 whole.n.02 artifact.n.01 instrumentality.n.03 container.n.01 car.n.01 limousine.n.01 
