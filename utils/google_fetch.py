@@ -35,13 +35,3 @@ def fetch_glove():
                     with source, target:
                         shutil.copyfileobj(source, target)
 
-        # with ZipFile('res/glove.zip', 'r') as zipObj:
-        #     # Get a list of all archived file names from the zip
-        #     listOfFileNames = zipObj.namelist()
-        #     # Iterate over the file names
-        #     for fileName in listOfFileNames:
-        #         # Check filename endswith csv
-        #         if fileName.endswith('6B.50d.txt'):
-        #             # Extract a single file from zip
-        #             zipObj.extract(fileName, 'res/glove.txt')
-
