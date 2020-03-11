@@ -19,3 +19,4 @@ tabulate
 Theano
 traitlets
 virtualenv
+requests
