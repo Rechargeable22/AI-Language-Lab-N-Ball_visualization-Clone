@@ -1,4 +1,3 @@
-President
-Leader
-Citizen
-Country
+fruit
+orange
+banana

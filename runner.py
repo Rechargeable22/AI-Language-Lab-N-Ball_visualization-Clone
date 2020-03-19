@@ -2,12 +2,12 @@ import os, sys
 import utils.google_fetch
 
 # What part we run
-generate_balls = False
-reduce_dimensionality = False
+generate_balls = True
+reduce_dimensionality = True
 visualize_nballs = True
 
-# word_embedding = "res/glove.6B.50d.txt"
-word_embedding = "res/glove.txt"
+word_embedding = "res/glove.6B.50d.txt"
+# word_embedding = "res/glove.txt"
 words = "res/sample_input.txt"
 
 utils.google_fetch.fetch_glove()
