@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+ <div class="jumbotron text-center">
+   <h1>Welcome To N-Ball</h1>
+   <p class="lead">You all get a tree</p>
+   <p style="margin: 7em;">
+   <form method="POST">
+     <input name="text">
+     <input type="submit">
+   </form>
+   </p>
+   <a href="/register" class="btn btn-primary btn-lg">upload</a>
+   <a href="/login" class="btn btn-success btn-lg">download</a>
+ </div>
+{% endblock %}
