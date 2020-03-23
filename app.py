@@ -1,3 +1,5 @@
+import pandas as pandas
+import plotly.express as px
 from flask import Flask, render_template, request
 import runner as r
 
@@ -10,6 +12,16 @@ def index():
 @app.route('/temp')
 def contruction():
     return render_template('construction.html')
+
+@app.route('/plotly')
+def plotly():
+    df = px.data.gapminder()
+
+    fig = px.scatter(df.query("year==2007"), x="gdpPercap", y="lifeExp",
+                     size="pop", color="continent",
+                     text="country", log_x=True, size_max=60)
+    return fig.show()
+
 
 @app.route('/', methods=['POST'])
 def my_form_post():
