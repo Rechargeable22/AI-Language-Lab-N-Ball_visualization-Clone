@@ -5,7 +5,7 @@ import utils.google_fetch
 import main as m
 
 
-if __name__ == "__main__":
+def run(ext_args=None):
     print(sys.argv)
     parser = argparse.ArgumentParser(description="Installation and configuration of Natlink and its dependency")
     parser.add_argument('--no_balls', dest='generate_balls', action='store_false')
@@ -14,7 +14,12 @@ if __name__ == "__main__":
     parser.set_defaults(generate_balls=True)
     parser.set_defaults(dimension_reduction=True)
     parser.set_defaults(visualize_nballs=True)
-    args = parser.parse_args()
+
+    args=None
+    if ext_args:
+        args = parser.parse_args(ext_args)
+    else:
+        args = parser.parse_args()
 
 
 
@@ -44,4 +49,7 @@ if __name__ == "__main__":
     WORDS_FILE_PATH = None
 
     if visualize_nballs:
-        m.main(f"python main.py --vis --circles {CIRCLES_FILE_PATH}".split())
+        m.main(f" --vis --circles {CIRCLES_FILE_PATH}".split())
+
+if __name__ == "__main__":
+    run()
