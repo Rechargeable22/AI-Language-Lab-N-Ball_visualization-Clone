@@ -8,7 +8,7 @@ from visualization.ploting import visualize
 from utils.files_utils import set_up_data_folder
 
 
-def main():
+def main(ext_args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--train_nball')
     parser.add_argument('--w2v')
@@ -23,7 +23,11 @@ def main():
     parser.add_argument('-v', '--vis', action='store_true')
     parser.add_argument('-rf', '--reduceAndFix', action='store_true')
 
-    args = parser.parse_args()
+    args=None
+    if ext_args:
+        args = parser.parse_args(ext_args)
+    else:
+        args = parser.parse_args()
 
     if args.generate_nballs:
         if args.w2v and (args.input or args.sample) and args.output_path:

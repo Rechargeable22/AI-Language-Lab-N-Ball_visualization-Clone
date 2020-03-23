@@ -2,9 +2,11 @@ import os, sys
 import argparse
 
 import utils.google_fetch
+import main as m
 
 
 if __name__ == "__main__":
+    print(sys.argv)
     parser = argparse.ArgumentParser(description="Installation and configuration of Natlink and its dependency")
     parser.add_argument('--no_balls', dest='generate_balls', action='store_false')
     parser.add_argument('--no_dimension_reduction', dest='dimension_reduction', action='store_false')
@@ -28,7 +30,11 @@ if __name__ == "__main__":
     utils.google_fetch.fetch_glove()
 
     if generate_balls:
-        os.system(f"python main.py --generate_nballs --input {words} --w2v {word_embedding} --output out/test1")
+        #os.system(f"python main.py --generate_nballs --input {words} --w2v {word_embedding} --output out/test1")
+        print(sys.argv)
+        #sys.argv.append()
+        print(sys.argv)
+        m.main((f" --generate_nballs --input {words} --w2v {word_embedding} --output out/test1").split())
 
     BALLS_FILE_PATH = "out/test1/nballs.txt"
     CHILDREN_FILE_PATH = "out/test1/children.txt"

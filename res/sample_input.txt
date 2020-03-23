@@ -1,3 +1,10 @@
 fruit
-orange
 banana
+vegetable
+potato
+apple
+vegetarian
+plant
+zucchini
+
+
