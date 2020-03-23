@@ -30,10 +30,6 @@ if __name__ == "__main__":
     utils.google_fetch.fetch_glove()
 
     if generate_balls:
-        #os.system(f"python main.py --generate_nballs --input {words} --w2v {word_embedding} --output out/test1")
-        print(sys.argv)
-        #sys.argv.append()
-        print(sys.argv)
         m.main((f" --generate_nballs --input {words} --w2v {word_embedding} --output out/test1").split())
 
     BALLS_FILE_PATH = "out/test1/nballs.txt"
@@ -41,11 +37,11 @@ if __name__ == "__main__":
     OUTPUT_FILE_PATH = "out/test1/reduced_nballs.txt"
 
     if reduce_dimensionality:
-        os.system(f"python main.py --reduceAndFix --balls {BALLS_FILE_PATH} --children {CHILDREN_FILE_PATH} \
-        --output_path {OUTPUT_FILE_PATH}")
+        m.main((f"--reduceAndFix --balls {BALLS_FILE_PATH} --children {CHILDREN_FILE_PATH} \
+        --output_path {OUTPUT_FILE_PATH}").split())
 
     CIRCLES_FILE_PATH = OUTPUT_FILE_PATH
     WORDS_FILE_PATH = None
 
     if visualize_nballs:
-        os.system(f"python main.py --vis --circles {CIRCLES_FILE_PATH}")   # --showenWords {WORDS_FILE_PATH}
+        m.main(f"python main.py --vis --circles {CIRCLES_FILE_PATH}".split())

@@ -182,6 +182,7 @@ def making_ball_contains(root, children,  addDim=[], word2vecDic=dict(),
     while not flag:
         flag = True
         for childName in children:
+            # todo P == parent?
             pBall, word2ballDic = training_P_by_name(childName, root,  addDim=addDim,
                                        wsChildrenDic=wsChildrenDic, word2vecDic=word2vecDic, wscatCodeDic=wscatCodeDic,
                                        word2ballDic=word2ballDic,
