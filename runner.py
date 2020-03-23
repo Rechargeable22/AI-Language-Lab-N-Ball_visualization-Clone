@@ -17,7 +17,7 @@ def run(ext_args=None):
 
     args=None
     if ext_args:
-        args = parser.parse_args(ext_args)
+        args = parser.parse_args(ext_args.split())
     else:
         args = parser.parse_args()
 
