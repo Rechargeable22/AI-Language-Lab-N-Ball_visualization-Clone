@@ -17,7 +17,7 @@ def reporthook(count, block_size, total_size):
     sys.stdout.flush()
 
 def fetch_glove():
-    if not os.path.exists("res/glove.txt"):
+    if not os.path.exists("res/glove.6B.50D.txt"):
         if not os.path.exists("res/glove.zip"):
             urllib.request.urlretrieve("http://nlp.stanford.edu/data/glove.6B.zip", "res/glove.zip",reporthook)
 

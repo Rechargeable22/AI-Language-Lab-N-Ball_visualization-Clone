@@ -1,4 +1,4 @@
-glove.txt
+res/glove.6B.50D.txt
 glove*.zip
 out/*
 
