@@ -1,0 +1,5 @@
+.list-group{
+    height: 250px;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
