@@ -36,7 +36,7 @@ function createTextDiv(t) {
     const text = document.createTextNode(t);
     divNode.className = "list-group-item list-group-item-action";
     divNode.appendChild(text);
-    divNode.classList.add("clickable")
+    divNode.classList.add("clickable");
     return divNode;
 }
 
@@ -50,8 +50,8 @@ window.onload = function () {
         const divNode = createTextDiv(key);
         divNode.addEventListener("click", function () {
             clearSecondCol();
-            clearThirdCol()
-            divNode.classList.add("active")
+            clearThirdCol();
+            divNode.classList.add("active");
 
 
             const elementsToAdd = dataDict[key];
@@ -59,10 +59,10 @@ window.onload = function () {
                 const textElement = createTextDiv(element);
                 textElement.addEventListener("click", function () {
                     clearThirdCol();
-                    textElement.classList.add("active")
-                    const clone = textElement.cloneNode(true)
+                    textElement.classList.add("active");
+                    const clone = textElement.cloneNode(true);
                     col3.appendChild(clone);
-                })
+                });
                 col2.appendChild(textElement)
             });
         });
