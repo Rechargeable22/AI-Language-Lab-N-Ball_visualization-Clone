@@ -1,9 +1,11 @@
+import os
 import pandas as pandas
 import plotly.express as px
 from flask import Flask, render_template, request
 import runner as r
 
 app = Flask(__name__)
+app._static_folder = os.path.abspath("templates/static/")
 
 @app.route('/')
 def index():

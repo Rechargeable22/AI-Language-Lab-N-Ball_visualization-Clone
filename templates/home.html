@@ -1,16 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block body %}
- <div class="jumbotron text-center">
-   <h1>Welcome To N-Ball</h1>
-   <p class="lead">You all get a tree</p>
-   <p style="margin: 7em;">
-   <form method="POST">
-     <input name="text">
-     <input type="submit">
-   </form>
-   </p>
-   <a href="/register" class="btn btn-primary btn-lg">upload</a>
-   <a href="/login" class="btn btn-success btn-lg">download</a>
- </div>
+<div class="jumbotron text-center">
+    <h1>Welcome To N-Ball</h1>
+    <p class="lead">You all get a tree</p>
+    <p style="margin: 7em;">
+    <form method="POST">
+        <input name="text">
+        <input type="submit">
+    </form>
+    </p>
+    <a href="/register" class="btn btn-primary btn-lg">upload</a>
+    <a href="/login" class="btn btn-success btn-lg">download</a>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="list-group col-sm-3" id="col1" role="tablist"></div>
+        <div id="col2" class="col-sm-3"></div>
+        <div id="col3" class="col-sm-6">C</div>
+    </div>
+</div>
+
+
 {% endblock %}
