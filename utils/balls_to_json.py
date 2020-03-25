@@ -4,14 +4,43 @@ import json
 from nltk.corpus import wordnet as wn
 
 
-if __name__ == '__main__':
-    BALLS_PATH = "../out/test1/reduced_nballs_after.txt"
-    circles_dic_after = {}
-    read_balls_file(BALLS_PATH, circles_dic_after)
+class Ball:
 
-    words = list(circles_dic_after.keys())
-    radius = [values[-1] for values in circles_dic_after.values()]
-    vectors = [np.multiply(np.array(values[:2]), values[-2]) for values in circles_dic_after.values()]
+    def __init__(self, word_, definition_, radius_, vector_):
+        self.word = word_
+        self.definition = definition_
+        self.radius = radius_
+        self.vector = vector_
+
+    def __repr__(self):
+        return f"({self.word}, {self.definition}, {self.radius}, {self.vector})"
+
+
+def balls_to_object(path):
+    circles_dic = {}
+    read_balls_file(path, circles_dic)
+
+    words = list(circles_dic.keys())
+    radius = [values[-1] for values in circles_dic.values()]
+    vectors = [np.multiply(np.array(values[:2]), values[-2]) for values in circles_dic.values()]
+
+    out = list()
+    for i in range(len(words)):
+        word_wn = wn.synset(words[i])
+        definition = word_wn.definition()
+
+        out.append(Ball(words[i], definition, float(radius[i]), vectors[i].tolist()))
+
+    return out
+
+
+def balls_to_json(path):
+    circles_dic = {}
+    read_balls_file(path, circles_dic)
+
+    words = list(circles_dic.keys())
+    radius = [values[-1] for values in circles_dic.values()]
+    vectors = [np.multiply(np.array(values[:2]), values[-2]) for values in circles_dic.values()]
 
     out = list()
     for i in range(len(words)):
@@ -27,4 +56,11 @@ if __name__ == '__main__':
 
         out.append(item)
 
-    print(json.dumps(out))
+    json_balls = json.dumps(out)
+    # print(json_balls)
+    return json_balls
+
+
+if __name__ == '__main__':
+    BALLS_PATH = "../out/test1/reduced_nballs_after.txt"
+    print(balls_to_object(BALLS_PATH))
