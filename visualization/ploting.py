@@ -14,8 +14,9 @@ def random_point(xy, r):
 
 def plot(vectors, radius, words, fig, ax):
     colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for i in range(len(vectors))]
+
     for i, vector in enumerate(np.array(vectors)):
-        e = Circle(xy=vector, radius=float(radius[i]))
+        e = Circle(xy=vector, radius=float(radius[i]),linewidth=0.1)
         ax.add_artist(e)
         e.set_edgecolor(colors[i])
         e.set_facecolor('none')
@@ -30,9 +31,9 @@ def plot(vectors, radius, words, fig, ax):
     ax.set_ylim([min(y) - margin, max(y) + margin])
     ax.set_aspect(1)
 
-    for i, word in enumerate(words):
-        point = random_point(vectors[i], radius[i])
-        ax.text(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
+    # for i, word in enumerate(words):
+    #     point = random_point(vectors[i], radius[i])
+    #     ax.text(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
     fig.show()
 
 
@@ -45,6 +46,7 @@ def plot_dic(circles_dic, figure_title, filtered_words=[]):
     radius = [values[-1] for values in circles_dic.values()]
     vectors = [np.multiply(np.array(values[:2]), values[-2]) for values in circles_dic.values()]
     plot(vectors, radius, words, fig, ax)
+    fig.savefig(figure_title+".svg")
 
 
 def visualize(circles_file_path, words_to_show_file_path):
@@ -59,3 +61,4 @@ def visualize(circles_file_path, words_to_show_file_path):
     read_balls_file(output_file_after, circles_dic_after)
     plot_dic(circles_dic_after, 'Circles after fixing', words_to_show)
     plt.show()
+
