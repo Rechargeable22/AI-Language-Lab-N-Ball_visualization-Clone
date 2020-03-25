@@ -8,6 +8,15 @@ col3 = document.getElementById("col3");
 //     ["ThemaC"]: ["C1", "C2", "C3", "C4"]
 // };
 
+function clearFirstCol() {
+    let child = col1.lastElementChild;
+    while (child) {
+        col1.removeChild(child);
+        child = col1.lastElementChild;
+    }
+
+}
+
 function clearSecondCol() {
     let child = col2.lastElementChild;
     while (child) {
@@ -84,12 +93,15 @@ window.onload = function () {
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
         xhr.onload = function () {
-            let dataDict = JSON.parse(this.responseText);
 
+            let dataDict = JSON.parse(this.responseText);
             buildFolders(dataDict);
         };
 
         xhr.send(params);
+        clearThirdCol();
+        clearSecondCol();
+        clearFirstCol();
 
     }
 };
