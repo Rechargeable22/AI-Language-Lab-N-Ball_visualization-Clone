@@ -7,7 +7,6 @@ import utils.balls_to_json as util
 
 
 def plot_balls():
-    def plotly():
         ball = util.balls_to_object("out/test1/reduced_nballs_after.txt")
 
         df = pd.DataFrame([t.__dict__ for t in ball])
