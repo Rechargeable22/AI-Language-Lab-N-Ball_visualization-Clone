@@ -64,3 +64,5 @@ ENV/
 
 jupyter_notebooks/.ipynb_checkpoints
 data/
+
+userOutputFile.txt

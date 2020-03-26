@@ -96,6 +96,13 @@ window.onload = function () {
 
             let dataDict = JSON.parse(this.responseText);
             buildFolders(dataDict);
+            const plotly_data = JSON.parse(dataDict.plotly_json);
+            console.log(plotly_data);
+            const data = plotly_data.data;
+            const layout = plotly_data.layout;
+            console.log(data);
+            console.log(layout);
+            Plotly.newPlot('bargraph', plotly_data );
         };
 
         xhr.send(params);

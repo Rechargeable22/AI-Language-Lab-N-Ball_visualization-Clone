@@ -3,6 +3,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 import utils.balls_to_json as util
+import json
+import plotly
 
 def plot_balls():
     ball = util.balls_to_object("out/test1/reduced_nballs_after.txt")
@@ -49,5 +51,10 @@ def plot_balls():
 
     # Set figure size
     # fig.update_layout(width=800, height=800)
+    serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-    return fig.show(config={'scrollZoom': True})
+    # graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+
+    # fig.show(config={'scrollZoom': True})
+
+    return serialized

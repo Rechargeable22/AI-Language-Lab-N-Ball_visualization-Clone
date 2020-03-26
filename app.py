@@ -25,7 +25,7 @@ def contruction():
 
 @app.route('/plotly')
 def plotly():
-   return util.plot_balls()
+    return util.plot_balls()
 
 
 @app.route('/', methods=['POST'])
@@ -35,6 +35,8 @@ def my_form_post():
     f = open("userOutputFile.txt", "w+")
     f.write(text)
     f.close()
+
+    r.run("--no_visualize_nballs")
 
     input_words = text.split()
     print(input_words)
@@ -46,11 +48,12 @@ def my_form_post():
         word_senses[word] = [w.name() for w in word_wn]
         word_definitions[word] = [w.definition() for w in word_wn]
 
-    out = {"input_words": input_words, "word_senses": word_senses, "word_definitions": word_definitions}
-    out = json.dumps(out)
-    print(out)
 
-    # r.run()
+    out = {"input_words": input_words, "word_senses": word_senses, "word_definitions": word_definitions,
+           "plotly_json": util.plot_balls()}
+    out = json.dumps(out)
+
+
 
     return out
 
