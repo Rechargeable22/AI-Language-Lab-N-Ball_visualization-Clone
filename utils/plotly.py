@@ -25,7 +25,7 @@ def plot_balls():
 
         fig.add_trace(go.Scatter(
             x=final_df["x"],
-            y=final_df["y0"],
+            y=final_df["y0"] - (final_df["radius"]*0.05),
             text=final_df["word"],
             mode="text",
         ))
