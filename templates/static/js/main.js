@@ -99,10 +99,11 @@ window.onload = function () {
             const plotly_data = JSON.parse(dataDict.plotly_json);
             console.log(plotly_data);
             const data = plotly_data.data;
-            const layout = plotly_data.layout;
+            let layout = plotly_data.layout;
+            layout.dragmode = 'pan';
             console.log(data);
             console.log(layout);
-            Plotly.newPlot('bargraph', plotly_data );
+            Plotly.newPlot('bargraph', data,layout, {scrollZoom: true} );
         };
 
         xhr.send(params);
