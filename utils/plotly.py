@@ -23,15 +23,12 @@ def plot_balls():
 
     df = pd.DataFrame([t.__dict__ for t in ball])
     df[['x', 'y']] = pd.DataFrame(df.vector.values.tolist(), index=df.index)
-    print(df.to_string())
     df['x0'] = df.x - df.radius
     df['x1'] = df.x + df.radius
     df['y0'] = df.y - df.radius
     df['y1'] = df.y + df.radius
-    print(df.to_string())
 
     final_df = df.sort_values(by=['radius'], ascending=False)
-    print(final_df.to_string())
 
     # Set axes properties
     # fig.update_xaxes(range=[0, 4.5], zeroline=False)
@@ -72,8 +69,6 @@ def plot_balls():
     # Set figure size
     # fig.update_layout(width=800, height=800)
     serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-    # graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
 
     # fig.show(config={'scrollZoom': True})
 
