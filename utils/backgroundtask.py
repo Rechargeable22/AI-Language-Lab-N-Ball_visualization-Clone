@@ -1,26 +1,16 @@
-import time
 import json
 from nltk.corpus import wordnet as wn
-
-import runner as r
 import utils.plotly as util
 
+import runner as r
 
-def background_task(n):
-    delay = 2
-    print("Task running")
-    print(f"Simulating a {delay} second delay")
-    time.sleep(delay)
-    print(len(n))
-    print("Task complete")
-    return len(n)
+
 
 def background_ball_generation(input_words):
-    with open("res/sample_input.txt", "w") as file:
+    with open("../res/sample_input.txt", "w") as file:
         [file.write(word + "\n") for word in input_words]
 
     # r.run("--no_visualize_nballs")
-    print("I can run")
 
     word_senses = {}
     word_definitions = {}

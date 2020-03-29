@@ -61,16 +61,16 @@ function requestBallGenerationStatus(taskID) {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function () {
-        let res = JSON.parse(this.responseText);
+        const res = JSON.parse(this.responseText);
         if (res.data.task_status === 'finished') {
-            onBallGenerationDone(JSON.parse(res.data.task_result))
+            onBallGenerationDone(JSON.parse(res.data.task_result));
             return false;
         }
         if (res.data.task_status === 'failed') {
             return false;
         }
         setTimeout(function () {
-            requestBallGenerationStatus(res.data.task_id);
+            requestBallGenerationStatus(res.data.task_id);  // Active Polling
         }, 1000);
     };
 
