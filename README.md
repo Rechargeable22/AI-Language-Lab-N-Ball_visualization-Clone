@@ -1,3 +1,14 @@
+#Set up runner
+```
+ProjectBase$ apt install redis
+ProjectBase$ pip install rq rq-dashboard
+ProjectBase$ rq worker
+```
+
+
+
+
+
 # Usefullness
 pip install --upgrade -r requirements.txt
 

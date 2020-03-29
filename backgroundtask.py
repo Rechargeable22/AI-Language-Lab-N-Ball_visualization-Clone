@@ -20,8 +20,7 @@ def background_ball_generation(input_words):
         [file.write(word + "\n") for word in input_words]
 
     # r.run("--no_visualize_nballs")
-
-    time.sleep(100)
+    print("I can run")
 
     word_senses = {}
     word_definitions = {}

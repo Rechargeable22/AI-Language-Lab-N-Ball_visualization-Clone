@@ -1,7 +1,7 @@
 col1 = document.getElementById("col1");
 col2 = document.getElementById("col2");
 col3 = document.getElementById("col3");
-
+ball_result = 0
 // let dataDict = {
 //     ["ThemaA"]: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"],
 //     ["ThemaB"]: ["B1", "B2", "B3", "B4"],
@@ -81,12 +81,19 @@ function buildFolders(dataDict) {
 function getStatus(taskID) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/tasks', true);
-    xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    // xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
 
     xhr.onload = function () {
         let res = JSON.parse(this.responseText);
-        console.log("getstatus", res);
-        if (res.data.taskStatus === 'finished' || res.data.taskStatus === 'failed') return false;
+        if (res.data.task_status === 'finished') {
+            console.log("DONE")
+            onTaskDone(JSON.parse(res.data.task_result))
+            return false;
+        }
+        if (res.data.task_status === 'failed') {
+            return false;
+        }
         setTimeout(function () {
             getStatus(res.data.task_id);
         }, 1000);
@@ -94,8 +101,7 @@ function getStatus(taskID) {
     };
 
     const params = "taskid=" + taskID;
-    console.log("Get status", params);
-    xhr.send({"taskid": "12345"});
+    xhr.send(params);
 
 }
 
@@ -112,7 +118,8 @@ function postName(e) {
     xhr.onload = function () {
         let response = JSON.parse(this.responseText);
         console.log("Post name", response);
-        getStatus(response.task_id);
+        getStatus(response.data.task_id);
+
 
     };
 
