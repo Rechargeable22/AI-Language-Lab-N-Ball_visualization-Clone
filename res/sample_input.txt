@@ -1,2 +1,3 @@
-capital
-berlin
+pillow
+tea
+soda

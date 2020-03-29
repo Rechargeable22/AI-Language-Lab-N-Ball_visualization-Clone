@@ -20,3 +20,5 @@ Theano
 traitlets
 virtualenv
 requests
+redis
+rq

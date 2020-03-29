@@ -5,13 +5,31 @@ import plotly.express as px
 import plotly.graph_objects as go
 from flask import Flask, render_template, request
 from nltk.corpus import wordnet as wn
-
+import redis
+from rq import Queue
+from backgroundtask import background_task
 import utils.plotly as util
 import runner as r
 
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")
 
+### Queue stuff
+r = redis.Redis()
+q = Queue(connection=r)
+
+
+
+@app.route("/task")
+def task():
+    if request.args.get("n"):
+        job = q.enqueue(background_task, request.args.get("n"))
+        return f"Task ({job.id}) added to queue at {job.enqueued_at}"
+    return "No value for count provided"
+
+
+
+### Queue stuff done
 
 @app.route('/')
 def index():
