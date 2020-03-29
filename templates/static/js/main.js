@@ -78,38 +78,66 @@ function buildFolders(dataDict) {
     }
 }
 
+function getStatus(taskID) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/tasks', true);
+    xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+
+    xhr.onload = function () {
+        let res = JSON.parse(this.responseText);
+        console.log("getstatus", res);
+        if (res.data.taskStatus === 'finished' || res.data.taskStatus === 'failed') return false;
+        setTimeout(function () {
+            getStatus(res.data.task_id);
+        }, 1000);
+
+    };
+
+    const params = "taskid=" + taskID;
+    console.log("Get status", params);
+    xhr.send({"taskid": "12345"});
+
+}
+
+function postName(e) {
+    e.preventDefault();
+
+    var name = document.getElementById('input-text-field').value;
+    var params = "name=" + name;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function () {
+        let response = JSON.parse(this.responseText);
+        console.log("Post name", response);
+        getStatus(response.task_id);
+
+    };
+
+    xhr.send(params);
+    clearThirdCol();
+    clearSecondCol();
+    clearFirstCol();
+
+}
+
+function onTaskDone(dataDict) {
+    buildFolders(dataDict);
+    const plotly_data = JSON.parse(dataDict.plotly_json);
+    console.log(plotly_data);
+    const data = plotly_data.data;
+    let layout = plotly_data.layout;
+    layout.dragmode = 'pan';
+    console.log(data);
+    console.log(layout);
+    Plotly.newPlot('bargraph', data, layout, {scrollZoom: true});
+}
+
 window.onload = function () {
     let submitForm = document.getElementById("input-words");
     submitForm.addEventListener('submit', postName);
 
-    function postName(e) {
-        e.preventDefault();
 
-        var name = document.getElementById('input-text-field').value;
-        var params = "name=" + name;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/', true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-        xhr.onload = function () {
-
-            let dataDict = JSON.parse(this.responseText);
-            buildFolders(dataDict);
-            const plotly_data = JSON.parse(dataDict.plotly_json);
-            console.log(plotly_data);
-            const data = plotly_data.data;
-            let layout = plotly_data.layout;
-            layout.dragmode = 'pan';
-            console.log(data);
-            console.log(layout);
-            Plotly.newPlot('bargraph', data,layout, {scrollZoom: true} );
-        };
-
-        xhr.send(params);
-        clearThirdCol();
-        clearSecondCol();
-        clearFirstCol();
-
-    }
 };
