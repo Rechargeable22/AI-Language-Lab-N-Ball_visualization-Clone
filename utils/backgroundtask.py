@@ -7,10 +7,10 @@ import runner as r
 
 
 def background_ball_generation(input_words):
-    with open("../res/sample_input.txt", "w") as file:
+    with open("res/sample_input.txt", "w") as file:
         [file.write(word + "\n") for word in input_words]
 
-    # r.run("--no_visualize_nballs")
+    r.run("--no_visualize_nballs")
 
     word_senses = {}
     word_definitions = {}
