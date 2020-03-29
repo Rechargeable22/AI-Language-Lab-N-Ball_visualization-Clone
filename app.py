@@ -40,18 +40,9 @@ def contruction():
     return render_template('construction.html')
 
 
-@app.route('/plotly')
-def plotly():
-    return util.plot_balls()
-
-
 @app.route('/', methods=['POST'])
-def form_post():
-    r = request
-    text = request.form['name']
-    input_words = text.split()
-    print(input_words)
-
+def requested_ball_generation():
+    input_words = request.form['inputWords'].split()
     job = q.enqueue(background_ball_generation, input_words)
 
     response_object = {
@@ -66,9 +57,6 @@ def form_post():
 
 @app.route('/tasks', methods=['POST'])
 def get_status():
-    r = request
-    print("get_status", request.form["taskid"])
-
     task = q.fetch_job(request.form["taskid"])
     if task:
         response_object = {
@@ -86,5 +74,3 @@ def get_status():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-print(f"haha {app}")

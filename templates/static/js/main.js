@@ -1,43 +1,22 @@
-col1 = document.getElementById("col1");
-col2 = document.getElementById("col2");
-col3 = document.getElementById("col3");
-ball_result = 0
-// let dataDict = {
-//     ["ThemaA"]: ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8"],
-//     ["ThemaB"]: ["B1", "B2", "B3", "B4"],
-//     ["ThemaC"]: ["C1", "C2", "C3", "C4"]
-// };
+let col = [];
 
-function clearFirstCol() {
-    let child = col1.lastElementChild;
+const clearCol = (colNum) => {
+    console.assert(colNum >= 0 && colNum < 3, "False index: " + colNum);
+    let child = col[colNum].lastElementChild;
     while (child) {
-        col1.removeChild(child);
-        child = col1.lastElementChild;
+        col[colNum].removeChild(child);
+        child = col[colNum].lastElementChild;
     }
+    if (colNum > 0) {
+        for (var c = col[colNum - 1].firstChild; c !== null; c = c.nextSibling) {
+            c.classList.remove("active")
+        }
+    }
+    if (colNum < 2) {
+        clearCol(colNum + 1); // clear subsequent columns
+    }
+};
 
-}
-
-function clearSecondCol() {
-    let child = col2.lastElementChild;
-    while (child) {
-        col2.removeChild(child);
-        child = col2.lastElementChild;
-    }
-    for (var c = col1.firstChild; c !== null; c = c.nextSibling) {
-        c.classList.remove("active")
-    }
-}
-
-function clearThirdCol() {
-    let child = col3.lastElementChild;
-    while (child) {
-        col3.removeChild(child);
-        child = col3.lastElementChild;
-    }
-    for (var c = col2.firstChild; c !== null; c = c.nextSibling) {
-        c.classList.remove("active")
-    }
-}
 
 function createTextDiv(t) {
     const divNode = document.createElement("a");
@@ -49,15 +28,14 @@ function createTextDiv(t) {
 }
 
 function buildFolders(dataDict) {
-    col1 = document.getElementById("col1");
-    col2 = document.getElementById("col2");
-    col3 = document.getElementById("col3");
+    let col1 = col[0];
+    let col2 = col[1];
+    let col3 = col[2];
 
     for (const key in dataDict.input_words) {
         const divNode = createTextDiv(dataDict.input_words[key]);
         divNode.addEventListener("click", function () {
-            clearSecondCol();
-            clearThirdCol();
+            clearCol(1);
             divNode.classList.add("active");
 
             const elementsToAdd = dataDict.word_senses[dataDict.input_words[key]];
@@ -65,86 +43,70 @@ function buildFolders(dataDict) {
             for (const [index, element] of elementsToAdd.entries()) {
                 const textElement = createTextDiv(element);
                 textElement.addEventListener("click", function () {
-                    clearThirdCol();
+                    clearCol(2);
                     textElement.classList.add("active");
                     const definition = createTextDiv(dataDict.word_definitions[dataDict.input_words[key]][index]);
                     col3.appendChild(definition);
                 });
                 col2.appendChild(textElement)
             }
-
         });
         col1.appendChild(divNode);
     }
 }
 
-function getStatus(taskID) {
-    var xhr = new XMLHttpRequest();
+function requestBallGenerationStatus(taskID) {
+    let xhr = new XMLHttpRequest();
     xhr.open('POST', '/tasks', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    // xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
 
     xhr.onload = function () {
         let res = JSON.parse(this.responseText);
         if (res.data.task_status === 'finished') {
-            console.log("DONE")
-            onTaskDone(JSON.parse(res.data.task_result))
+            onBallGenerationDone(JSON.parse(res.data.task_result))
             return false;
         }
         if (res.data.task_status === 'failed') {
             return false;
         }
         setTimeout(function () {
-            getStatus(res.data.task_id);
+            requestBallGenerationStatus(res.data.task_id);
         }, 1000);
-
     };
 
-    const params = "taskid=" + taskID;
-    xhr.send(params);
-
+    xhr.send("taskid=" + taskID);
 }
 
-function postName(e) {
+function requestBallGeneration(e) {
     e.preventDefault();
 
-    var name = document.getElementById('input-text-field').value;
-    var params = "name=" + name;
-
-    var xhr = new XMLHttpRequest();
+    let inputWords = document.getElementById('input-text-field').value;
+    let xhr = new XMLHttpRequest();
     xhr.open('POST', '/', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function () {
         let response = JSON.parse(this.responseText);
-        console.log("Post name", response);
-        getStatus(response.data.task_id);
-
-
+        requestBallGenerationStatus(response.data.task_id);
     };
 
-    xhr.send(params);
-    clearThirdCol();
-    clearSecondCol();
-    clearFirstCol();
-
+    xhr.send("inputWords=" + inputWords);
+    clearCol(0);
 }
 
-function onTaskDone(dataDict) {
+function onBallGenerationDone(dataDict) {
     buildFolders(dataDict);
     const plotly_data = JSON.parse(dataDict.plotly_json);
-    console.log(plotly_data);
-    const data = plotly_data.data;
     let layout = plotly_data.layout;
     layout.dragmode = 'pan';
-    console.log(data);
-    console.log(layout);
-    Plotly.newPlot('bargraph', data, layout, {scrollZoom: true});
+    Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
 }
 
 window.onload = function () {
+    col = [document.getElementById("col1"), document.getElementById("col2"),
+        document.getElementById("col3")];
     let submitForm = document.getElementById("input-words");
-    submitForm.addEventListener('submit', postName);
+    submitForm.addEventListener('submit', requestBallGeneration);
 
 
 };
