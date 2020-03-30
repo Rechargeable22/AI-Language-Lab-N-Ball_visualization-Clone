@@ -7,13 +7,11 @@ import runner as r
 
 
 def background_ball_generation(input_words):
-    # with open("res/sample_input.txt", "w") as file:
-    #     [file.write(word + "\n") for word in input_words]
-
     r.run("--no_visualize_nballs",input_words)
 
     word_senses = {}
     word_definitions = {}
+    input_words=input_words.split()
     for word in input_words:
         word_wn = wn.synsets(word)
         word_senses[word] = [w.name() for w in word_wn]

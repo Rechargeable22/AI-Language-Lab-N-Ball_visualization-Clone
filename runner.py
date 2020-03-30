@@ -31,7 +31,7 @@ def run(ext_args=None, input_words=None):
 
     word_embedding = "res/glove.6B.50d.txt"
 
-    input_words="apple"
+
     utils.google_fetch.fetch_glove()
 
     if generate_balls:
@@ -52,4 +52,4 @@ def run(ext_args=None, input_words=None):
         m.main(f" --vis --circles {CIRCLES_FILE_PATH}".split())
 
 if __name__ == "__main__":
-    run()
+    run("","banana")
