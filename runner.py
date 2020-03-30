@@ -5,7 +5,7 @@ import utils.google_fetch
 import main as m
 
 
-def run(ext_args=None):
+def run(ext_args=None, input_words=None):
     print(sys.argv)
     parser = argparse.ArgumentParser(description="Installation and configuration of Natlink and its dependency")
     parser.add_argument('--no_balls', dest='generate_balls', action='store_false')
@@ -30,12 +30,12 @@ def run(ext_args=None):
 
 
     word_embedding = "res/glove.6B.50d.txt"
-    words = "res/sample_input.txt"
 
+    input_words="apple"
     utils.google_fetch.fetch_glove()
 
     if generate_balls:
-        m.main((f" --generate_nballs --input {words} --w2v {word_embedding} --output out/test1").split())
+        m.main((f" --generate_nballs --sample {input_words} --w2v {word_embedding} --output out/test1").split())
 
     BALLS_FILE_PATH = "out/test1/nballs.txt"
     CHILDREN_FILE_PATH = "out/test1/children.txt"
