@@ -3,6 +3,6 @@
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
 }
-#bargraph{
+#ballPlot{
     height: 800px;
 }

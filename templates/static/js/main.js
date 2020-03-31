@@ -56,6 +56,8 @@ function buildFolders(dataDict) {
 }
 
 function requestBallGenerationStatus(taskID) {
+    document.getElementById('ball-gen-spinner').style.display="block";
+
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/tasks', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -63,6 +65,7 @@ function requestBallGenerationStatus(taskID) {
     xhr.onload = function () {
         const res = JSON.parse(this.responseText);
         if (res.data.task_status === 'finished') {
+            document.getElementById('ball-gen-spinner').style.display="none";
             onBallGenerationDone(JSON.parse(res.data.task_result));
             return false;
         }
