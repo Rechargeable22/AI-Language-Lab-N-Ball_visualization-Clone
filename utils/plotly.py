@@ -7,8 +7,9 @@ import utils.balls_to_json as util
 import json
 import plotly
 
-def plot_balls():
-    ball = util.balls_to_object("out/test1/reduced_nballs_after.txt")
+
+def plot_balls(outfolder_path):
+    ball = util.balls_to_object(f"{outfolder_path}/reduced_nballs_after.txt")
 
     fig = go.Figure()
 
@@ -35,7 +36,7 @@ def plot_balls():
     # fig.update_yaxes(range=[0, 4.5])
     fig.add_trace(go.Scatter(
         x=final_df["x"],
-        y=final_df["y0"] - (final_df["radius"]*0.05),
+        y=final_df["y0"] - (final_df["radius"] * 0.05),
         text=final_df["word"],
         mode="text",
     ))
