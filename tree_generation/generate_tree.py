@@ -127,13 +127,12 @@ def generate_ws_cat_codes(words_paths_file="", children_file="", outFile="", dep
     return nm, ml
 
 def generate_files(word2vec_file_path=None, input_file_path=None, sample=None, output_path=None):
+
     glove_words = read_word2vec_file(word2vec_file_path)
     if sample is None or sample == 'None':
         words = read_input_words(input_file_path)
     else:
-        words = []
-        for line in sample.splitlines():
-            words.extend([x.strip() for x in str(line).split(',')])
+        words = sample
 
 
     words_paths_file = output_path + '/small.wordSensePath.txt'

@@ -17,7 +17,7 @@ def background_ball_generation(input_words):
 
     word_senses = {}
     word_definitions = {}
-    input_words = input_words.split()
+    input_words = input_words
     for word in input_words:
         word_wn = wn.synsets(word)
         word_senses[word] = [w.name() for w in word_wn]

@@ -27,8 +27,8 @@ def plotly():
 
 @app.route('/', methods=['POST'])
 def requested_ball_generation():
-    input_words = request.form['inputWords']
-    print(input_words)
+    input_words = request.form['inputWords'].split()
+
     job = q.enqueue(background_ball_generation, input_words)
 
     response_object = {
