@@ -84,7 +84,8 @@ def plot_tree_path():
         mode="lines+markers+text",
         name="Word Path",
         text=data,
-        textposition="top center"
+        textposition="top center",
+        hoverinfo='none'
     ))
 
     fig.update_layout(
