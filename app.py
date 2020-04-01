@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, jsonify
 from rq import Queue
 
 from utils.backgroundtask import background_ball_generation
-from utils.plotly import plot_balls
+from utils.plotly import plot_balls, plot_tree_path
 
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")
@@ -23,6 +23,10 @@ def index():
 @app.route('/plotly')
 def plotly():
     return plot_balls()
+
+@app.route('/tree')
+def tree():
+    return plot_tree_path()
 
 
 @app.route('/', methods=['POST'])

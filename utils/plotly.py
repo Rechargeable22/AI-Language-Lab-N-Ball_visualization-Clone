@@ -1,5 +1,4 @@
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 
@@ -7,20 +6,13 @@ import utils.balls_to_json as util
 import json
 import plotly
 
+from utils.files_utils import read_word_path
+
 
 def plot_balls(outfolder_path):
     ball = util.balls_to_object(f"{outfolder_path}/reduced_nballs_after.txt")
 
     fig = go.Figure()
-
-    # Create scatter trace of text labels
-    # fig.add_trace(go.Scatter(
-    #     x=[1.5, 3.5],
-    #     y=[0.75, 2.5],
-    #     text=["Unfilled Circle",
-    #           "Filled Circle"],
-    #     mode="text",
-    # ))
 
     df = pd.DataFrame([t.__dict__ for t in ball])
     df[['x', 'y']] = pd.DataFrame(df.vector.values.tolist(), index=df.index)
@@ -31,9 +23,7 @@ def plot_balls(outfolder_path):
 
     final_df = df.sort_values(by=['radius'], ascending=False)
 
-    # Set axes properties
-    # fig.update_xaxes(range=[0, 4.5], zeroline=False)
-    # fig.update_yaxes(range=[0, 4.5])
+
     fig.add_trace(go.Scatter(
         x=final_df["x"],
         y=final_df["y0"] - (final_df["radius"] * 0.05),
@@ -74,3 +64,42 @@ def plot_balls(outfolder_path):
     # fig.show(config={'scrollZoom': True})
 
     return serialized
+
+
+def plot_tree_path():
+    paths = read_word_path("out/test1/small.wordSensePath.txt")
+    if "*root*" in paths:
+        del paths["*root*"]
+    print(paths)
+
+    key = 'bread.n.01'
+    data = paths.get(key, "")
+    print(data)
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=data,
+        y=data,
+        name='data',  # Style name/legend entry with html tags
+        connectgaps=True  # override default to connect the gaps
+    ))
+
+    fig.update_layout(
+        xaxis=dict(
+            showline=False,
+            showgrid=False,
+            showticklabels=False,
+        ),
+        yaxis=dict(
+            showline=False,
+            showgrid=False,
+            showticklabels=False,
+        ),
+        showlegend=False,
+        plot_bgcolor='white'
+    )
+
+    fig.show()
+
+    return 'tree'

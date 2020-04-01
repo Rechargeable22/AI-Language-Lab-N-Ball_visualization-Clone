@@ -74,3 +74,13 @@ def set_up_data_folder(output_path):
                 os.remove(file)
             elif "data_out" in file:
                 shutil.rmtree(file)
+
+def read_word_path(file_path, path_dic=None):
+    if path_dic is None:
+        path_dic = dict()
+    with open(file_path, mode="r", encoding="utf-8") as path_file:
+        for line in path_file.readlines():
+            tokens = line.strip().split()
+            path_dic[tokens[0]] = [ele for ele in tokens[1:]]
+        return path_dic
+
