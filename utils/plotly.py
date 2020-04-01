@@ -81,8 +81,10 @@ def plot_tree_path():
     fig.add_trace(go.Scatter(
         x=data,
         y=data,
-        name='data',  # Style name/legend entry with html tags
-        connectgaps=True  # override default to connect the gaps
+        mode="lines+markers+text",
+        name="Word Path",
+        text=data,
+        textposition="top center"
     ))
 
     fig.update_layout(
