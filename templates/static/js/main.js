@@ -55,8 +55,19 @@ function buildFolders(dataDict) {
     }
 }
 
+function displayQueuePosition(data) {
+    const queuedJobIds = data.queued_job_ids;
+    const jobPosition = queuedJobIds.indexOf(data.task_id);
+
+    if (jobPosition === -1) {
+        console.log("Job is currently getting processed.")
+    } else {
+        console.log("Job enqueued at position ", jobPosition + 1, " of ", queuedJobIds.length, ".");
+    }
+}
+
 function requestBallGenerationStatus(taskID) {
-    document.getElementById('ball-gen-spinner').style.display="block";
+    document.getElementById('ball-gen-spinner').style.display = "block";
 
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/tasks', true);
@@ -64,8 +75,10 @@ function requestBallGenerationStatus(taskID) {
 
     xhr.onload = function () {
         const res = JSON.parse(this.responseText);
+        displayQueuePosition(res.data);
+
         if (res.data.task_status === 'finished') {
-            document.getElementById('ball-gen-spinner').style.display="none";
+            document.getElementById('ball-gen-spinner').style.display = "none";
             onBallGenerationDone(JSON.parse(res.data.task_result));
             return false;
         }

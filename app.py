@@ -48,6 +48,7 @@ def requested_ball_generation():
 @app.route('/tasks', methods=['POST'])
 def get_status():
     task = q.fetch_job(request.form["taskid"])
+    queued_job_ids = q.job_ids
     if task:
         response_object = {
             "status": "success",
@@ -55,6 +56,7 @@ def get_status():
                 "task_id": task.get_id(),
                 "task_status": task.get_status(),
                 "task_result": task.result,
+                "queued_job_ids": queued_job_ids
             },
         }
     else:
