@@ -57,17 +57,21 @@ function buildFolders(dataDict) {
 
 function displayQueuePosition(data) {
     const queuedJobIds = data.queued_job_ids;
-    const jobPosition = queuedJobIds.indexOf(data.task_id);
+    const jobPosition = parseInt(queuedJobIds.indexOf(data.task_id));
 
     if (jobPosition === -1) {
-        console.log("Job is currently getting processed.")
+        document.getElementById('waiting-queue').style.display = "none";
+        document.getElementById('generating-ball').style.display = "flex";
+
     } else {
-        console.log("Job enqueued at position ", jobPosition + 1, " of ", queuedJobIds.length, ".");
+        document.getElementById('waiting-queue').style.display = "flex";
+        const text = "Server is busy generating balls. " +
+            "Waiting in queue at position " + (jobPosition + 1) + " of " + queuedJobIds.length + ".";
+        document.getElementById("queue-text").textContent = text;
     }
 }
 
 function requestBallGenerationStatus(taskID) {
-    document.getElementById('ball-gen-spinner').style.display = "block";
 
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/tasks', true);
@@ -78,7 +82,7 @@ function requestBallGenerationStatus(taskID) {
         displayQueuePosition(res.data);
 
         if (res.data.task_status === 'finished') {
-            document.getElementById('ball-gen-spinner').style.display = "none";
+            document.getElementById('generating-ball').style.display = "none";
             onBallGenerationDone(JSON.parse(res.data.task_result));
             return false;
         }

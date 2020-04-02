@@ -12,7 +12,8 @@ app._static_folder = os.path.abspath("templates/static/")
 
 ### Queue stuff
 r = redis.Redis()
-q = Queue(connection=r)
+q_high = Queue("high", connection=r)    # start with rq worker high
+q_low = Queue("low", connection=r)  # start with rq worker low
 
 
 @app.route('/')
@@ -33,7 +34,7 @@ def tree():
 def requested_ball_generation():
     input_words = request.form['inputWords'].split()
 
-    job = q.enqueue(background_ball_generation, input_words)
+    job = q_high.enqueue(background_ball_generation, input_words, job_timeout=600)
 
     response_object = {
         "status": "success",
@@ -47,8 +48,8 @@ def requested_ball_generation():
 
 @app.route('/tasks', methods=['POST'])
 def get_status():
-    task = q.fetch_job(request.form["taskid"])
-    queued_job_ids = q.job_ids
+    task = q_high.fetch_job(request.form["taskid"])
+    queued_job_ids = q_high.job_ids
     if task:
         response_object = {
             "status": "success",
