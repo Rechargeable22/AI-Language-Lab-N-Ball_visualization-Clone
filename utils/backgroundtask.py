@@ -11,7 +11,7 @@ import runner as r
 
 def background_ball_generation(input_words):
     outfolder_name = random.randint(0, 1000000)
-    outfolder_name = 308752
+    # outfolder_name = 308752
     outfolder_path = f"out/{outfolder_name}"
     if not os.path.isdir(outfolder_path):
         os.mkdir(outfolder_path)
