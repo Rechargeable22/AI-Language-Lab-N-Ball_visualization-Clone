@@ -10,14 +10,14 @@ import runner as r
 
 
 def background_ball_generation(input_words):
-    # outfolder_name = random.randint(0, 1000000)
+    outfolder_name = random.randint(0, 1000000)
     outfolder_name = 308752
     outfolder_path = f"out/{outfolder_name}"
     if not os.path.isdir(outfolder_path):
         os.mkdir(outfolder_path)
-    # r.run(f"--no_visualize_nballs --outfolder_path {outfolder_path}", input_words)
+    r.run(f"--no_visualize_nballs --outfolder_path {outfolder_path}", input_words)
 
-    time.sleep(15);
+    # time.sleep(5);
 
     word_senses = {}
     word_definitions = {}

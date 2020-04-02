@@ -58,6 +58,7 @@ function buildFolders(dataDict) {
 function displayQueuePosition(data) {
     const queuedJobIds = data.queued_job_ids;
     const jobPosition = parseInt(queuedJobIds.indexOf(data.task_id));
+    const priority = data.queue_priority;
 
     if (jobPosition === -1) {
         document.getElementById('waiting-queue').style.display = "none";
@@ -66,16 +67,15 @@ function displayQueuePosition(data) {
     } else {
         document.getElementById('waiting-queue').style.display = "flex";
         const text = "Server is busy generating balls. " +
-            "Waiting in queue at position " + (jobPosition + 1) + " of " + queuedJobIds.length + ".";
+            "Waiting in " + priority + " priority queue at position " + (jobPosition + 1) + " of " + queuedJobIds.length + ".";
         document.getElementById("queue-text").textContent = text;
     }
 }
 
-function requestBallGenerationStatus(taskID) {
-
+function requestBallGenerationStatus(data) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/tasks', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Content-type', 'application/json');
 
     xhr.onload = function () {
         const res = JSON.parse(this.responseText);
@@ -90,11 +90,11 @@ function requestBallGenerationStatus(taskID) {
             return false;
         }
         setTimeout(function () {
-            requestBallGenerationStatus(res.data.task_id);  // Active Polling
+            requestBallGenerationStatus(res.data);  // Active Polling
         }, 1000);
     };
 
-    xhr.send("taskid=" + taskID);
+    xhr.send(JSON.stringify(data));
 }
 
 function requestBallGeneration(e) {
@@ -107,7 +107,7 @@ function requestBallGeneration(e) {
 
     xhr.onload = function () {
         let response = JSON.parse(this.responseText);
-        requestBallGenerationStatus(response.data.task_id);
+        requestBallGenerationStatus(response.data);
     };
 
     xhr.send("inputWords=" + inputWords);
