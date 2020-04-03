@@ -1,11 +1,13 @@
 import os
 
 import redis
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, flash
+from werkzeug.utils import secure_filename
 from rq import Queue
 
 from utils.backgroundtask import background_ball_generation
 from utils.plotly import plot_balls, plot_tree_path
+from utils.files_utils import read_input_words
 
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")
@@ -34,7 +36,27 @@ def tree():
 
 @app.route('/', methods=['POST'])
 def requested_ball_generation():
-    input_words = request.form['inputWords'].split()
+    # TODO: refactor me to accept JSON and put me in utils
+    if "file" in request.files:
+        file = request.files["file"]
+        fn = secure_filename(file.filename)
+        if fn != "":
+            print(fn)
+            print(fn.rsplit("."))
+            if fn.rsplit(".")[1] == "txt":
+                file.save(os.path.join("tmp", fn))
+                input_words = read_input_words(os.path.join("tmp", fn))
+                print(input_words)
+            else:
+                print("Unsupported filename")
+                return jsonify({"status": "failed"}), 400
+        else:
+            print("User didnt select file")
+            return jsonify({"status": "failed"}), 400
+
+    else:
+        input_words = request.form['inputWords'].split()
+
     if len(input_words) > QUEUE_THRESHOLD:
         job = q_low.enqueue(background_ball_generation, input_words, job_timeout=6000)
         q_name = "low"
@@ -55,6 +77,7 @@ def requested_ball_generation():
 
 @app.route('/tasks', methods=['POST'])
 def get_status():
+    # flash("Requested generation")
     res = request.get_json()
     if res["queue_priority"] == "high":
         task = q_high.fetch_job(res["task_id"])

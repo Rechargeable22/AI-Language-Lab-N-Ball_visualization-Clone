@@ -79,8 +79,11 @@ function requestBallGenerationStatus(data) {
 
     xhr.onload = function () {
         const res = JSON.parse(this.responseText);
-        displayQueuePosition(res.data);
+        if (res.status == 'failed') {
+            return false;
+        }
 
+        displayQueuePosition(res.data);
         if (res.data.task_status === 'finished') {
             document.getElementById('generating-ball').style.display = "none";
             onBallGenerationDone(JSON.parse(res.data.task_result));

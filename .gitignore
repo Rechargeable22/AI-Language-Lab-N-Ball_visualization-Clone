@@ -1,6 +1,10 @@
 res/glove.6B.50D.txt
 glove*.zip
 out/*
+userOutputFile.txt
+*.svg
+*.rdb
+tmp/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -65,4 +69,4 @@ ENV/
 jupyter_notebooks/.ipynb_checkpoints
 data/
 
-userOutputFile.txt
+
