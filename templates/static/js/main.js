@@ -117,6 +117,7 @@ function requestBallGeneration(e) {
     clearCol(0);
 }
 
+
 function onBallGenerationDone(dataDict) {
     buildFolders(dataDict);
     const plotly_data = JSON.parse(dataDict.plotly_json);
