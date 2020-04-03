@@ -1,4 +1,5 @@
 import os
+import random
 
 import redis
 from flask import Flask, render_template, request, jsonify, flash
@@ -19,6 +20,24 @@ q_low = Queue("low", connection=r)  # start with rq worker low
 QUEUE_THRESHOLD = 5  # inputs > QUEUE_THRESHOLD => run on the low priority queue
 
 
+def ball_generation_response(input_words):
+    if len(input_words) > QUEUE_THRESHOLD:
+        job = q_low.enqueue(background_ball_generation, input_words, job_timeout=6000)
+        q_name = "low"
+    else:
+        job = q_high.enqueue(background_ball_generation, input_words, job_timeout=600)
+        q_name = "high"
+
+    response_object = {
+        "status": "success",
+        "data": {
+            "task_id": job.get_id(),
+            "queue_priority": q_name
+        }
+    }
+    return response_object
+
+
 @app.route('/')
 def index():
     return render_template('home.html')
@@ -34,45 +53,25 @@ def tree():
     return plot_tree_path()
 
 
-@app.route('/', methods=['POST'])
-def requested_ball_generation():
-    # TODO: refactor me to accept JSON and put me in utils
+@app.route('/file', methods=['POST'])
+def requested_ball_generation_from_file():
     if "file" in request.files:
         file = request.files["file"]
         fn = secure_filename(file.filename)
         if fn != "":
-            print(fn)
-            print(fn.rsplit("."))
             if fn.rsplit(".")[1] == "txt":
-                file.save(os.path.join("tmp", fn))
+                file.save(os.path.join("tmp", str(random.randint(0, 1000000)) + "-" + fn))
                 input_words = read_input_words(os.path.join("tmp", fn))
-                print(input_words)
-            else:
-                print("Unsupported filename")
-                return jsonify({"status": "failed"}), 400
-        else:
-            print("User didnt select file")
-            return jsonify({"status": "failed"}), 400
+                return jsonify(ball_generation_response(input_words)), 202
 
-    else:
-        input_words = request.form['inputWords'].split()
+    return jsonify({"status": "failed"}), 400
 
-    if len(input_words) > QUEUE_THRESHOLD:
-        job = q_low.enqueue(background_ball_generation, input_words, job_timeout=6000)
-        q_name = "low"
-    else:
-        job = q_high.enqueue(background_ball_generation, input_words, job_timeout=600)
-        q_name = "high"
 
-    response_object = {
-        "status": "success",
-        "data": {
-            "task_id": job.get_id(),
-            "queue_priority": q_name
-        }
-    }
+@app.route('/', methods=['POST'])
+def requested_ball_generation():
+    input_words = request.form['inputWords'].split()
 
-    return jsonify(response_object), 202
+    return jsonify(ball_generation_response(input_words)), 202
 
 
 @app.route('/tasks', methods=['POST'])

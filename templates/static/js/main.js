@@ -100,6 +100,23 @@ function requestBallGenerationStatus(data) {
     xhr.send(JSON.stringify(data));
 }
 
+function requestBallGenerationFromFile() {
+    let formData = new FormData();
+    const file = document.getElementById('fileval').files[0];
+    formData.append('file', file);
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/file', true);
+
+    xhr.onload = function () {
+        const response = JSON.parse(this.responseText);
+        requestBallGenerationStatus(response.data);
+    };
+
+    xhr.send(formData);
+    clearCol(0);
+}
+
 function requestBallGeneration(e) {
     e.preventDefault();
 
@@ -109,7 +126,7 @@ function requestBallGeneration(e) {
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function () {
-        let response = JSON.parse(this.responseText);
+        const response = JSON.parse(this.responseText);
         requestBallGenerationStatus(response.data);
     };
 
@@ -131,6 +148,7 @@ window.onload = function () {
         document.getElementById("col3")];
     let submitForm = document.getElementById("input-words");
     submitForm.addEventListener('submit', requestBallGeneration);
-
+    // document.getElementById("input-file").addEventListener("submit", requestBallGeneration);
+    document.getElementById("upload-button").addEventListener("click", requestBallGenerationFromFile);
 
 };
