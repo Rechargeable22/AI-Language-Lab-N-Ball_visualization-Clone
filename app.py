@@ -50,7 +50,7 @@ def plotly():
 
 @app.route('/tree')
 def tree():
-    return plot_tree_path()
+    return plot_tree_path('apple.n.02')
 
 
 @app.route('/file', methods=['POST'])
