@@ -60,8 +60,9 @@ def requested_ball_generation_from_file():
         fn = secure_filename(file.filename)
         if fn != "":
             if fn.rsplit(".")[1] == "txt":
-                file.save(os.path.join("tmp", str(random.randint(0, 1000000)) + "-" + fn))
-                input_words = read_input_words(os.path.join("tmp", fn))
+                random_suffix = str(random.randint(0, 1000000)) + "-"
+                file.save(os.path.join("tmp", random_suffix + fn))
+                input_words = read_input_words(os.path.join("tmp", random_suffix + fn))
                 return jsonify(ball_generation_response(input_words)), 202
 
     return jsonify({"status": "failed"}), 400
