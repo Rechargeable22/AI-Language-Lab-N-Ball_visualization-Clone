@@ -131,6 +131,7 @@ def tree_path_fig(input_key, file_path):
             showline=False,
             showgrid=False,
             showticklabels=False,
+            scaleanchor="x",
             scaleratio=1,
         ),
         showlegend=False,
