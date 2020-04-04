@@ -27,12 +27,33 @@ function createTextDiv(t) {
     return divNode;
 }
 
+function createThirdColumnDiv(t) {
+    const divElement = document.createElement("div");
+
+    divElement.className = "list-group-item list-group-item-action";
+
+    // textNode.classList.add("clickable");
+
+    const textElement = document.createElement("p");
+    const text = document.createTextNode(t);
+    textElement.appendChild(text);
+    divElement.appendChild(textElement);
+
+    const figureElement = document.createElement("div");
+    figureElement.class = "container";
+    figureElement.id = "word-path-figure";
+    divElement.appendChild(figureElement);
+
+    return divElement;
+}
+
 function buildFolders(dataDict) {
     let col1 = col[0];
     let col2 = col[1];
     let col3 = col[2];
 
     for (const key in dataDict.input_words) {
+        const word = dataDict.input_words[key]
         const divNode = createTextDiv(dataDict.input_words[key]);
         divNode.addEventListener("click", function () {
             clearCol(1);
@@ -40,13 +61,18 @@ function buildFolders(dataDict) {
 
             const elementsToAdd = dataDict.word_senses[dataDict.input_words[key]];
 
-            for (const [index, element] of elementsToAdd.entries()) {
+            for (const [index_word_sense, element] of elementsToAdd.entries()) {
                 const textElement = createTextDiv(element);
                 textElement.addEventListener("click", function () {
                     clearCol(2);
                     textElement.classList.add("active");
-                    const definition = createTextDiv(dataDict.word_definitions[dataDict.input_words[key]][index]);
+                    const definition = createThirdColumnDiv(dataDict.word_definitions[word][index_word_sense]);
                     col3.appendChild(definition);
+
+                    const plotly_data = JSON.parse(dataDict.word_path_fig[word][index_word_sense]);
+                    let layout = plotly_data.layout;
+                    Plotly.newPlot('word-path-figure', plotly_data.data, layout,{staticPlot: true});
+
                 });
                 col2.appendChild(textElement)
             }
@@ -86,6 +112,7 @@ function requestBallGenerationStatus(data) {
         displayQueuePosition(res.data);
         if (res.data.task_status === 'finished') {
             document.getElementById('generating-ball').style.display = "none";
+            console.log(res)
             onBallGenerationDone(JSON.parse(res.data.task_result));
             return false;
         }
@@ -141,6 +168,7 @@ function onBallGenerationDone(dataDict) {
     let layout = plotly_data.layout;
     layout.dragmode = 'pan';
     Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
+
 }
 
 window.onload = function () {

@@ -56,9 +56,9 @@ def balls_to_json(path):
 
         out.append(item)
 
-    json_balls = json.dumps(out)
+
     # print(json_balls)
-    return json_balls
+    return out
 
 
 if __name__ == '__main__':

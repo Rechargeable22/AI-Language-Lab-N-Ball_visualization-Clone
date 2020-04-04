@@ -22,7 +22,7 @@ QUEUE_THRESHOLD = 5  # inputs > QUEUE_THRESHOLD => run on the low priority queue
 
 def ball_generation_response(input_words):
     if len(input_words) > QUEUE_THRESHOLD:
-        job = q_low.enqueue(background_ball_generation, input_words, job_timeout=6000)
+        job = q_low.enqueue(background_ball_generation, input_words, job_timeout=60000)
         q_name = "low"
     else:
         job = q_high.enqueue(background_ball_generation, input_words, job_timeout=600)
