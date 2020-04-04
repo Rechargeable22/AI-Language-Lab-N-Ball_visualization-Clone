@@ -107,7 +107,7 @@ def tree_path_fig(input_key, file_path):
         marker_color=colors,
         marker_line_width=3,
         marker_size=15,
-        textfont_size=13,
+        textfont_size=12,
         textfont_family='Roboto, sans-serif',
     ))
     arrow_spacing = 0.1
@@ -123,6 +123,7 @@ def tree_path_fig(input_key, file_path):
     fig.update_layout(
         annotations=arrows,
         xaxis=dict(
+            range= [-0.5, 2.5],
             showline=False,
             showgrid=False,
             showticklabels=False,
@@ -161,7 +162,7 @@ def arrow_generation(arrow_spacing_x, arrow_spacing_y_top, arrow_spacing_y_botto
         textangle=0,
         arrowcolor="steelblue",
         arrowsize=2,
-        arrowwidth=2,
+        arrowwidth=1,
         arrowhead=1
     )
     )

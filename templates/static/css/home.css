@@ -1,5 +1,5 @@
 .list-group{
-    height: 200px;
+    height: 300px;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
 }
@@ -7,9 +7,10 @@
     height: 800px;
 }
 
-/*#word-path-figure{*/
+#word-path-figure{
 /*    max-height: 18rem;*/
-/*}*/
+    font-weight: 600;
+}
 
 .title-row  div {
     padding: 0 2rem 0 0;
