@@ -13,6 +13,9 @@
     /*margin: 0 0.2rem 0 0.2rem;*/
     /*padding: 0 -0.2rem 0 0.2rem;*/
 }
+#col3 .list-group-item-action:hover{
+    background-color: white;
+}
 
 .modebar{
       display: none !important;
