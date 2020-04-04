@@ -66,8 +66,9 @@ def plot_balls(outfolder_path):
     return serialized
 
 
-def plot_tree_path(input_key):
-    paths = read_word_path("out/test1/small.wordSensePath.txt")
+
+def tree_path_fig(input_key,file_path):
+    paths = read_word_path(file_path)
     if "*root*" in paths:
         del paths["*root*"]
     data = paths.get(input_key, "")
@@ -139,6 +140,16 @@ def plot_tree_path(input_key):
         plot_bgcolor='white'
     )
 
-    fig.show()
+    return fig
 
-    return 'tree'
+def tree_path_json(input_key):
+    fig = tree_path_fig(input_key,"out/test1/small.wordSensePath.txt")
+    serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return serialized
+
+
+def plot_tree_path(input_key):
+    fig = tree_path_fig(input_key,"out/test1/small.wordSensePath.txt")
+    fig.show()
+    return ""
+
