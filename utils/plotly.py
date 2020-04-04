@@ -7,8 +7,6 @@ import json
 import plotly
 
 from utils.files_utils import read_word_path
-from plotly.validators.scatter.marker import SymbolValidator
-
 
 def plot_balls(outfolder_path):
     ball = util.balls_to_object(f"{outfolder_path}/reduced_nballs_after.txt")
@@ -73,8 +71,7 @@ def plot_balls(outfolder_path):
     return serialized
 
 
-
-def tree_path_fig(input_key,file_path):
+def tree_path_fig(input_key, file_path):
     paths = read_word_path(file_path)
     if "*root*" in paths:
         del paths["*root*"]
@@ -89,50 +86,41 @@ def tree_path_fig(input_key,file_path):
     y_axis = []
     symbols = []
     colors = []
+    nodes_no = 3
 
-    for i in proc_data:
-        index = proc_data.index(i)
-        y_axis.append((int(index / 3) * -1))
-        if int(index / 3) % 2 == 0:
-            x_axis.append((int(index % 3)))
-            if index == len(proc_data) - 1:
-                symbols.append('x')
-                colors.append('crimson')
-            elif index == 0:
-                symbols.append('diamond')
-                colors.append('darkslategrey')
-            else:
-                symbols.append('triangle-right')
-                colors.append('steelblue')
-        if int(index / 3) % 2 == 1:
-            x_axis.append((2 - int(index % 3)))
-            if index == len(proc_data) - 1:
-                symbols.append('x')
-                colors.append('indianred')
-            else:
-                symbols.append('triangle-left')
-                colors.append('steelblue')
+    calculate_node_position(colors, nodes_no, proc_data, symbols, x_axis, y_axis)
 
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(
         x=x_axis,
         y=y_axis,
-        mode="lines+markers+text",
+        mode="markers+text",
         name="Word Path",
         text=proc_data,
         textposition="top center",
         hoverinfo='none',
         marker_symbol=symbols,
         marker_line_color=colors,
-        marker_color="lightsteelblue",
+        line_color='steelblue',
+        marker_color=colors,
         marker_line_width=3,
-        marker_size=30,
-        textfont_size=16,
+        marker_size=20,
+        textfont_size=11,
         textfont_family='Courier New, monospace',
     ))
+    arrow_spacing = 0.1
+    arrows = []
+    for i in range(len(proc_data) - 1):
+        if (i + 1) % nodes_no == 0 and i != 0:
+            arrow_generation( 0,  arrow_spacing, arrow_spacing + 0.03 , arrows, i, i + 1, x_axis, y_axis)
+        elif int(i / nodes_no) % 2 == 0:
+            arrow_generation(arrow_spacing, 0, 0, arrows, i, i + 1, x_axis, y_axis)
+        elif int(i / nodes_no) % 2 == 1:
+            arrow_generation(arrow_spacing * -1, 0, 0, arrows, i , i + 1, x_axis, y_axis)
 
     fig.update_layout(
+        annotations=arrows,
         xaxis=dict(
             showline=False,
             showgrid=False,
@@ -156,14 +144,58 @@ def tree_path_fig(input_key,file_path):
 
     return fig
 
+
+def arrow_generation(arrow_spacing_x, arrow_spacing_y_top, arrow_spacing_y_bottom, arrows, i, j, x_axis, y_axis):
+    arrows.append(dict(
+        ax=x_axis[i] + arrow_spacing_x,
+        ay=y_axis[i] - arrow_spacing_y_top,
+        axref='x',
+        ayref='y',
+        x=x_axis[j] - arrow_spacing_x,
+        y=y_axis[j] + arrow_spacing_y_bottom,
+        xref='x',
+        yref='y',
+        textangle=0,
+        arrowcolor="steelblue",
+        arrowsize=2,
+        arrowwidth=2,
+        arrowhead=1
+    )
+    )
+
+
 def tree_path_json(input_key, path):
-    fig = tree_path_fig(input_key,path+"/small.wordSensePath.txt")
+    fig = tree_path_fig(input_key, path + "/small.wordSensePath.txt")
     serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return serialized
 
 
 def plot_tree_path(input_key):
-    fig = tree_path_fig(input_key,"out/test1/small.wordSensePath.txt")
+    fig = tree_path_fig(input_key, "out/test1/small.wordSensePath.txt")
     fig.show()
     return ""
 
+
+def calculate_node_position(colors, nodes_no, proc_data, symbols, x_axis, y_axis):
+    for i in proc_data:
+        index = proc_data.index(i)
+        y_axis.append(int(index / nodes_no) * -1 / 2)
+        if int(index / nodes_no) % 2 == 0:
+            x_axis.append((int(index % nodes_no)))
+            if index == len(proc_data) - 1:
+                symbols.append('x')
+                colors.append('crimson')
+            elif index == 0:
+                symbols.append('diamond')
+                colors.append('darkslategrey')
+            else:
+                symbols.append('circle')
+                colors.append('steelblue')
+        if int(index / nodes_no) % 2 == 1:
+            x_axis.append((nodes_no - 1 - int(index % nodes_no)))
+            if index == len(proc_data) - 1:
+                symbols.append('x')
+                colors.append('indianred')
+            else:
+                symbols.append('circle')
+                colors.append('steelblue')
