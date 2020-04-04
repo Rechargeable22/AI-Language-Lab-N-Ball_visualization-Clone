@@ -8,6 +8,7 @@ import plotly
 
 from utils.files_utils import read_word_path
 
+
 def plot_balls(outfolder_path):
     ball = util.balls_to_object(f"{outfolder_path}/reduced_nballs_after.txt")
 
@@ -105,9 +106,9 @@ def tree_path_fig(input_key, file_path):
         line_color='steelblue',
         marker_color=colors,
         marker_line_width=3,
-        marker_size=20,
-        textfont_size=11,
-        textfont_family='Courier New, monospace',
+        marker_size=15,
+        textfont_size=13,
+        textfont_family='Roboto, sans-serif',
     ))
     arrow_spacing = 0.1
     arrows = []
@@ -130,6 +131,7 @@ def tree_path_fig(input_key, file_path):
             showline=False,
             showgrid=False,
             showticklabels=False,
+            scaleratio=1,
         ),
         showlegend=False,
         plot_bgcolor='white',
@@ -186,7 +188,7 @@ def calculate_node_position(colors, nodes_no, proc_data, symbols, x_axis, y_axis
                 symbols.append('x')
                 colors.append('crimson')
             elif index == 0:
-                symbols.append('diamond')
+                symbols.append('square')
                 colors.append('darkslategrey')
             else:
                 symbols.append('circle')
