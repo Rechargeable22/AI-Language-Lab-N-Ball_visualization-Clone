@@ -7,6 +7,9 @@
     height: 800px;
 }
 
+#word-path-figure{
+    max-height: 8rem;
+}
 
 .title-row  div {
     padding: 0 2rem 0 0;
