@@ -54,6 +54,13 @@ def plot_balls(outfolder_path):
         ),
         xaxis_showgrid=False,
         yaxis_showgrid=False,
+        margin=dict(
+            l=0,
+            r=0,
+            b=0,
+            t=0,
+            pad=4
+        ),
 
     )
 
@@ -137,13 +144,20 @@ def tree_path_fig(input_key,file_path):
             showticklabels=False,
         ),
         showlegend=False,
-        plot_bgcolor='white'
+        plot_bgcolor='white',
+        margin=dict(
+            l=0,
+            r=0,
+            b=0,
+            t=0,
+            pad=4
+        ),
     )
 
     return fig
 
-def tree_path_json(input_key):
-    fig = tree_path_fig(input_key,"out/test1/small.wordSensePath.txt")
+def tree_path_json(input_key, path):
+    fig = tree_path_fig(input_key,path+"/small.wordSensePath.txt")
     serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return serialized
 

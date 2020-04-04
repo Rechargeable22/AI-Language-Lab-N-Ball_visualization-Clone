@@ -28,7 +28,7 @@ def background_ball_generation(input_words):
         word_senses[word] = [w.name() for w in word_wn]
         word_definitions[word] = [w.definition() for w in word_wn]
 
-        word_path_fig[word]=[pl.tree_path_json(sense.name()) for sense in word_wn]
+        word_path_fig[word]=[pl.tree_path_json(sense.name(),outfolder_path) for sense in word_wn]
 
 
 
