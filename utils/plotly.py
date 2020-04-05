@@ -28,7 +28,8 @@ def plot_balls(outfolder_path):
         x=final_df["x"],
         y=final_df["y0"] - (final_df["radius"] * 0.05),
         text=final_df["word"],
-        mode="text",
+        # mode="text",
+        # textfont_size=final_df["radius"].astype(float),
     ))
 
     circles = []
@@ -51,6 +52,10 @@ def plot_balls(outfolder_path):
         yaxis=dict(
             scaleanchor="x",
             scaleratio=1,
+            showline=False,
+        ),
+        xaxis=dict(
+            showline=False,
         ),
         xaxis_showgrid=False,
         yaxis_showgrid=False,
@@ -88,10 +93,11 @@ def tree_path_fig(input_key, file_path):
     y_axis = []
     symbols = []
     colors = []
-    nodes_no = 3
+    nodes_no = 5
 
     calculate_node_position(colors, nodes_no, proc_data, symbols, x_axis, y_axis)
 
+    print(y_axis)
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(
@@ -115,7 +121,7 @@ def tree_path_fig(input_key, file_path):
     arrows = []
     for i in range(len(proc_data) - 1):
         if (i + 1) % nodes_no == 0 and i != 0:
-            arrow_generation(0, arrow_spacing, arrow_spacing + 0.03, arrows, i, i + 1, x_axis, y_axis)
+            arrow_generation(0, 0.02, arrow_spacing + 0.09, arrows, i, i + 1, x_axis, y_axis)
         elif int(i / nodes_no) % 2 == 0:
             arrow_generation(arrow_spacing, 0, 0, arrows, i, i + 1, x_axis, y_axis)
         elif int(i / nodes_no) % 2 == 1:
@@ -124,12 +130,13 @@ def tree_path_fig(input_key, file_path):
     fig.update_layout(
         annotations=arrows,
         xaxis=dict(
-            range=[-0.25, 2.25],
+            range=[-0.30, nodes_no - 1 + 0.30],
             showline=False,
             showgrid=False,
             showticklabels=False,
         ),
         yaxis=dict(
+            range=[-4, 0.5],
             showline=False,
             showgrid=False,
             showticklabels=False,
@@ -143,7 +150,7 @@ def tree_path_fig(input_key, file_path):
             r=0,
             b=0,
             t=0,
-            pad=4
+            pad=0,
         ),
     )
 
@@ -162,9 +169,9 @@ def arrow_generation(arrow_spacing_x, arrow_spacing_y_top, arrow_spacing_y_botto
         yref='y',
         textangle=0,
         arrowcolor="steelblue",
-        arrowsize=2,
-        arrowwidth=1,
-        arrowhead=1
+        arrowsize=1,
+        arrowwidth=3,
+        arrowhead=1,
     )
     )
 
@@ -188,8 +195,8 @@ def calculate_node_position(colors, nodes_no, proc_data, symbols, x_axis, y_axis
         if int(index / nodes_no) % 2 == 0:
             x_axis.append((int(index % nodes_no)))
             if index == len(proc_data) - 1:
-                symbols.append('x')
-                colors.append('crimson')
+                symbols.append('circle')
+                colors.append('darkslategrey')
             elif index == 0:
                 symbols.append('square')
                 colors.append('darkslategrey')
@@ -199,8 +206,8 @@ def calculate_node_position(colors, nodes_no, proc_data, symbols, x_axis, y_axis
         if int(index / nodes_no) % 2 == 1:
             x_axis.append((nodes_no - 1 - int(index % nodes_no)))
             if index == len(proc_data) - 1:
-                symbols.append('x')
-                colors.append('indianred')
+                symbols.append('circle')
+                colors.append('darkslategrey')
             else:
                 symbols.append('circle')
                 colors.append('steelblue')
