@@ -22,6 +22,7 @@ def plot_balls(outfolder_path):
     df['y1'] = df.y + df.radius
 
     final_df = df.sort_values(by=['radius'], ascending=False)
+    print(final_df.to_string())
 
     fig.add_trace(go.Scatter(
         x=final_df["x"],
@@ -114,16 +115,16 @@ def tree_path_fig(input_key, file_path):
     arrows = []
     for i in range(len(proc_data) - 1):
         if (i + 1) % nodes_no == 0 and i != 0:
-            arrow_generation( 0,  arrow_spacing, arrow_spacing + 0.03 , arrows, i, i + 1, x_axis, y_axis)
+            arrow_generation(0, arrow_spacing, arrow_spacing + 0.03, arrows, i, i + 1, x_axis, y_axis)
         elif int(i / nodes_no) % 2 == 0:
             arrow_generation(arrow_spacing, 0, 0, arrows, i, i + 1, x_axis, y_axis)
         elif int(i / nodes_no) % 2 == 1:
-            arrow_generation(arrow_spacing * -1, 0, 0, arrows, i , i + 1, x_axis, y_axis)
+            arrow_generation(arrow_spacing * -1, 0, 0, arrows, i, i + 1, x_axis, y_axis)
 
     fig.update_layout(
         annotations=arrows,
         xaxis=dict(
-            range= [-0.5, 2.5],
+            range=[-0.25, 2.25],
             showline=False,
             showgrid=False,
             showticklabels=False,
