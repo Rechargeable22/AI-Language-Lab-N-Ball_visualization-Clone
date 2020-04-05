@@ -71,7 +71,7 @@ function buildFolders(dataDict) {
 
                     const plotly_data = JSON.parse(dataDict.word_path_fig[word][index_word_sense]);
                     let layout = plotly_data.layout;
-                    Plotly.newPlot('word-path-figure', plotly_data.data, layout,{staticPlot: true});
+                    Plotly.newPlot('word-path-figure', plotly_data.data, layout, {staticPlot: true});
 
                 });
                 col2.appendChild(textElement)
@@ -141,6 +141,7 @@ function requestBallGenerationFromFile() {
     };
 
     xhr.send(formData);
+    document.getElementById("folder-structure").style.display = "none";
     clearCol(0);
 }
 
@@ -163,6 +164,7 @@ function requestBallGeneration(e) {
 
 
 function onBallGenerationDone(dataDict) {
+    document.getElementById("folder-structure").style.display = "block";
     buildFolders(dataDict);
     const plotly_data = JSON.parse(dataDict.plotly_json);
     let layout = plotly_data.layout;
