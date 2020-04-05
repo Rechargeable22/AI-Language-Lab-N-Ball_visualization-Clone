@@ -121,7 +121,7 @@ def tree_path_fig(input_key, file_path):
     arrows = []
     for i in range(len(proc_data) - 1):
         if (i + 1) % nodes_no == 0 and i != 0:
-            arrow_generation(0, 0.02, arrow_spacing + 0.09, arrows, i, i + 1, x_axis, y_axis)
+            arrow_generation(0, 0.02, arrow_spacing + 0.1, arrows, i, i + 1, x_axis, y_axis)
         elif int(i / nodes_no) % 2 == 0:
             arrow_generation(arrow_spacing, 0, 0, arrows, i, i + 1, x_axis, y_axis)
         elif int(i / nodes_no) % 2 == 1:
@@ -130,13 +130,13 @@ def tree_path_fig(input_key, file_path):
     fig.update_layout(
         annotations=arrows,
         xaxis=dict(
-            range=[-0.30, nodes_no - 1 + 0.30],
+            range=[-0.40, nodes_no - 1 + 0.40],
             showline=False,
             showgrid=False,
             showticklabels=False,
         ),
         yaxis=dict(
-            range=[-1.5, 0.5],
+            range=[-1, 0],
             showline=False,
             showgrid=False,
             showticklabels=False,
