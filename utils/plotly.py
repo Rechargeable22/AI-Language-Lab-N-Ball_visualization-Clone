@@ -136,7 +136,7 @@ def tree_path_fig(input_key, file_path):
             showticklabels=False,
         ),
         yaxis=dict(
-            range=[-4, 0.5],
+            range=[-1.5, 0.5],
             showline=False,
             showgrid=False,
             showticklabels=False,
