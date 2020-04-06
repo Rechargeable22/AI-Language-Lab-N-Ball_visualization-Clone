@@ -28,8 +28,7 @@ def plot_balls(outfolder_path):
         x=final_df["x"],
         y=final_df["y0"] - (final_df["radius"] * 0.05),
         text=final_df["word"],
-        # mode="text",
-        # textfont_size=final_df["radius"].astype(float),
+        mode="text",
     ))
 
     circles = []
