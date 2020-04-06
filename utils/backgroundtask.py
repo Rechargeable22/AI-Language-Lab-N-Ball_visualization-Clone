@@ -17,8 +17,6 @@ def background_ball_generation(input_words):
         os.mkdir(outfolder_path)
     r.run(f"--no_visualize_nballs --outfolder_path {outfolder_path}", input_words)
 
-    # time.sleep(5);
-
     word_senses = {}
     word_definitions = {}
     word_path_fig={}
