@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from rq import Queue
 
 from utils.backgroundtask import background_ball_generation
-from utils.plotly import plot_balls, plot_tree_path
+from utils.plotly import plot_balls, plot_tree_path, plot_combined_tree_path
 from utils.files_utils import read_input_words
 
 app = Flask(__name__)
@@ -50,7 +50,8 @@ def plotly():
 
 @app.route('/tree')
 def tree():
-    return plot_tree_path('apple.n.02')
+    input_list = ["apple", "banana", "cherry"]
+    return plot_combined_tree_path(input_list)
 
 
 @app.route('/file', methods=['POST'])
