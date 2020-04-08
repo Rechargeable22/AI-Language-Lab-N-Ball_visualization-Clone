@@ -1,0 +1,138 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.20 of 2017/10/04
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage{graphicx}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following line
+% to display URLs in blue roman font according to Springer's eBook style:
+% \renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\begin{document}
+%
+\title{Visualizing  Ball-Embeddings of Taxonomy Structure \thanks{Supported by organization x.}}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{First Author\inst{1} \and
+Second Author\inst{1}  \and
+Third Author\inst{1}  \and
+Forth Author\inst{1}  \and
+Fifth Author\inst{1,2}}
+%
+\authorrunning{F. Author et al.}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+\institute{University of Bonn, Germany \and
+\email{\{\}@uni-bonn.de}\\ 
+\and
+Fraunhofer IAIS, Germany\\
+\email{}}
+%
+\maketitle              % typeset the header of the contribution
+
+%150-250 words
+\begin{abstract}
+ 
+\keywords{Diagrammatic reasoning \and ball embeddings \and visualization.}
+\end{abstract}
+%
+%
+%
+\section{Introduction}
+
+Taxonomy, as a classification of concepts, exists in almost every disciplinary, such as file systems in computer science, classification of viruses, plants, and animals, government organization of a country. Though a powerful tool for learning from data, Deep Learning limits itself in representing everything as vectors, and can only approximate symbolic representation and reasoning. Taxonomy structure can be embedded by promoting vectorial embeddings learned from Deep Learning into balls in higher-dimensional space, such that (1) each vector embedding is well preserved by the central point of a ball; (2) symbolic tree structures are precisely encoded by inclusion relations among balls. Significant results are obtained in experiments on unifying word-embeddings with hypernym trees and on unifying entity-embeddings learned from knowledge-graphs and tree structures. Being able to precisely imposing external symbolic structures onto Deep Learning systems not only paves the way towards resolving the antagonism between connectionism and symbolicism in the literature, but also has tremendous value in real applications. For example, being able to impose traffic rules onto autonomous driving cars would ultimately solve the safety issue.  
+
+Ball embeddings are rigorously constructed by a sequence of geometric transformations under the  condition that the loss function of the embedding must be zero, which is a condition that is not required and has not been targeted by Deep Learning approaches. This also raises the visualization problem of ball embeddings. The popular  tool t-NSE for visualizing vector embeddings cannot be directly applied for visualizing ball embeddings, for the dimensional reduction process of t-NSE does not guarantee the topological relations among balls. In this paper, we demonstrate an open source system that is able to visualize ball embeddings while keeping their topological relations. The main contributions of this system are as follows: (1) it has an vivid interactive user interface that can be used for diagrammatic reasoning among taxonomy; (2) it provides an effective and friendly approach for debugging the geometric construction process of ball embeddings; (3) it provides a batch service that accepts a large scale input for construct ball embeddings. 
+
+\section{The Architecture}
+
+Flask with task queue 
+
+draw a picture
+
+\section{Services}
+
+\subsection{Simple Diagrammatic Reasoning}
+\subsubsection{Case 1}
+\begin{itemize}
+	\item user inputs: Socrates is human, human is animal
+	\item  user query: what is the relation between Socrates and animal
+	\item  system draw: (1) Socarates ball inside human ball, (2) human ball inside animal ball; 
+	\item system merges (1) and (2) [the human balls in (1) and (2) may have difference sizes]
+	\item system conclude: Socrates is animal.
+\end{itemize}
+
+\subsubsection{Case 2}
+\begin{itemize}
+	\item user input: Soccer is not human, human is mortal
+	\item  user query: what is the relation between Soccer and mortal
+	\item  system draw: (1) Soccer ball outside human ball, (2) human ball inside mortal ball; 
+	\item system merges (1) and (2) 
+	\item system randomly generates Soccer balls, and keep those balls outside human ball
+	\item system conclude: undecided.
+\end{itemize}
+ 
+\subsection{Diagrammatic Reasoning with Background Knowledge} 
+\begin{itemize}
+	\item user input: Soccer is not human, human is animal
+	\item  user query: what is the relation between Soccer and animal
+	\item  system replaces `Soccer is not human' with `Soccer is entity', system adds 'animal is entity' by searching background knowledge
+	\begin{verbatim}
+		>>> from nltk.corpus import wordnet as wn
+>>> soccer = wn.synsets('soccer')
+>>> soccer
+[Synset('soccer.n.01')]
+>>> soccer = wn.synsets('soccer')[0]
+>>> soccer
+Synset('soccer.n.01')
+>>> human=wn.synsets('human')[0]
+>>> human
+Synset('homo.n.02') 
+>>> soccer.lowest_common_hypernyms(human)
+[Synset('entity.n.01')] 
+>> % check 'animal' and 'entity'
+>> ..
+	\end{verbatim}
+\item  system draw: (1) Soccer ball outside animal ball, (2) human ball inside animal ball; (3) they are inside entity ball 
+	\item system merges (1), (2), and (3)  
+	\item system conclude: Soccer is not animal.
+\end{itemize}
+
+\subsection{Visual Debugging}
+
+\begin{itemize}
+	\item user input: a tree structure, vector embeddings of tree nodes
+	\item System will demonstrate the geometric construction process of ball embeddings in an interactive manner. That is, user clicks a button, System performs one geometric transformation and update the interface 
+\end{itemize}
+
+\subsection{Batch Service}
+
+\begin{itemize}
+	\item user provide her/his name and contact email.
+	\item user input: a tree structure, vector embeddings of tree nodes
+	\item System will construct ball embeddings at backend, and send the user the link fo the final ball embeddings  
+\end{itemize}
+
+\section{Conclusion and Outlooks}
+
+link to the video
+
+ 
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+% \bibliographystyle{splncs04}
+% \bibliography{mybibliography}
+% 
+\end{document}
