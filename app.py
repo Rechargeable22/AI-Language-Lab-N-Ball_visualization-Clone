@@ -50,7 +50,7 @@ def plotly():
 
 @app.route('/tree')
 def tree():
-    input_list = ["apple", "banana", "cherry"]
+    input_list = ["apple.n.01", "tree.n.01", 'fruit.v.02']
     return plot_combined_tree_path(input_list)
 
 
