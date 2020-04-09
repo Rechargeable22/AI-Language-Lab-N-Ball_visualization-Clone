@@ -71,16 +71,18 @@ function buildFolders(dataDict) {
 
                     let plotly_data = JSON.parse(dataDict.word_path_fig[word][index_word_sense]);
                     let layout = plotly_data.layout;
-                    plotly_data.data[0].marker.color = plotly_data.data[0].marker.color.map(({color})=> "#611111");
+                    plotly_data.data[0].marker.color = plotly_data.data[0].marker.color.map(({color}) => "#611111");
                     Plotly.newPlot('word-path-figure', plotly_data.data, layout, {staticPlot: true});
 
                     setInterval(function () {
-                        var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
-                        let update ={
-                            "marker.color":randomColor,
+                        var randomColor = "#000000".replace(/0/g, function () {
+                            return (~~(Math.random() * 16)).toString(16);
+                        });
+                        let update = {
+                            "marker.color": randomColor,
                         };
-                        Plotly.restyle('word-path-figure',update)
-        }, 200);
+                        Plotly.restyle('word-path-figure', update)
+                    }, 200);
                 });
                 col2.appendChild(textElement)
             }
@@ -120,7 +122,6 @@ function requestBallGenerationStatus(data) {
         displayQueuePosition(res.data);
         if (res.data.task_status === 'finished') {
             document.getElementById('generating-ball').style.display = "none";
-            console.log(res)
             onBallGenerationDone(JSON.parse(res.data.task_result));
             return false;
         }
@@ -179,6 +180,15 @@ function onBallGenerationDone(dataDict) {
     layout.dragmode = 'pan';
     Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
 
+    buildFullTree(dataDict.plotly_full_tree);
+
+}
+
+function buildFullTree(plotly_full_tree) {
+    // let plotly_data = JSON.parse(plotly_full_tree);
+    let plotly_data = plotly_full_tree;
+    let layout = plotly_data.layout;
+    Plotly.newPlot('fullTree', plotly_data.data, layout, {staticPlot: true});
 }
 
 window.onload = function () {

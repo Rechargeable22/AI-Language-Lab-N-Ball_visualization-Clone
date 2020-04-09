@@ -97,3 +97,8 @@ def plot_combined_tree_path(input_list):
     fig = combined_tree_paths_fig(input_list, "out/test1/small.wordSensePath.txt")
     fig.show()
     return ""
+
+def plot_combined_tree_json(input_list, path):
+    fig = combined_tree_paths_fig(input_list, path + "/small.wordSensePath.txt")
+    serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return serialized
