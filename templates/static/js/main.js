@@ -185,8 +185,8 @@ function onBallGenerationDone(dataDict) {
 }
 
 function buildFullTree(plotly_full_tree) {
-    // let plotly_data = JSON.parse(plotly_full_tree);
-    let plotly_data = plotly_full_tree;
+    let plotly_data = JSON.parse(plotly_full_tree);
+    // let plotly_data = plotly_full_tree;
     let layout = plotly_data.layout;
     Plotly.newPlot('fullTree', plotly_data.data, layout, {staticPlot: true});
 }
