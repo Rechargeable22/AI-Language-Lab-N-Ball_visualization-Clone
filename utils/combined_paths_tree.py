@@ -1,5 +1,5 @@
 import plotly.graph_objects as go
-from igraph import Graph, EdgeSeq
+from igraph import Graph
 
 from utils.files_utils import read_word_path
 
@@ -30,8 +30,8 @@ def combined_tree_paths_fig(input_list, file_path):
     y_edge = []
     x_edge = []
     for edge in edges_list:
-        y_edge += [position[edge[0]][0], position[edge[1]][0], None]
-        x_edge += [(2 * max_y - position[edge[0]][1]) * -1, (2 * max_y - position[edge[1]][1]) * -1, None]
+        y_edge += [(position[edge[0]][0], position[edge[1]][0])]
+        x_edge += [((2 * max_y - position[edge[0]][1]) * -1, (2 * max_y - position[edge[1]][1]) * -1)]
 
     labels = nodes
 
@@ -57,13 +57,27 @@ def nodes_edges_calculation(edges, input_list, nodes, paths, tree):
     return edges, nodes
 
 
+def arrow_generation(arrow_spacing_x,arrows, i, x_axis, y_axis):
+    arrows.append(dict(
+        ax=x_axis[i][0] + arrow_spacing_x,
+        ay=y_axis[i][0],
+        axref='x',
+        ayref='y',
+        x=x_axis[i][1] - arrow_spacing_x,
+        y=y_axis[i][1],
+        xref='x',
+        yref='y',
+        textangle=0,
+        arrowcolor="steelblue",
+        arrowsize=1,
+        arrowwidth=3,
+        arrowhead=1,
+    )
+    )
+
+
 def plot_fig(fig, labels, x_edge, x_nodes, y_edge, y_nodes):
-    fig.add_trace(go.Scatter(x=x_edge,
-                             y=y_edge,
-                             mode='lines',
-                             line=dict(color='rgb(210,210,210)', width=1),
-                             hoverinfo='none'
-                             ))
+
     fig.add_trace(go.Scatter(x=x_nodes,
                              y=y_nodes,
                              mode="markers+text",
@@ -79,13 +93,14 @@ def plot_fig(fig, labels, x_edge, x_nodes, y_edge, y_nodes):
                              textfont_size=12,
                              textfont_family='Roboto, sans-serif',
                              ))
-    # arrows = []
-    # arrow_spacing = 0.1
-    # for i in range(len(nodes) - 1):
-    #     arrow_generation(arrow_spacing, 0.0, 0, arrows, i, i + 1, x_nodes, y_nodes)
-    #
+
+    arrows = []
+    arrow_spacing = 0.1
+    for i in range(len(x_edge)):
+        arrow_generation(arrow_spacing, arrows, i, x_edge, y_edge)
+
     fig.update_layout(
-        # annotations=arrows,
+        annotations=arrows,
         xaxis=dict(
             # range=[-0.40, nodes_no - 1 + 0.40],
             showline=False,
