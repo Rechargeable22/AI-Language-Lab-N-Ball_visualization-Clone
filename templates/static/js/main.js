@@ -69,10 +69,18 @@ function buildFolders(dataDict) {
                     const definition = createThirdColumnDiv(dataDict.word_definitions[word][index_word_sense]);
                     col3.appendChild(definition);
 
-                    const plotly_data = JSON.parse(dataDict.word_path_fig[word][index_word_sense]);
+                    let plotly_data = JSON.parse(dataDict.word_path_fig[word][index_word_sense]);
                     let layout = plotly_data.layout;
+                    plotly_data.data[0].marker.color = plotly_data.data[0].marker.color.map(({color})=> "#611111");
                     Plotly.newPlot('word-path-figure', plotly_data.data, layout, {staticPlot: true});
 
+                    setInterval(function () {
+                        var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+                        let update ={
+                            "marker.color":randomColor,
+                        };
+                        Plotly.restyle('word-path-figure',update)
+        }, 200);
                 });
                 col2.appendChild(textElement)
             }
