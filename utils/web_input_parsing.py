@@ -33,16 +33,6 @@ def json_to_paths(input_json):
     return paths
 
 
-def contains(list, filter):
-    for x in list:
-        if filter(x):
-            return True
-    return False
-
-class Node:
-    def __init__(self, name):
-        self.name = name
-        self.children = []
 
 
 
