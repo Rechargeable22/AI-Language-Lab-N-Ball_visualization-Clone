@@ -531,8 +531,8 @@ def make_DC_for_first_level_children(root="*root*", firstChild = 'entity.n.01', 
     :return:
     """
     children = get_children(root, wsChildrenDic=wsChildrenDic)
-    children.remove(firstChild)
-    children.insert(0, firstChild)
+    # children.remove(firstChild)
+    # children.insert(0, firstChild)
     print('updating first level children...')
     word2ballDic = training_DC_by_name(children, outputPath=outputPath, wsChildrenDic=wsChildrenDic,
                                        word2ballDic =word2ballDic, ordered = True,

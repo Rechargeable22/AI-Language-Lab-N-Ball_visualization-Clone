@@ -16,7 +16,7 @@ def plot(vectors, radius, words, fig, ax):
     colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for i in range(len(vectors))]
 
     for i, vector in enumerate(np.array(vectors)):
-        e = Circle(xy=vector, radius=float(radius[i]),linewidth=0.1)
+        e = Circle(xy=vector, radius=float(radius[i]),linewidth=1.)
         ax.add_artist(e)
         e.set_edgecolor(colors[i])
         e.set_facecolor('none')

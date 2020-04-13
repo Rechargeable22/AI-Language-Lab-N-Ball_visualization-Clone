@@ -2,8 +2,8 @@
 ```
 ProjectBase$ apt install redis
 ProjectBase$ pip install rq rq-dashboard
-ProjectBase$ rq worker
 ProjectBase$ rq worker high
+ProjectBase$ rq worker low
 ```
 
 

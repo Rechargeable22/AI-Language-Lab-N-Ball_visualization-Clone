@@ -46,7 +46,9 @@ def load_balls(ipath="/Users/tdong/data/glove/glove.6B/glove.6B.50Xball", word2b
     print("loading balls....")
     sizes = []
     dims = []
-    for fn in [ele for ele in os.listdir(ipath) if len(ele.split('.'))>2]:
+    # for fn in [ele for ele in os.listdir(ipath) if len(ele.split('.'))>2]:    # dongcode
+    for fn in [ele for ele in os.listdir(ipath)]:
+        print(fn)
         sz, mele, word2ballDic = load_one_ball(fn, ipath = ipath, word2ballDic=word2ballDic)
         sizes.append(sz)
         dims.append(mele)

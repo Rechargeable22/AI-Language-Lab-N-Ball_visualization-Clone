@@ -126,20 +126,39 @@ def generate_ws_cat_codes(words_paths_file="", children_file="", outFile="", dep
     ofh.close()
     return nm, ml
 
-def generate_files(word2vec_file_path=None, input_file_path=None, sample=None, output_path=None):
 
+def generate_files(word2vec_file_path=None, input_file_path=None, sample=None, output_path=None):
     glove_words = read_word2vec_file(word2vec_file_path)
     if sample is None or sample == 'None':
         words = read_input_words(input_file_path)
     else:
         words = sample
 
-
     words_paths_file = output_path + '/small.wordSensePath.txt'
     generated_child_file = output_path + '/children.txt'
     cat_code = output_path + '/small.catcode.txt'
 
-    words_paths = generate_words_paths(words, glove_words)
+    # words_paths = generate_words_paths(words, glove_words)
+    words_paths = ['*root* *root*\n',
+                   'human.n.01 *root* animal.n.01 human.n.01 \n',
+                   'animal.n.01 *root* animal.n.01 \n',
+
+                   # 'socrates.n.01 *root* entity.n.01 person.n.01 inhabitant.n.01 european.n.01 greek.n.02 athenian.n.01 socrates.n.01 \n',
+                   # 'person.n.01 *root* entity.n.01 person.n.01 \n',
+                   # 'inhabitant.n.01 *root* entity.n.01 person.n.01 inhabitant.n.01 \n',
+                   # 'european.n.01 *root* entity.n.01 person.n.01 inhabitant.n.01 european.n.01 \n',
+                   # 'greek.n.02 *root* entity.n.01 person.n.01 inhabitant.n.01 european.n.01 greek.n.02 \n',
+                   # 'athenian.n.01 *root* entity.n.01 person.n.01 inhabitant.n.01 european.n.01 greek.n.02 athenian.n.01 \n'
+                   ]
+    words_paths = ['*root* *root* \n',
+                   'animal *root* animal \n',
+                   'human *root* animal human \n',
+                   'socrates *root* animal human socrates \n']
+    # words_paths = ['*root* *root* \n',
+    #                'animal.n.01 *root* animal.n.01 \n',
+    #                'human.n.01 *root* animal.n.01 human.n.01 \n',
+    #                'socrates.n.01 *root* animal.n.01 human.n.01 socrates.n.01 \n']
+
     if len(words_paths) <= 0:
         print('No words paths found! Try Again!')
         return None, None

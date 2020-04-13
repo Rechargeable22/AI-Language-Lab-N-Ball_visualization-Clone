@@ -11,7 +11,7 @@ def run(ext_args=None, input_words=None):
     parser.add_argument('--no_balls', dest='generate_balls', action='store_false')
     parser.add_argument('--no_dimension_reduction', dest='dimension_reduction', action='store_false')
     parser.add_argument('--no_visualize_nballs', dest='visualize_nballs', action='store_false')
-    parser.add_argument('--outfolder_path',default="res/test")
+    parser.add_argument('--outfolder_path',default="out/test")
     parser.set_defaults(generate_balls=True)
     parser.set_defaults(dimension_reduction=True)
     parser.set_defaults(visualize_nballs=True)
@@ -54,4 +54,5 @@ def run(ext_args=None, input_words=None):
         m.main(f" --vis --circles {CIRCLES_FILE_PATH}".split(),input_words)
 
 if __name__ == "__main__":
-    run("",["banana","Apple"])
+    run("",["human", "animal", "socrates"])
+
