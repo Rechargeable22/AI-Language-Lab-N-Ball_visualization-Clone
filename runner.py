@@ -54,5 +54,5 @@ def run(ext_args=None, input_words=None):
         m.main(f" --vis --circles {CIRCLES_FILE_PATH}".split(),input_words)
 
 if __name__ == "__main__":
-    run("",["human", "animal", "socrates"])
+    run("",["human", "animal"])
 

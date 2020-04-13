@@ -31,9 +31,9 @@ def plot(vectors, radius, words, fig, ax):
     ax.set_ylim([min(y) - margin, max(y) + margin])
     ax.set_aspect(1)
 
-    # for i, word in enumerate(words):
-    #     point = random_point(vectors[i], radius[i])
-    #     ax.text(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
+    for i, word in enumerate(words):
+        point = random_point(vectors[i], radius[i])
+        ax.text(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
     fig.show()
 
 
