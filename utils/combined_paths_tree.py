@@ -16,6 +16,10 @@ def combined_tree_paths_fig(input_list, file_path):
 
     edges, nodes = nodes_edges_calculation(edges, input_list, nodes, paths, tree)
 
+    for n in nodes:
+        if n == '*root*':
+            del nodes[nodes.index(n)]
+
     nr_vertices = len(edges) + 1
     lay = tree.layout('rt')
     position = {k: lay[k] for k in range(nr_vertices)}
@@ -26,9 +30,15 @@ def combined_tree_paths_fig(input_list, file_path):
 
     L = len(position)
     y_nodes = [position[k][0] for k in range(L)]
+    y_nodes.pop(0)
     x_nodes = [(2 * max_y - position[k][1]) * -1 for k in range(L)]
+    x_nodes.pop(0)
     y_edge = []
     x_edge = []
+
+    for e in edges_list:
+        if e[0] == 0:
+            del edges_list[edges_list.index(e)]
     for edge in edges_list:
         y_edge += [(position[edge[0]][0], position[edge[1]][0])]
         x_edge += [((2 * max_y - position[edge[0]][1]) * -1, (2 * max_y - position[edge[1]][1]) * -1)]
@@ -57,7 +67,7 @@ def nodes_edges_calculation(edges, input_list, nodes, paths, tree):
     return edges, nodes
 
 
-def arrow_generation(arrow_spacing_x,arrows, i, x_axis, y_axis):
+def arrow_generation(arrow_spacing_x, arrows, i, x_axis, y_axis):
     arrows.append(dict(
         ax=x_axis[i][0] + arrow_spacing_x,
         ay=y_axis[i][0],
@@ -77,7 +87,6 @@ def arrow_generation(arrow_spacing_x,arrows, i, x_axis, y_axis):
 
 
 def plot_fig(fig, labels, x_edge, x_nodes, y_edge, y_nodes):
-
     fig.add_trace(go.Scatter(x=x_nodes,
                              y=y_nodes,
                              mode="markers+text",
