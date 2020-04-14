@@ -61,7 +61,10 @@ def combined_tree_paths_fig(input_list, file_path):
 
     x_range = x_biggest - x_smallest
     y_range = y_biggest - y_smallest
-    y_range = 1
+    if y_range < 1:
+        y_range = 1
+    if x_range < 1:
+        x_range = 1
     axis_ratio = float(x_range) / float(y_range)
 
     fig = go.Figure()
