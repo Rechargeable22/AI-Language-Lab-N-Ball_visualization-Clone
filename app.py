@@ -19,7 +19,7 @@ app._static_folder = os.path.abspath("templates/static/")
 r = redis.Redis()
 q_high = Queue("high", connection=r)  # start with rq worker high
 q_low = Queue("low", connection=r)  # start with rq worker low
-QUEUE_THRESHOLD = 5  # inputs > QUEUE_THRESHOLD => run on the low priority queue
+QUEUE_THRESHOLD = 30  # inputs > QUEUE_THRESHOLD => run on the low priority queue
 
 
 def ball_generation_response(input_words):
