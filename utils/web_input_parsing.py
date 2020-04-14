@@ -33,16 +33,6 @@ def json_to_paths(input_json):
     return paths
 
 
-def contains(list, filter):
-    for x in list:
-        if filter(x):
-            return True
-    return False
-
-class Node:
-    def __init__(self, name):
-        self.name = name
-        self.children = []
 
 
 
@@ -55,42 +45,31 @@ def input_text_to_dict(input_text):
     out = {}
     entities = []
     texts = input_text.split(",")
+    has_parent=[]
     for text in texts:
         words = text.split()
-        if len(words) == 3:
-            child = words[0]
-            parent = words[2]
-            entities.append((parent, child))
+        child = words[0]
+        parent = words[-1]
 
-    print(entities)
-    lst = entities
+        child_node=next((x for x in entities if x["name"]==child), None)
+        if not child_node:
+            child_node={"name":child,"children":[]}
+            entities.append(child_node)
 
-    # Build a directed graph and a list of all names that have no parent
-    graph = {name: set() for tup in lst for name in tup}
-    has_parent = {name: False for tup in lst for name in tup}
-    for parent, child in lst:
-        graph[parent].add(child)
-        has_parent[child] = True
+        parent_node = next((x for x in entities if x["name"] == parent), None)
+        if not parent_node:
+            parent_node = {"name": parent, "children": []}
+            entities.append(parent_node)
 
-    # All names that have absolutely no parent:
-    roots = [name for name, parents in has_parent.items() if not parents]
+        if len(words)==3:
+            has_parent.append(child_node)
+            parent_node["children"].append(child_node)
 
-    # traversal of the graph (doesn't care about duplicates and cycles)
-    def traverse(hierarchy, graph, names):
-        for name in names:
-            hierarchy["name"] = name
-            hierarchy["name"] = graph[name]
-            # if "children" in hierarchy:
-            #     hierarchy["children"].append(traverse({}, graph, graph[name]))
-            # else:
-            hierarchy["children"] = traverse({}, graph, graph[name])
-        return hierarchy
-    print(graph)
-    hierarchy = traverse({}, graph, roots)
-    # {'mike': {'hellen': {}, 'john': {'elisa': {}, 'marry': {}}}}
-    print(hierarchy)
+
+    out=[entry for entry in entities if entry not in has_parent]
+    print(out )
 
 
 
 
-input_text_to_dict(text)
+input_text_to_dict(text2)
