@@ -48,9 +48,3 @@ def input_text_to_path(input_text):
             parent_node["children"].append(child_node)
 
     return dict_to_paths([entry for entry in entities if entry not in has_parent])
-
-
-def
-
-
-print(dict_to_paths(input_text_to_dict(text)))
