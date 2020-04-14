@@ -55,3 +55,4 @@ def run(ext_args=None, input_words=None):
 
 if __name__ == "__main__":
     run("",["banana","Apple"])
+    # test
