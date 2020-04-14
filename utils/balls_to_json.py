@@ -26,8 +26,9 @@ def balls_to_object(path):
 
     out = list()
     for i in range(len(words)):
-        word_wn = wn.synset(words[i])
-        definition = word_wn.definition()
+        # word_wn = wn.synset(words[i])
+        # definition = word_wn.definition()
+        definition = "Definition"
 
         out.append(Ball(words[i], definition, float(radius[i]), vectors[i].tolist()))
 

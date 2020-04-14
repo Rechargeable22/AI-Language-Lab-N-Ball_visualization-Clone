@@ -99,6 +99,11 @@ def plot_combined_tree_path(input_list):
     return ""
 
 def plot_combined_tree_json(input_list, path):
+    # change input list from paths to old format
+    print(input_list)
+    input_list = [element.split()[0] for element in input_list][1:]
+    print(input_list)
+
     fig = combined_tree_paths_fig(input_list, path + "/small.wordSensePath.txt")
     serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return serialized

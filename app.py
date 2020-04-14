@@ -9,6 +9,8 @@ from rq import Queue
 from utils.backgroundtask import background_ball_generation
 from utils.plotly import plot_balls, plot_tree_path, plot_combined_tree_path
 from utils.files_utils import read_input_words
+from utils.web_input_parsing import input_text_to_path
+
 
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")
@@ -71,7 +73,8 @@ def requested_ball_generation_from_file():
 
 @app.route('/', methods=['POST'])
 def requested_ball_generation():
-    input_words = request.form['inputWords'].split()
+    input_words = request.form['inputWords']
+    input_words = input_text_to_path(input_words)
 
     return jsonify(ball_generation_response(input_words)), 202
 

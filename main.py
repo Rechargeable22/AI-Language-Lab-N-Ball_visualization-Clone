@@ -8,7 +8,7 @@ from visualization.ploting import visualize
 from utils.files_utils import set_up_data_folder
 
 
-def main(ext_args=None,input_words=None):
+def main(ext_args=None, custom_word_paths=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--train_nball')
     parser.add_argument('--w2v')
@@ -30,10 +30,10 @@ def main(ext_args=None,input_words=None):
         args = parser.parse_args()
 
     if args.generate_nballs:
-        if args.w2v and (args.input or args.sample or input_words) and args.output_path:
+        if args.w2v and (args.input or args.sample or custom_word_paths) and args.output_path:
             set_up_data_folder(args.output_path)
             print("Start generating tree files")
-            children_file_path, cat_code_file_path = generate_files(args.w2v, args.input,input_words, args.output_path)
+            children_file_path, cat_code_file_path = generate_files(args.w2v, args.input, custom_word_paths, args.output_path)
             if children_file_path is None or cat_code_file_path is None:
                 print("Unable to generating tree files. Check your input!")
                 return
