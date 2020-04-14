@@ -44,9 +44,27 @@ def combined_tree_paths_fig(input_list, file_path):
         x_edge += [((2 * max_y - position[edge[0]][1]) * -1, (2 * max_y - position[edge[1]][1]) * -1)]
 
     labels = nodes
+    x_smallest = 0
+    x_biggest = 0
+    y_smallest = 0
+    y_biggest = 0
+
+    for p in range(len(x_nodes)):
+        if x_nodes[p] < x_smallest:
+            x_smallest = x_nodes[p]
+        if x_nodes[p] > x_biggest:
+            x_biggest = x_nodes[p]
+        if y_nodes[p] < y_smallest:
+            y_smallest = y_nodes[p]
+        if y_nodes[p] > y_biggest:
+            y_biggest = y_nodes[p]
+
+    x_range = x_biggest - x_smallest
+    y_range = y_biggest - y_smallest
+    axis_ratio = float(x_range) / float(y_range)
 
     fig = go.Figure()
-    plot_fig(fig, labels, x_edge, x_nodes, y_edge, y_nodes)
+    plot_fig(fig, labels, x_edge, x_nodes, y_edge, y_nodes, axis_ratio)
 
     return fig
 
@@ -86,7 +104,7 @@ def arrow_generation(arrow_spacing_x, arrows, i, x_axis, y_axis):
     )
 
 
-def plot_fig(fig, labels, x_edge, x_nodes, y_edge, y_nodes):
+def plot_fig(fig, labels, x_edge, x_nodes, y_edge, y_nodes, ratio):
     fig.add_trace(go.Scatter(x=x_nodes,
                              y=y_nodes,
                              mode="markers+text",
@@ -111,18 +129,16 @@ def plot_fig(fig, labels, x_edge, x_nodes, y_edge, y_nodes):
     fig.update_layout(
         annotations=arrows,
         xaxis=dict(
-            # range=[-0.40, nodes_no - 1 + 0.40],
             showline=False,
             showgrid=False,
             showticklabels=False,
         ),
         yaxis=dict(
-            # range=[-1, 0],
             showline=False,
             showgrid=False,
             showticklabels=False,
             scaleanchor="x",
-            scaleratio=1,
+            scaleratio=1 - (1 / ratio),
         ),
         showlegend=False,
         plot_bgcolor='white',
