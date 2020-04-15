@@ -7,6 +7,10 @@
     height: 800px;
 }
 
+#folder-structure{
+    display: none!important;
+}
+
 #word-path-figure{
     max-height: 10rem;
     font-weight: 600;
