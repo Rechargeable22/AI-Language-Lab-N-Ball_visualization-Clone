@@ -10,7 +10,8 @@ def reduce_dimensions(balls_dic):
     for word, values in balls_dic.items():
         words.append(word)
         vectors.append(np.multiply(values[:-2], values[-2]))
-    reduced_vectors = PCA(2).fit_transform(vectors)
+    pca= PCA(2).fit(vectors)
+    reduced_vectors = pca.transform(vectors)
     for i, word in enumerate(words):
         vector, length = get_vector_and_length(reduced_vectors[i])
         circles_dic[word] = [vector[0], vector[1], length, balls_dic[word][-1]]

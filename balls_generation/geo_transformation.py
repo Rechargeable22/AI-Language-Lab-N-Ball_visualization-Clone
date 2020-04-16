@@ -119,9 +119,10 @@ def ratio_homothetic_DC_transform(curTree, refTree, wsChildrenDic=dict(),
     :param wsChildrenDic:
     :param word2ballDic:
     :param outputPath:
-    :param logFile:
+    :param logFile:s
     :return:
     """
+    # TODO  show
     ball1 = word2ballDic[curTree]
     l1, r1 = decimal.Decimal(ball1[-2]), decimal.Decimal(ball1[-1])
     ball0 = word2ballDic[refTree]
@@ -199,6 +200,8 @@ def homothetic_recursive_transform_of_decendents(tree, root=None, rate=None,
     :param outputPath:
     :return:
     """
+
+
     if rate != 1:
         for child in get_children(tree, wsChildrenDic=wsChildrenDic, word2ballDic =word2ballDic):
             word2ballDic = homothetic_recursive_transform_of_decendents(child, root=root, rate=rate,

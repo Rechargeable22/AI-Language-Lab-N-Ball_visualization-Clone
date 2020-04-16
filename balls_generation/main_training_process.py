@@ -33,9 +33,9 @@ def initialize_ball(root, addDim=[], L0=0.1, R0=0.1,
                     word2vecDic=dict(), wscatCodeDic=dict(), word2ballDic=dict(), outputPath=None):
     """
     :param root:
-    :param addDim:
-    :param L0:
-    :param R0:
+    :param addDim: dimensions for shifting
+    :param L0: ???
+    :param R0: radius?
     :param word2vecDic:
     :param wscatCodeDic:
     :param word2ballDic:
@@ -43,6 +43,7 @@ def initialize_ball(root, addDim=[], L0=0.1, R0=0.1,
     :return:
     """
     w2v = [decimal.Decimal(ele*100) for ele in get_word2vector(root, word2vecDic=word2vecDic)]
+    # add catcode -> path from root to here e.g. 1 1 2 :> first tree, first child, second child
     cpoint = w2v + [ele+10 for ele in wscatCodeDic[root]]+ addDim
     word2ballDic[root] = vec_norm(cpoint) + [L0, R0]
     if outputPath:
@@ -236,8 +237,7 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
         lst = [(item[0], word2ballDic[item[0]]) for item in sorted(dic.items(), key=operator.itemgetter(1))]
 
     i = 0
-    if "herd.n.02" in childrenNames and "gathering.n.01" in childrenNames:
-        print('break')
+
     while i < len(lst) - 1:
         # print('i:', i, ' in', len(lst))
         j = i + 1
@@ -288,6 +288,7 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
 
     #####
     # homothetic transformation
+    # TODO aka adjust children accroding to shift perfermored on parents
     #####
     for child in childrenNames:
         ratio = word2ballDic[child][-2]/decimal.Decimal(dic0[child])
@@ -316,6 +317,8 @@ def training_one_family(treeStruc=None,root=None, addDim=[], wsChildrenDic = dic
         children = treeStruc[root]
     else:
         children = get_children(root, wsChildrenDic=wsChildrenDic)
+
+
     if len(children) > 0:
         for child in children:
             word2ballDic = training_one_family(treeStruc=treeStruc, root=child, addDim=addDim,
