@@ -1,0 +1,135 @@
+/Users/oliver/PycharmProjects/AILanguageLabv/N-Balls-Visualization/venv/bin/python /Users/oliver/PycharmProjects/AILanguageLabv/N-Balls-Visualization/runner.py
+['/Users/oliver/PycharmProjects/AILanguageLabv/N-Balls-Visualization/runner.py']
+Start generating tree files
+10 words paths found
+2 Leaves found
+7 Subtree found
+Finish generating tree files
+Start generating balls
+Calling train_word2ball()
+Calling training_all_families()
+Calling get_word2vector()
+Calling get_word2vector()
+['entity.n.01']
+*** entity.n.01
+
+Calling training_one_family()
+Training one family for child: object.n.01
+Calling training_one_family()
+Training one family for child: whole.n.02
+Calling training_one_family()
+Training one family for child: fruit.n.01
+Calling training_one_family()
+Training one family for child: banana.n.02
+Calling training_one_family()
+Calling initialize_ball()
+Initialize Ball for root banana.n.02
+Calling get_word2vector()
+Calling making_ball_contains()
+Making ball contaisn with root: fruit.n.01  and children ['banana.n.02']
+Calling training_P_by_name()
+Training p by name with childname banana.n.02 and atreeName fruit.n.01
+Calling initialize_ball()
+Initialize Ball for root fruit.n.01
+Calling get_word2vector()
+Training one family for child: organism.n.01
+Calling training_one_family()
+Training one family for child: plant.n.02
+Calling training_one_family()
+Training one family for child: herb.n.01
+Calling training_one_family()
+Training one family for child: banana.n.01
+Calling training_one_family()
+Calling initialize_ball()
+Initialize Ball for root banana.n.01
+Calling get_word2vector()
+Calling making_ball_contains()
+Making ball contaisn with root: herb.n.01  and children ['banana.n.01']
+Calling training_P_by_name()
+Training p by name with childname banana.n.01 and atreeName herb.n.01
+Calling initialize_ball()
+Initialize Ball for root herb.n.01
+Calling get_word2vector()
+Calling making_ball_contains()
+Making ball contaisn with root: plant.n.02  and children ['herb.n.01']
+Calling training_P_by_name()
+Training p by name with childname herb.n.01 and atreeName plant.n.02
+Calling initialize_ball()
+Initialize Ball for root plant.n.02
+Calling get_word2vector()
+Calling making_ball_contains()
+Making ball contaisn with root: organism.n.01  and children ['plant.n.02']
+Calling training_P_by_name()
+Training p by name with childname plant.n.02 and atreeName organism.n.01
+Calling initialize_ball()
+Initialize Ball for root organism.n.01
+Calling get_word2vector()
+Calling training_DC_by_name()
+Calling making_ball_contains()
+Making ball contaisn with root: whole.n.02  and children ['fruit.n.01', 'organism.n.01']
+Calling training_P_by_name()
+Training p by name with childname fruit.n.01 and atreeName whole.n.02
+Calling initialize_ball()
+Initialize Ball for root whole.n.02
+Calling get_word2vector()
+Calling training_P_by_name()
+Training p by name with childname organism.n.01 and atreeName whole.n.02
+Calling initialize_ball()
+Initialize Ball for root whole.n.02
+Calling get_word2vector()
+Calling making_ball_contains()
+Making ball contaisn with root: object.n.01  and children ['whole.n.02']
+Calling training_P_by_name()
+Training p by name with childname whole.n.02 and atreeName object.n.01
+Calling initialize_ball()
+Initialize Ball for root object.n.01
+Calling get_word2vector()
+Calling making_ball_contains()
+Making ball contaisn with root: entity.n.01  and children ['object.n.01']
+Calling training_P_by_name()
+Training p by name with childname object.n.01 and atreeName entity.n.01
+Calling initialize_ball()
+Initialize Ball for root entity.n.01
+Calling get_word2vector()
+finished training of all families
+
+loading balls....
+[167]
+totally 9  balls are loaded
+Calling fix_dim()
+Calling make_DC_for_first_level_children()
+updating first level children...
+Calling training_DC_by_name()
+Calling testing_whole_family()
+checking whether the tree structure is perfectly encoded in nball embeddings...
+
+loading balls....
+[167]
+totally 9  balls are loaded
+Calling check_P_for_child_parent_in_one_family()
+Calling check_DC_for_sibilings_in_one_family()
+failed families with P []
+failed families with DC []
+the tree structure is perfectly encoded in nball embeddings.
+
+generating nball embedding file...
+
+Finish generating balls successfully
+N-balls file can be found in  res/test/nballs.txt
+
+Balls reduced to circles successfully using PCA magic
+
+Checking N-Balls
+Disjoint Condition Failed Cases {}
+Contained Condition Failed Cases {}
+
+Checking 2D circles before fixing
+Disjoint Condition Failed Cases {}
+Contained Condition Failed Cases {}
+
+Checking 2D circles after fixing
+Disjoint Condition Failed Cases {}
+Contained Condition Failed Cases {}
+
+
+Process finished with exit code 0

@@ -7,16 +7,35 @@ import numpy as np
 from distutils.dir_util import copy_tree
 from balls_generation.config import cgap, L0, R0, DIM, DECIMAL_PRECISION
 from balls_generation.util_train import get_children
-from balls_generation.util_vec import vec_norm, qsr_DC, qsr_DC_degree, qsr_P, qsr_P_degree,  dis_between_ball_centers
+from balls_generation.util_vec import vec_norm, qsr_DC, qsr_DC_degree, qsr_P, qsr_P_degree, dis_between_ball_centers
 from balls_generation.util_file import create_ball_file, load_balls, get_ball_from_file, merge_balls_into_file, \
     initialize_dictionaries
-from balls_generation.geo_transformation import ratio_homothetic_DC_transform, homothetic_recursive_transform_of_decendents,\
+from balls_generation.geo_transformation import ratio_homothetic_DC_transform, \
+    homothetic_recursive_transform_of_decendents, \
     shift_whole_tree_of
+import functools
 
 decimal.getcontext().prec = DECIMAL_PRECISION
 
 
-def get_word2vector(wordsense, word2vecDic = dict()):
+def debug(func):
+    """Print the function signature and return value"""
+
+    @functools.wraps(func)
+    def wrapper_debug(*args, **kwargs):
+        args_repr = [repr(a) for a in args]  # 1
+        kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]  # 2
+        signature = ", ".join(args_repr + kwargs_repr)  # 3
+        signature = ""
+        print(f"Calling {func.__name__}({signature})")
+        value = func(*args, **kwargs)
+        # print(f"{func.__name__!r} returned {value!r}")  # 4
+        return value
+
+    return wrapper_debug
+
+@debug
+def get_word2vector(wordsense, word2vecDic=dict()):
     """
     :param wordsense:
     :param word2vecDic:
@@ -28,14 +47,14 @@ def get_word2vector(wordsense, word2vecDic = dict()):
     elif wordsense.split('.')[0] in word2vecDic:
         return word2vecDic[wordsense.split('.')[0]]
 
-
+@debug
 def initialize_ball(root, addDim=[], L0=0.1, R0=0.1,
                     word2vecDic=dict(), wscatCodeDic=dict(), word2ballDic=dict(), outputPath=None):
     """
     :param root:
-    :param addDim: dimensions for shifting
-    :param L0: ???
-    :param R0: radius?
+    :param addDim:
+    :param L0:
+    :param R0:
     :param word2vecDic:
     :param wscatCodeDic:
     :param word2ballDic:
@@ -47,11 +66,12 @@ def initialize_ball(root, addDim=[], L0=0.1, R0=0.1,
     cpoint = w2v + [ele+10 for ele in wscatCodeDic[root]]+ addDim
     word2ballDic[root] = vec_norm(cpoint) + [L0, R0]
     if outputPath:
-        create_ball_file(root,  outputPath=outputPath,word2ballDic=word2ballDic)
+        create_ball_file(root, outputPath=outputPath, word2ballDic=word2ballDic)
     return word2ballDic[root], word2ballDic
 
 
-def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),word2vecDic=dict(), wscatCodeDic=dict(),
+@debug
+def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(), word2vecDic=dict(), wscatCodeDic=dict(),
                        word2ballDic=dict(), sep='.', outputPath="", logFile=None):
     """
     :param childName:
@@ -73,7 +93,7 @@ def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),wor
                                                    wscatCodeDic=wscatCodeDic, word2ballDic=word2ballDic,
                                                    outputPath=outputPath)
         LeafO, ParentO = BallLeaf[:-2], BallParent[:-2]
-        LeafL, LeafR = BallLeaf[-2],BallLeaf[-1]
+        LeafL, LeafR = BallLeaf[-2], BallLeaf[-1]
         ParentL, ParentR = LeafL + LeafR + cgap, LeafR + LeafR + cgap + cgap
         BallParent = ParentO + [ParentL, ParentR]
         word2ballDic.update({atreeName: BallParent})
@@ -86,14 +106,14 @@ def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),wor
                                                        outputPath=outputPath)
             LeafO, ParentO = [decimal.Decimal(ele) for ele in BallLeaf[:-2]], \
                              [decimal.Decimal(ele) for ele in BallParent[:-2]]
-            LeafL, LeafR = BallLeaf[-2],BallLeaf[-1]
+            LeafL, LeafR = BallLeaf[-2], BallLeaf[-1]
             sin_beta = BallLeaf[-1] / BallLeaf[-2]
 
             delta = 1 - sin_beta * sin_beta
             if delta < 0:
                 delta = 0
             cos_beta = np.sqrt(delta)
-            cos_alpha = np.dot(LeafO, ParentO) / np.linalg.norm(LeafO)/ np.linalg.norm(ParentO)
+            cos_alpha = np.dot(LeafO, ParentO) / np.linalg.norm(LeafO) / np.linalg.norm(ParentO)
 
             delta = 1 - cos_alpha * cos_alpha
             if delta < 0:
@@ -101,9 +121,9 @@ def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),wor
             sin_alpha = np.sqrt(delta)
 
             # begin alpha --> xalpha
-            xalpha = sin_alpha/25
-            yalpha = np.sqrt(1 - xalpha*xalpha)
-            sin_xalpha = xalpha*cos_alpha + yalpha*sin_alpha
+            xalpha = sin_alpha / 25
+            yalpha = np.sqrt(1 - xalpha * xalpha)
+            sin_xalpha = xalpha * cos_alpha + yalpha * sin_alpha
             delta = 1 - sin_xalpha * sin_xalpha
             if delta < 0: delta = 0
             cos_xalpha = np.sqrt(delta)
@@ -115,19 +135,19 @@ def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),wor
             dOO = LeafL * decimal.Decimal(cos_beta)
 
             cos_alpha_beta = (decimal.Decimal(cos_beta) * decimal.Decimal(cos_alpha)
-                          - decimal.Decimal(sin_beta) * decimal.Decimal(sin_alpha))
-            if cos_alpha_beta <=0:
+                              - decimal.Decimal(sin_beta) * decimal.Decimal(sin_alpha))
+            if cos_alpha_beta <= 0:
                 # shift_one_family(root=childName, targetsin = targetsin0,  outputPath=outputPath)
                 L, R = word2ballDic[childName][-2:]
                 print('Shifting...', childName)
                 LNew = R / decimal.Decimal(targetsin0)
                 with open(logFile, 'a+') as wlog:
-                    wlog.write(" ".join(["shifting",str(childName)]+
-                                         [str(ele) for ele in word2ballDic[childName][:-2]] + [str(LNew - L)]))
+                    wlog.write(" ".join(["shifting", str(childName)] +
+                                        [str(ele) for ele in word2ballDic[childName][:-2]] + [str(LNew - L)]))
                     wlog.write("\n")
-                word2ballDic=shift_whole_tree_of(childName,  word2ballDic[childName][:-2], LNew - L,
-                                                 wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
-                                                 outputPath=outputPath)
+                word2ballDic = shift_whole_tree_of(childName, word2ballDic[childName][:-2], LNew - L,
+                                                   wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
+                                                   outputPath=outputPath)
                 # check_P_for_child_parent_in_one_family(childName, ballPath=outputPath)
                 checkResult = check_DC_for_sibilings_in_one_family(childName)
                 if checkResult:
@@ -160,11 +180,12 @@ def training_P_by_name(childName, atreeName, addDim=[], wsChildrenDic=dict(),wor
 
     # assert qsr_P_by_name(childName, atreeName), childName+" - "+atreeName+": "+str(qsr_P_degree_by_name(childName, atreeName))
     if outputPath:
-        create_ball_file(atreeName,  outputPath=outputPath,word2ballDic=word2ballDic)
+        create_ball_file(atreeName, outputPath=outputPath, word2ballDic=word2ballDic)
     return BallParent, word2ballDic
 
 
-def making_ball_contains(root, children,  addDim=[], word2vecDic=dict(),
+@debug
+def making_ball_contains(root, children, addDim=[], word2vecDic=dict(),
                          wsChildrenDic=dict(), wscatCodeDic=dict(), word2ballDic=dict(),
                          outputPath=None, logFile=None):
     """
@@ -184,25 +205,26 @@ def making_ball_contains(root, children,  addDim=[], word2vecDic=dict(),
         flag = True
         for childName in children:
             # todo P == parent?
-            pBall, word2ballDic = training_P_by_name(childName, root,  addDim=addDim,
-                                       wsChildrenDic=wsChildrenDic, word2vecDic=word2vecDic, wscatCodeDic=wscatCodeDic,
-                                       word2ballDic=word2ballDic,
-                                       outputPath=outputPath, logFile=logFile)
+            pBall, word2ballDic = training_P_by_name(childName, root, addDim=addDim,
+                                                     wsChildrenDic=wsChildrenDic, word2vecDic=word2vecDic,
+                                                     wscatCodeDic=wscatCodeDic,
+                                                     word2ballDic=word2ballDic,
+                                                     outputPath=outputPath, logFile=logFile)
             assert pBall != -1
-            if maxL == -1: # initialize maxL, minL_R
+            if maxL == -1:  # initialize maxL, minL_R
                 maxL, minL_R = pBall[-2], decimal.Decimal(pBall[-2]) - decimal.Decimal(pBall[-1])
             if maxL < pBall[-2]:
                 maxL = pBall[-2]
             delta = decimal.Decimal(pBall[-2]) - decimal.Decimal(pBall[-1])
-            if delta <=0:
+            if delta <= 0:
                 print('Shifting...mbc', root)
                 with open(logFile, 'a+') as wlog:
-                    wlog.write(" ".join(["shifting",str(root)]+
-                                         [str(ele) for ele in word2ballDic[root][:-2]] + [str(-delta)]))
+                    wlog.write(" ".join(["shifting", str(root)] +
+                                        [str(ele) for ele in word2ballDic[root][:-2]] + [str(-delta)]))
                     wlog.write("\n")
                 word2ballDic = shift_whole_tree_of(root, word2ballDic[root][:-2], -delta,
-                                    wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
-                                    outputPath=outputPath)
+                                                   wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
+                                                   outputPath=outputPath)
                 flag = False
                 break
             elif decimal.Decimal(pBall[-2]) - decimal.Decimal(pBall[-1]) < minL_R:
@@ -210,12 +232,13 @@ def making_ball_contains(root, children,  addDim=[], word2vecDic=dict(),
 
             word2ballDic[root] = word2ballDic[root][:-2] + [maxL, maxL - minL_R + cgap]
             if outputPath:
-                create_ball_file(root,  outputPath=outputPath,word2ballDic=word2ballDic)
+                create_ball_file(root, outputPath=outputPath, word2ballDic=word2ballDic)
     return word2ballDic
 
 
+@debug
 def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict(),
-                        outputPath=None, ordered = False, logFile=None):
+                        outputPath=None, ordered=False, logFile=None):
     """
     :param childrenNames:
     :param wsChildrenDic:
@@ -237,7 +260,8 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
         lst = [(item[0], word2ballDic[item[0]]) for item in sorted(dic.items(), key=operator.itemgetter(1))]
 
     i = 0
-
+    if "herd.n.02" in childrenNames and "gathering.n.01" in childrenNames:
+        print('break')
     while i < len(lst) - 1:
         # print('i:', i, ' in', len(lst))
         j = i + 1
@@ -258,20 +282,20 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
                         wlog.write(" ".join(["shifting", str(tree)] +
                                             [str(ele) for ele in word2ballDic[tree][:-2]] + [str(LNew - L)]))
                         wlog.write("\n")
-                    word2ballDic= shift_whole_tree_of(tree, word2ballDic[curTreeName][:-2], LNew - L,
-                                                      wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
-                                                      outputPath=outputPath)
+                    word2ballDic = shift_whole_tree_of(tree, word2ballDic[curTreeName][:-2], LNew - L,
+                                                       wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
+                                                       outputPath=outputPath)
                     # check_P_for_child_parent_in_one_family(tree, ballPath=outputPath)
-                    checkResult=check_DC_for_sibilings_in_one_family(tree)
+                    checkResult = check_DC_for_sibilings_in_one_family(tree)
                     if checkResult:
                         print("check_DC_for_sibilings_in_one_family", tree, checkResult)
                     targetsin0 *= 0.9
 
                 ratio0, word2ballDic = ratio_homothetic_DC_transform(curTreeName, refTreeName,
-                                                                             wsChildrenDic=wsChildrenDic,
-                                                                             word2ballDic=word2ballDic,
-                                                                             outputPath=outputPath,
-                                                                             logFile=logFile)
+                                                                     wsChildrenDic=wsChildrenDic,
+                                                                     word2ballDic=word2ballDic,
+                                                                     outputPath=outputPath,
+                                                                     logFile=logFile)
                 assert ratio0 != -1
 
             # assert qsr_DC_by_name(curTreeName, refTreeName, outputPath=outputPath)
@@ -288,19 +312,19 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
 
     #####
     # homothetic transformation
-    # TODO aka adjust children accroding to shift perfermored on parents
     #####
     for child in childrenNames:
-        ratio = word2ballDic[child][-2]/decimal.Decimal(dic0[child])
+        ratio = word2ballDic[child][-2] / decimal.Decimal(dic0[child])
         word2ballDic = homothetic_recursive_transform_of_decendents(child, root=child, rate=ratio,
                                                                     wsChildrenDic=wsChildrenDic,
                                                                     word2ballDic=word2ballDic, outputPath=outputPath)
     return word2ballDic
 
 
-def training_one_family(treeStruc=None,root=None, addDim=[], wsChildrenDic = dict(), word2vecDic=dict(),
+@debug
+def training_one_family(treeStruc=None, root=None, addDim=[], wsChildrenDic=dict(), word2vecDic=dict(),
                         wscatCodeDic=dict(),
-                        word2ballDic = dict(), outputPath=None, logFile=None):
+                        word2ballDic=dict(), outputPath=None, logFile=None):
     """
     :param treeStruc:
     :param root:
@@ -317,8 +341,6 @@ def training_one_family(treeStruc=None,root=None, addDim=[], wsChildrenDic = dic
         children = treeStruc[root]
     else:
         children = get_children(root, wsChildrenDic=wsChildrenDic)
-
-
     if len(children) > 0:
         for child in children:
             word2ballDic = training_one_family(treeStruc=treeStruc, root=child, addDim=addDim,
@@ -332,19 +354,20 @@ def training_one_family(treeStruc=None,root=None, addDim=[], wsChildrenDic = dic
             word2ballDic = training_DC_by_name(children, wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
                                                outputPath=outputPath, logFile=logFile)
         # root ball shal contain all children balls
-        word2ballDic = making_ball_contains(root, children,  addDim=addDim, word2vecDic=word2vecDic,
+        word2ballDic = making_ball_contains(root, children, addDim=addDim, word2vecDic=word2vecDic,
                                             wsChildrenDic=wsChildrenDic, wscatCodeDic=wscatCodeDic,
-                                            word2ballDic =word2ballDic, outputPath=outputPath, logFile=logFile)
+                                            word2ballDic=word2ballDic, outputPath=outputPath, logFile=logFile)
         return word2ballDic
 
     else:
-        ball, word2ballDic = initialize_ball(root,  addDim=addDim, L0=L0, R0=R0,
+        ball, word2ballDic = initialize_ball(root, addDim=addDim, L0=L0, R0=R0,
                                              word2vecDic=word2vecDic, word2ballDic=word2ballDic,
                                              wscatCodeDic=wscatCodeDic,
                                              outputPath=outputPath)
         return word2ballDic
 
 
+@debug
 def check_P_for_child_parent_in_one_family(root=None, wsChildrenDic=dict(), word2ballDic=dict(), ballPath=""):
     """
     :param root:
@@ -356,24 +379,25 @@ def check_P_for_child_parent_in_one_family(root=None, wsChildrenDic=dict(), word
     lst = [root]
     while lst:
         parent = lst.pop()
-        pBall = get_ball_from_file(parent, ballPath = ballPath) #word2ballDic[parent]
+        pBall = get_ball_from_file(parent, ballPath=ballPath)  # word2ballDic[parent]
         children = get_children(parent, wsChildrenDic=wsChildrenDic)
         lst += children
         for child in children:
-            chBall = get_ball_from_file(child, ballPath = ballPath) #word2ballDic[child]
+            chBall = get_ball_from_file(child, ballPath=ballPath)  # word2ballDic[child]
             if not qsr_P(word2ballDic[child], word2ballDic[parent]):
                 print(child, parent, 'violates condition 3')
                 dis = dis_between_ball_centers(chBall, pBall)
                 print('dis:', dis)
                 print('r1', chBall[-1])
                 print('R', pBall[-1])
-                print('shall >=0', pBall[-1]- dis - chBall[-1])
+                print('shall >=0', pBall[-1] - dis - chBall[-1])
                 # assert qsr_P_by_name(child, parent), str(qsr_P_degree_by_name(child, parent))
                 return [root]
     # print("passed checking ", root, ' for part of')
     return []
 
 
+@debug
 def check_DC_for_sibilings_in_one_family(root="*root*", wsChildrenDic=dict(), word2ballDic=dict()):
     """
     :param root:
@@ -387,9 +411,9 @@ def check_DC_for_sibilings_in_one_family(root="*root*", wsChildrenDic=dict(), wo
         parent = lst.pop()
         children = get_children(parent, wsChildrenDic=wsChildrenDic)
         lst += children
-        if len(children) <2:
+        if len(children) < 2:
             continue
-        i,j = 0, 0
+        i, j = 0, 0
         while i < len(children):
             j = i + 1
             while j < len(children):
@@ -403,9 +427,10 @@ def check_DC_for_sibilings_in_one_family(root="*root*", wsChildrenDic=dict(), wo
     return checkResult
 
 
+@debug
 def training_all_families(root="*root*", wsChildrenDic=dict(), word2vecDic=dict(), wscatCodeDic=dict(),
                           word2ballDic=dict(),
-                          outputPath=None, logFile=None, checking = False):
+                          outputPath=None, logFile=None, checking=False):
     """
     :param root:
     :param wsChildrenDic:
@@ -419,7 +444,7 @@ def training_all_families(root="*root*", wsChildrenDic=dict(), word2vecDic=dict(
     """
     global L0, DIM
     children = get_children(root, wsChildrenDic=wsChildrenDic)
-    child0= 'entity.n.01'
+    child0 = 'entity.n.01'
     children = sorted(children, key=lambda ele: np.dot(get_word2vector(child0, word2vecDic=word2vecDic),
                                                        get_word2vector(ele, word2vecDic=word2vecDic)))
     print(children)
@@ -436,8 +461,8 @@ def training_all_families(root="*root*", wsChildrenDic=dict(), word2vecDic=dict(
         print("***", child)
         with open(logFile, 'a+') as wlog:
             wlog.write(" ".join([str(ele) for ele in [child]
-                                    +addDim
-                                    +[time.strftime("%Y-%m-%d %H:%M:%S",time.gmtime())]]))
+                                 + addDim
+                                 + [time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())]]))
             wlog.write("\n")
         word2ballDic = training_one_family(root=child, addDim=addDim, wsChildrenDic=wsChildrenDic,
                                            word2vecDic=word2vecDic, wscatCodeDic=wscatCodeDic,
@@ -454,15 +479,15 @@ def training_all_families(root="*root*", wsChildrenDic=dict(), word2vecDic=dict(
         failed_P, failed_DC = [], []
 
         for child in get_children(root):
-            failed_P += check_P_for_child_parent_in_one_family(child, word2ballDic =word2ballDic,
+            failed_P += check_P_for_child_parent_in_one_family(child, word2ballDic=word2ballDic,
                                                                wsChildrenDic=wsChildrenDic, ballPath=outputPath)
-            failed_DC += check_DC_for_sibilings_in_one_family(root=child, word2ballDic =word2ballDic,
+            failed_DC += check_DC_for_sibilings_in_one_family(root=child, word2ballDic=word2ballDic,
                                                               wsChildrenDic=wsChildrenDic)
         print("failed families with P", failed_P)
         print("failed families with DC", failed_DC)
     return word2ballDic
 
-
+@debug
 def testing_whole_family(outputPath=None, wsChildrenDic=dict(), word2ballDic=dict(), outputBallFile=None):
     """
     :param outputPath:
@@ -473,7 +498,7 @@ def testing_whole_family(outputPath=None, wsChildrenDic=dict(), word2ballDic=dic
     """
     print("checking whether the tree structure is perfectly encoded in nball embeddings...\n")
     failed_P, failed_DC = [], []
-    maxsize, mindim, word2ballDic = load_balls(ipath = outputPath, word2ballDic=word2ballDic)
+    maxsize, mindim, word2ballDic = load_balls(ipath=outputPath, word2ballDic=word2ballDic)
 
     for froot in get_children('*root*', wsChildrenDic=wsChildrenDic):
         failed_P += check_P_for_child_parent_in_one_family(froot,
@@ -488,13 +513,14 @@ def testing_whole_family(outputPath=None, wsChildrenDic=dict(), word2ballDic=dic
     if failed_P == [] and failed_DC == []:
         print("the tree structure is perfectly encoded in nball embeddings.\n")
         print("generating nball embedding file...\n")
-        merge_balls_into_file(ipath= outputPath, outfile=outputBallFile)
+        merge_balls_into_file(ipath=outputPath, outfile=outputBallFile)
     else:
         print("the tree structure is NOT perfectly encoded in nball embeddings.\n")
         print("try again, or contact the author")
 
 
-def fix_dim(maxsize, mindim, word2ballDic=dict(), bPath = '/Users/tdong/data/glove/glove.6B/glove.6B.50Xball',
+@debug
+def fix_dim(maxsize, mindim, word2ballDic=dict(), bPath='/Users/tdong/data/glove/glove.6B/glove.6B.50Xball',
             outputPath=""):
     """
     :param maxsize:
@@ -514,12 +540,13 @@ def fix_dim(maxsize, mindim, word2ballDic=dict(), bPath = '/Users/tdong/data/glo
                 vec = vec_norm(ballv[:-2] + [decimal.Decimal(mindim)] * delta) + ballv[-2:]
                 word2ballDic[bf] = vec
                 if outputPath:
-                    create_ball_file(bf, outputPath=bPath,word2ballDic=word2ballDic)
+                    create_ball_file(bf, outputPath=bPath, word2ballDic=word2ballDic)
     return word2ballDic
 
 
-def make_DC_for_first_level_children(root="*root*", firstChild = 'entity.n.01', wsChildrenDic=dict(),
-                                     outputPath='', maxsize=0, mindim=0,  word2ballDic = dict(),
+@debug
+def make_DC_for_first_level_children(root="*root*", firstChild='entity.n.01', wsChildrenDic=dict(),
+                                     outputPath='', maxsize=0, mindim=0, word2ballDic=dict(),
                                      logFile=None):
     """
     :param root:
@@ -534,17 +561,18 @@ def make_DC_for_first_level_children(root="*root*", firstChild = 'entity.n.01', 
     :return:
     """
     children = get_children(root, wsChildrenDic=wsChildrenDic)
-    # children.remove(firstChild)
-    # children.insert(0, firstChild)
+    children.remove(firstChild)
+    children.insert(0, firstChild)
     print('updating first level children...')
     word2ballDic = training_DC_by_name(children, outputPath=outputPath, wsChildrenDic=wsChildrenDic,
-                                       word2ballDic =word2ballDic, ordered = True,
+                                       word2ballDic=word2ballDic, ordered=True,
                                        logFile=logFile)
     return word2ballDic
 
 
-def train_word2ball(root="",  outputPath = '', logFile='', wsChildrenDic=dict(),
-                    word2ballDic=dict(), word2vecDic=dict(), outputPathBack = None,
+@debug
+def train_word2ball(root="", outputPath='', logFile='', wsChildrenDic=dict(),
+                    word2ballDic=dict(), word2vecDic=dict(), outputPathBack=None,
                     wscatCodeDic=dict(), outputBallFile=None):
     """
     :param root:
@@ -559,15 +587,14 @@ def train_word2ball(root="",  outputPath = '', logFile='', wsChildrenDic=dict(),
     :return:
     """
     training_all_families(root=root, wsChildrenDic=wsChildrenDic, word2vecDic=word2vecDic,
-                                          wscatCodeDic=wscatCodeDic, word2ballDic=word2ballDic,
-                                          outputPath=outputPath, logFile=logFile)
+                          wscatCodeDic=wscatCodeDic, word2ballDic=word2ballDic,
+                          outputPath=outputPath, logFile=logFile)
     if outputPathBack:
         copy_tree(outputPath, outputPathBack)
-    maxsize, mindim , word2ballDic = load_balls(ipath=outputPath, word2ballDic=word2ballDic)
+    maxsize, mindim, word2ballDic = load_balls(ipath=outputPath, word2ballDic=word2ballDic)
     fix_dim(maxsize, mindim, bPath=outputPath, outputPath=outputPath)
-    make_DC_for_first_level_children(root=root, firstChild = 'entity.n.01', wsChildrenDic=wsChildrenDic,
-                                                    word2ballDic=word2ballDic, outputPath=outputPath,
-                                                    maxsize=maxsize, mindim=mindim, logFile=logFile)
+    make_DC_for_first_level_children(root=root, firstChild='entity.n.01', wsChildrenDic=wsChildrenDic,
+                                     word2ballDic=word2ballDic, outputPath=outputPath,
+                                     maxsize=maxsize, mindim=mindim, logFile=logFile)
 
     testing_whole_family(outputPath=outputPath, wsChildrenDic=wsChildrenDic, outputBallFile=outputBallFile)
-
