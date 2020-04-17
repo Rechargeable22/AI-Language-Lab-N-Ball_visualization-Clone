@@ -52,4 +52,4 @@ def run(ext_args=None, input_words=None):
 
 
 if __name__ == "__main__":
-    run("", input_text_to_path("human is animal, socrates is human, kant is human"))
+    run("", input_text_to_path("human is animal, socrates is human, kant is human, wolf is animal, tank is not animal, flower is plant, rose is flower, tulp is flower"))

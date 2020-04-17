@@ -123,6 +123,7 @@ def ratio_homothetic_DC_transform(curTree, refTree, wsChildrenDic=dict(),
     :return:
     """
     # TODO  show
+    print(f"Separating current tree: {curTree} from refTree: {refTree}")
     ball1 = word2ballDic[curTree]
     l1, r1 = decimal.Decimal(ball1[-2]), decimal.Decimal(ball1[-1])
     ball0 = word2ballDic[refTree]
