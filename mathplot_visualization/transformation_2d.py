@@ -1,5 +1,5 @@
 import itertools
-from visualization.vectors_utils_2d import *
+from mathplot_visualization.vectors_utils_2d import *
 
 ALPHA = 0.000000000001
 

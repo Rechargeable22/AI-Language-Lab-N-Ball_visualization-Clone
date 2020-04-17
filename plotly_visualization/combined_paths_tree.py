@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 from igraph import Graph
 
-from utils.files_utils import read_word_path
+from balls_generation.files_utils import read_word_path
 
 
 def combined_tree_paths_fig(input_list, file_path):

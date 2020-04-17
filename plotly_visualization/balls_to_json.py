@@ -1,6 +1,5 @@
-from utils.files_utils import read_balls_file
+from balls_generation.files_utils import read_balls_file
 import numpy as np
-import json
 from nltk.corpus import wordnet as wn
 
 

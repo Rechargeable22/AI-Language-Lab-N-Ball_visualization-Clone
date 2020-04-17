@@ -1,6 +1,6 @@
 from sklearn.decomposition import PCA
 import numpy as np
-from visualization.vectors_utils_2d import get_vector_and_length
+from mathplot_visualization.vectors_utils_2d import get_vector_and_length
 
 
 def reduce_dimensions(balls_dic):

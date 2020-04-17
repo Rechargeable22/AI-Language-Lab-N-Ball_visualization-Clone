@@ -1,10 +1,8 @@
 import json
 import os
 import random
-import time
 
-from nltk.corpus import wordnet as wn
-import utils.plotly as util
+import plotly_visualization.plotly as util
 
 import runner as r
 

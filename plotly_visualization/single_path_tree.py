@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 
-from utils.files_utils import read_word_path
+from balls_generation.files_utils import read_word_path
 
 def tree_path_fig(input_key, file_path):
     paths = read_word_path(file_path)

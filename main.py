@@ -2,10 +2,10 @@ import argparse
 import os
 
 from balls_generation import train_word2ball, initialize_dictionaries
-from tree_generation.generate_tree import generate_files
-from visualization.circles_fixer import reduce_and_fix
-from visualization.ploting import visualize
-from utils.files_utils import set_up_data_folder
+from balls_generation.generate_tree import generate_files
+from mathplot_visualization.circles_fixer import reduce_and_fix
+from mathplot_visualization.ploting import visualize
+from balls_generation.files_utils import set_up_data_folder
 
 
 def main(ext_args=None, custom_word_paths=None):

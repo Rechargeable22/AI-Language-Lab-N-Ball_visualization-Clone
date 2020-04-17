@@ -2,14 +2,14 @@ import os
 import random
 
 import redis
-from flask import Flask, render_template, request, jsonify, flash
+from flask import Flask, render_template, request, jsonify
 from werkzeug.utils import secure_filename
 from rq import Queue
 
-from utils.backgroundtask import background_ball_generation
-from utils.plotly import plot_balls, plot_tree_path, plot_combined_tree_path
-from utils.files_utils import read_input_words
-from utils.web_input_parsing import input_text_to_path
+from app_utils.back_ball_generation import background_ball_generation
+from plotly_visualization.plotly import plot_balls, plot_combined_tree_path
+from balls_generation.files_utils import read_input_words
+from app_utils.web_input_parsing import input_text_to_path
 
 
 app = Flask(__name__)
@@ -64,8 +64,8 @@ def requested_ball_generation_from_file():
         if fn != "":
             if fn.rsplit(".")[1] == "txt":
                 random_suffix = str(random.randint(0, 1000000)) + "-"
-                file.save(os.path.join("tmp", random_suffix + fn))
-                input_words = read_input_words(os.path.join("tmp", random_suffix + fn))
+                file.save(os.path.join("res/tmp", random_suffix + fn))
+                input_words = read_input_words(os.path.join("res/tmp", random_suffix + fn))
                 return jsonify(ball_generation_response(input_words)), 202
 
     return jsonify({"status": "failed"}), 400

@@ -2,12 +2,12 @@ import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
 
-import utils.balls_to_json as util
+import plotly_visualization.balls_to_json as util
 import json
 import plotly
 
-from utils.combined_paths_tree import combined_tree_paths_fig
-from utils.single_path_tree import tree_path_fig
+from plotly_visualization.combined_paths_tree import combined_tree_paths_fig
+from plotly_visualization.single_path_tree import tree_path_fig
 
 def plot_balls(outfolder_path):
     ball = util.balls_to_object(f"{outfolder_path}/reduced_nballs_after.txt")

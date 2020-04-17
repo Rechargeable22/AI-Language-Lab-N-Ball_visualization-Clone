@@ -1,9 +1,9 @@
 import os, sys
 import argparse
 
-import utils.google_fetch
+import app_utils.fetch_glove_model
 import main as m
-from utils.web_input_parsing import input_text_to_path
+from app_utils.web_input_parsing import input_text_to_path
 
 
 def run(ext_args=None, input_words=None):
@@ -31,7 +31,7 @@ def run(ext_args=None, input_words=None):
 
     word_embedding = "res/glove.6B.50d.txt"
 
-    utils.google_fetch.fetch_glove()
+    app_utils.fetch_glove_model.fetch_glove()
 
     if generate_balls:
         m.main((f" --generate_nballs  --w2v {word_embedding} --output {outfolder_path}").split(), input_words)

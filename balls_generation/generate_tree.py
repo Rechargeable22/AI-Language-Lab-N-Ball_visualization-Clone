@@ -1,6 +1,6 @@
 from collections import defaultdict
 from nltk.corpus import wordnet as wn
-from utils.files_utils import *
+from balls_generation.files_utils import *
 
 input_examples_words_mapping = {
     'Cities': ['City', 'Berlin', 'London', 'Tokyo', 'Paris', 'Singapore', 'Amsterdam', 'Seoul'],

@@ -1,1 +1,0 @@
-Temporarily saves uploaded files to feed them to the algorithm.

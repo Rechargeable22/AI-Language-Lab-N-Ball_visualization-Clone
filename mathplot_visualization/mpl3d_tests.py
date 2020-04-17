@@ -1,11 +1,10 @@
-import os, random, math
+import random, math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-import mpld3
 
 from matplotlib import pyplot
-from utils.files_utils import *
+from balls_generation.files_utils import *
 from matplotlib.patches import Circle
 
 def random_point(xy, r):
