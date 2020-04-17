@@ -24,10 +24,8 @@ def debug(func):
     @functools.wraps(func)
     def wrapper_debug(*args, **kwargs):
         args_repr = [repr(a) for a in args]  # 1
-        kwargs_repr = [f"{k}={v!r}" for k, v in kwargs.items()]  # 2
-        signature = ", ".join(args_repr + kwargs_repr)  # 3
-        signature = ""
-        print(f"Calling {func.__name__}({signature})")
+
+        print(f"Calling {func.__name__}()")
         value = func(*args, **kwargs)
         # print(f"{func.__name__!r} returned {value!r}")  # 4
         return value
@@ -260,8 +258,7 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
         lst = [(item[0], word2ballDic[item[0]]) for item in sorted(dic.items(), key=operator.itemgetter(1))]
 
     i = 0
-    if "herd.n.02" in childrenNames and "gathering.n.01" in childrenNames:
-        print('break')
+
     while i < len(lst) - 1:
         # print('i:', i, ' in', len(lst))
         j = i + 1
@@ -282,20 +279,20 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
                         wlog.write(" ".join(["shifting", str(tree)] +
                                             [str(ele) for ele in word2ballDic[tree][:-2]] + [str(LNew - L)]))
                         wlog.write("\n")
-                    word2ballDic = shift_whole_tree_of(tree, word2ballDic[curTreeName][:-2], LNew - L,
-                                                       wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
-                                                       outputPath=outputPath)
+                    word2ballDic= shift_whole_tree_of(tree, word2ballDic[curTreeName][:-2], LNew - L,
+                                                      wsChildrenDic=wsChildrenDic, word2ballDic=word2ballDic,
+                                                      outputPath=outputPath)
                     # check_P_for_child_parent_in_one_family(tree, ballPath=outputPath)
-                    checkResult = check_DC_for_sibilings_in_one_family(tree)
+                    checkResult=check_DC_for_sibilings_in_one_family(tree)
                     if checkResult:
                         print("check_DC_for_sibilings_in_one_family", tree, checkResult)
                     targetsin0 *= 0.9
 
                 ratio0, word2ballDic = ratio_homothetic_DC_transform(curTreeName, refTreeName,
-                                                                     wsChildrenDic=wsChildrenDic,
-                                                                     word2ballDic=word2ballDic,
-                                                                     outputPath=outputPath,
-                                                                     logFile=logFile)
+                                                                             wsChildrenDic=wsChildrenDic,
+                                                                             word2ballDic=word2ballDic,
+                                                                             outputPath=outputPath,
+                                                                             logFile=logFile)
                 assert ratio0 != -1
 
             # assert qsr_DC_by_name(curTreeName, refTreeName, outputPath=outputPath)
@@ -314,17 +311,16 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
     # homothetic transformation
     #####
     for child in childrenNames:
-        ratio = word2ballDic[child][-2] / decimal.Decimal(dic0[child])
+        ratio = word2ballDic[child][-2]/decimal.Decimal(dic0[child])
         word2ballDic = homothetic_recursive_transform_of_decendents(child, root=child, rate=ratio,
                                                                     wsChildrenDic=wsChildrenDic,
                                                                     word2ballDic=word2ballDic, outputPath=outputPath)
     return word2ballDic
 
 
-@debug
-def training_one_family(treeStruc=None, root=None, addDim=[], wsChildrenDic=dict(), word2vecDic=dict(),
+def training_one_family(treeStruc=None,root=None, addDim=[], wsChildrenDic = dict(), word2vecDic=dict(),
                         wscatCodeDic=dict(),
-                        word2ballDic=dict(), outputPath=None, logFile=None):
+                        word2ballDic = dict(), outputPath=None, logFile=None):
     """
     :param treeStruc:
     :param root:
@@ -444,7 +440,7 @@ def training_all_families(root="*root*", wsChildrenDic=dict(), word2vecDic=dict(
     """
     global L0, DIM
     children = get_children(root, wsChildrenDic=wsChildrenDic)
-    child0 = 'entity.n.01'
+    child0= 'entity.n.01'
     children = sorted(children, key=lambda ele: np.dot(get_word2vector(child0, word2vecDic=word2vecDic),
                                                        get_word2vector(ele, word2vecDic=word2vecDic)))
     print(children)
