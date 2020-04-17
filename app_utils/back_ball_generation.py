@@ -4,7 +4,7 @@ import random
 
 import plotly_visualization.plotly as util
 
-import runner as r
+from app_utils import runner as r
 
 
 def background_ball_generation(input_words):

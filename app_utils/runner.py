@@ -1,8 +1,8 @@
-import os, sys
+import sys
 import argparse
 
 import app_utils.fetch_glove_model
-import main as m
+from balls_generation import main as m
 from app_utils.web_input_parsing import input_text_to_path
 
 
