@@ -33,8 +33,6 @@ class DebugCircle:
         return f"DebugCircle((x:{self.vector[0]}, y:{self.vector[1]}), r:{self.radius})"
 
 
-
-
 def get_parent(root, childDict):
     for key, value in childDict.items():
         if root in value:
@@ -84,6 +82,7 @@ def generate_perfect_circles(dic):
         circle_dict[c.text] = c
     return circle_dict
 
+
 class Log:
     def __init__(self, key, operation, operation_args, vector):
         self.key = key
@@ -102,14 +101,29 @@ def log_processing(ball_generation_log, childrenDic):
     print(perfect_circles)
     [print(log) for log in ball_generation_log]
 
+    # (a,b) a falsely contains b and has to seperate it -> For all b we save a list of a's in which in falsely is e.g. dict[tank] = [plant, animal]
+    overlap_pairs = [(log.key, arg) for log in ball_generation_log for arg in log.op_args if
+                     log.op == Operation.SEPERATE]
+    overlapping_circles = collections.defaultdict(list)
+    for a, b in overlap_pairs:
+        overlapping_circles[b].append(a)
+
+
+
     circles = {}
     for index, log in enumerate(ball_generation_log):
         if log.op == Operation.INITIALIZE:
             current = log.key
+
+            if current in overlapping_circles:
+                # TODO: initialize containing children
+                continue
+
             for l in ball_generation_log:
                 if l.op_args and current in l.op_args:
                     other = l.key
-                    curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,))-0.5) * perfect_circles[other].radius
+                    curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,)) - 0.5) * perfect_circles[
+                        other].radius
                     curr_radius = perfect_circles[other].radius
                     circles[current] = DebugCircle(curr_vec, curr_radius, log.key)
                 elif len(childrenDic[current]) > 0:
@@ -123,10 +137,21 @@ def log_processing(ball_generation_log, childrenDic):
         elif log.op == Operation.CONTAIN:
             circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.SEPERATE:
+            current = log.key       # current stays the same, we kick out other.
+            other = l.op_args[0]   # elment to be seperated from current; not sure about [0]
+            if other in overlapping_circles:
+                overlapping_circles[other].remove(current)
+                # calculate position of other
+                if overlapping_circles[other]:
+                    # still contains elements, compute cover for them
+                    pass
+                else:
+                    del(overlapping_circles[other])
+                    # set other circle to the perfect circle
+
             pass
         # draw circles
         plot_circles(circles)
-
 
 
 def plot_circles(circles):
