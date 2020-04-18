@@ -15,7 +15,7 @@ from balls_generation.geo_transformation import ratio_homothetic_DC_transform, \
     shift_whole_tree_of
 import functools
 import collections
-from app_utils.debug_log import Operation, NBall, log_processing
+from app_utils.debug_log import Operation, NBall, log_processing, Log
 
 decimal.getcontext().prec = DECIMAL_PRECISION
 
@@ -72,8 +72,7 @@ def initialize_ball(root, addDim=[], L0=0.1, R0=0.1,
     word2ballDic[root] = vec_norm(cpoint) + [L0, R0]
     print(f"Initialize Ball for root: {root}")
     ball_generation_log.append(
-        {"key": root, "operation": Operation.INITIALIZE, "operation_args": None,
-         "vector": NBall(word2ballDic[root])})
+        Log(key=root, operation=Operation.INITIALIZE, operation_args=None, vector=NBall(word2ballDic[root])))
     if outputPath:
         create_ball_file(root, outputPath=outputPath, word2ballDic=word2ballDic)
     return word2ballDic[root], word2ballDic
@@ -306,8 +305,9 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
                                                                      logFile=logFile)
 
                 ball_generation_log.append(
-                    {"key": curTreeName, "operation": Operation.SEPERATE, "operation_args": [refTreeName],
-                     "vector": NBall(word2ballDic[curTreeName])})
+                    Log(key=curTreeName, operation=Operation.SEPERATE, operation_args=[refTreeName],
+                        vector=NBall(word2ballDic[curTreeName])))
+
                 assert ratio0 != -1
 
             # assert qsr_DC_by_name(curTreeName, refTreeName, outputPath=outputPath)
@@ -369,8 +369,8 @@ def training_one_family(treeStruc=None, root=None, addDim=[], wsChildrenDic=dict
                                             wsChildrenDic=wsChildrenDic, wscatCodeDic=wscatCodeDic,
                                             word2ballDic=word2ballDic, outputPath=outputPath, logFile=logFile)
         ball_generation_log.append(
-            {"key": root, "operation": Operation.CONTAIN, "operation_args": children,
-             "vector": NBall(word2ballDic[root])})
+            Log(key=root, operation=Operation.CONTAIN, operation_args=children, vector=NBall(word2ballDic[root])))
+
         return word2ballDic
 
     else:

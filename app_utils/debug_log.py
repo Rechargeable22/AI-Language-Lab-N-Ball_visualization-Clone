@@ -1,4 +1,5 @@
 import collections
+import copy
 from enum import Enum
 import random
 
@@ -29,7 +30,9 @@ class DebugCircle:
         self.text = text
 
     def __repr__(self):
-        return f"Circle((x:{self.vector[0]}, y:{self.vector[1]}), r:{self.radius})"
+        return f"DebugCircle((x:{self.vector[0]}, y:{self.vector[1]}), r:{self.radius})"
+
+
 
 
 def get_parent(root, childDict):
@@ -76,59 +79,69 @@ def generate_perfect_circles(dic):
     # generates positions for circles in which they match the given tree structure perfectly
     circles = gen_layer(node="*root*", left=0., right=1., dic=dic)
     circles = list(flatten(circles))
-    return circles
+    circle_dict = {}
+    for c in circles:
+        circle_dict[c.text] = c
+    return circle_dict
+
+class Log:
+    def __init__(self, key, operation, operation_args, vector):
+        self.key = key
+        self.op = operation
+        self.op_args = operation_args
+        self.vec = vector
+
+    def __repr__(self):
+        return f"Log({self.key}, {self.op}, {self.op_args})"
 
 
 def log_processing(ball_generation_log, childrenDic):
     print("\nLog processing")
     print("Children dic:", childrenDic)
-    [print("Log:", log) for log in ball_generation_log]
     perfect_circles = generate_perfect_circles(childrenDic)
     print(perfect_circles)
+    [print(log) for log in ball_generation_log]
+
     circles = {}
-    for log in ball_generation_log:
-        if log["operation"] == Operation.INITIALIZE:
-            if not circles:
-                circles[log["key"]] = DebugCircle(np.array([0, 0]), 1, "add some text")
-                circles[log["key"]].first_sibling = True
-                continue
-            siblings = get_siblings(log["key"], childrenDic)
-            if any([i in circles for i in siblings]):
-                print(siblings)
-                siblings = [s for s in siblings if s in circles.keys()]
-                ref = circles[[s for s in siblings if circles[s].first_sibling][0]]
-                number = sum([i in circles for i in siblings])
-                total = len(siblings)
-                phi = number / total * 2 * np.pi
-                x = 3 * np.cos(phi) + ref.vector[0]
-                y = 3 * np.sin(phi) + ref.vector[1]
-                circles[log["key"]] = DebugCircle(np.array([x, y]), 1, "add some text")
-
-            else:
-                ref_circle = circles[list(circles.keys())[-1]]
-                circles[log["key"]] = DebugCircle(np.array([ref_circle.vector[0] + 3, 0]), 1, "add some text")
-                circles[log["key"]].first_sibling = True
-
-            print("key", log["key"], "parent", get_parent(log["key"], childrenDic))
-            print("key", log["key"], "siblings", get_siblings(log["key"], childrenDic))
+    for index, log in enumerate(ball_generation_log):
+        if log.op == Operation.INITIALIZE:
+            current = log.key
+            for l in ball_generation_log:
+                if l.op_args and current in l.op_args:
+                    other = l.key
+                    curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,))-0.5) * perfect_circles[other].radius
+                    curr_radius = perfect_circles[other].radius
+                    circles[current] = DebugCircle(curr_vec, curr_radius, log.key)
+                elif len(childrenDic[current]) > 0:
+                    children = childrenDic[current]
+                    children_vecs = [perfect_circles[c].vector for c in children]
+                    curr_vec = np.average([children_vecs], axis=1).flatten()
+                    curr_radius = perfect_circles[children[0]].radius
+                    circles[current] = DebugCircle(curr_vec, curr_radius, log.key)
+                else:
+                    circles[current] = copy.deepcopy(perfect_circles[current])
+        elif log.op == Operation.CONTAIN:
+            circles[current] = copy.deepcopy(perfect_circles[current])
+        elif log.op == Operation.SEPERATE:
             pass
-        elif log["operation"] == Operation.CONTAIN:
-            pass
-        elif log["operation"] == Operation.SEPERATE:
-            pass
+        # draw circles
+        plot_circles(circles)
 
+
+
+def plot_circles(circles):
     vectors = []
     radii = []
     words = []
-    # for key, value in circles.items():
-    #     vectors.append(value.vector)
-    #     radii.append(value.radius)
-    #     words.append(key)
-    for c in perfect_circles:
-        vectors.append(c.vector)
-        radii.append(c.radius)
-        words.append(c.text)
-    print(123)
+    for key, value in circles.items():
+        vectors.append(value.vector)
+        radii.append(value.radius)
+        words.append(key)
+
+    # for k, c in perfect_circles.items():
+    #     vectors.append(c.vector)
+    #     radii.append(c.radius)
+    #     words.append(c.text)
     plot(vectors, radii, words)
 
 
