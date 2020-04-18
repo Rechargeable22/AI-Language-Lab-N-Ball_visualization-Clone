@@ -15,7 +15,7 @@ def run(ext_args=None, input_words=None):
     parser.add_argument('--outfolder_path', default="out/test")
     parser.set_defaults(generate_balls=True)
     parser.set_defaults(dimension_reduction=True)
-    parser.set_defaults(visualize_nballs=True)
+    parser.set_defaults(visualize_nballs=False)
 
     args = None
     if ext_args:
