@@ -49,9 +49,13 @@ def gen_layer(node, left, right, dic):
     # generate circles for each layer of the source tree recursively
     children = dic[node]
     if children:
-        diameter_per_child = (right - left) / len(children)
+        if len(children) == 1:
+            diameter_per_child = 0.8 * (right - left)
+        else:
+            diameter_per_child = (right - left) / len(children)
         circles = []
-        circles.append(DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node))
+        if node != "*root*":
+            circles.append(DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node))
         for i, child in enumerate(children):
             circles.append(gen_layer(child, left + i * diameter_per_child, left + (i + 1) * diameter_per_child, dic))
         return circles
@@ -148,12 +152,12 @@ def plot_operation():
 def random_point(xy, r):
     r = float(r)
     theta = random.random() * 2 * math.pi
-    return xy[0] + math.cos(theta) * r, xy[1] + math.sin(theta) * r
+    return xy[0] - 0.2 * r, xy[1] - 1.2 * r
 
 
 def plot(vectors, radius, words):
     fig, ax = pyplot.subplots()
-    fig.suptitle("test", fontsize=20)
+    fig.suptitle("NBalls in 2D", fontsize=20)
     colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for i in range(len(vectors))]
 
     for i, vector in enumerate(np.array(vectors)):
@@ -170,8 +174,8 @@ def plot(vectors, radius, words):
     margin = 1.2 * max_radius
     # ax.set_xlim([min(x) - margin, max(x) + margin])
     # ax.set_ylim([min(y) - margin, max(y) + margin])
-    ax.set_xlim(-0.2, 1.2)
-    ax.set_ylim(-0.6, 0.6)
+    ax.set_xlim(-0.1, 1.1)
+    ax.set_ylim(-0.55, 0.55)
     ax.set_aspect(1)
 
     for i, word in enumerate(words):
