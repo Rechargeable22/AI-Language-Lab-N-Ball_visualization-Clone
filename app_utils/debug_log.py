@@ -31,28 +31,33 @@ class DebugCircle:
     def __repr__(self):
         return f"Circle((x:{self.vector[0]}, y:{self.vector[1]}), r:{self.radius})"
 
+
 def get_parent(root, childDict):
     for key, value in childDict.items():
         if root in value:
             return key
     return None
 
+
 def get_siblings(root, childDict):
     out = childDict[get_parent(root, childDict)]
     out = [x for i, x in enumerate(out) if x != root]
     return out
 
+
 def gen_layer(node, left, right, dic):
+    # generate circles for each layer of the source tree recursively
     children = dic[node]
     if children:
         diameter_per_child = (right - left) / len(children)
         circles = []
-        circles.append(DebugCircle(vector=np.array([(left+right)/2, 0]), radius=(right-left)/2, text=node))
+        circles.append(DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node))
         for i, child in enumerate(children):
             circles.append(gen_layer(child, left + i * diameter_per_child, left + (i + 1) * diameter_per_child, dic))
         return circles
     else:
-        return DebugCircle(vector=np.array([(left+right)/2, 0]), radius=(right-left)/2, text=node)
+        return DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node)
+
 
 def flatten(l):
     for el in l:
@@ -62,11 +67,13 @@ def flatten(l):
         else:
             yield el
 
-def generate_perfect_circles(dic):
 
+def generate_perfect_circles(dic):
+    # generates positions for circles in which they match the given tree structure perfectly
     circles = gen_layer(node="*root*", left=0., right=1., dic=dic)
     circles = list(flatten(circles))
     return circles
+
 
 def log_processing(ball_generation_log, childrenDic):
     print("\nLog processing")
@@ -78,7 +85,7 @@ def log_processing(ball_generation_log, childrenDic):
     for log in ball_generation_log:
         if log["operation"] == Operation.INITIALIZE:
             if not circles:
-                circles[log["key"]] = DebugCircle(np.array([0,0]), 1, "add some text")
+                circles[log["key"]] = DebugCircle(np.array([0, 0]), 1, "add some text")
                 circles[log["key"]].first_sibling = True
                 continue
             siblings = get_siblings(log["key"], childrenDic)
@@ -88,7 +95,7 @@ def log_processing(ball_generation_log, childrenDic):
                 ref = circles[[s for s in siblings if circles[s].first_sibling][0]]
                 number = sum([i in circles for i in siblings])
                 total = len(siblings)
-                phi = number/total * 2 * np.pi
+                phi = number / total * 2 * np.pi
                 x = 3 * np.cos(phi) + ref.vector[0]
                 y = 3 * np.sin(phi) + ref.vector[1]
                 circles[log["key"]] = DebugCircle(np.array([x, y]), 1, "add some text")
@@ -97,8 +104,6 @@ def log_processing(ball_generation_log, childrenDic):
                 ref_circle = circles[list(circles.keys())[-1]]
                 circles[log["key"]] = DebugCircle(np.array([ref_circle.vector[0] + 3, 0]), 1, "add some text")
                 circles[log["key"]].first_sibling = True
-
-
 
             print("key", log["key"], "parent", get_parent(log["key"], childrenDic))
             print("key", log["key"], "siblings", get_siblings(log["key"], childrenDic))
@@ -121,6 +126,7 @@ def log_processing(ball_generation_log, childrenDic):
         words.append(c.text)
     print(123)
     plot(vectors, radii, words)
+
 
 def plot_operation():
     circle1 = plt.Circle((0, 0), 0.2, color='r')
@@ -151,7 +157,7 @@ def plot(vectors, radius, words):
     colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for i in range(len(vectors))]
 
     for i, vector in enumerate(np.array(vectors)):
-        e = Circle(xy=vector, radius=float(radius[i]),linewidth=1.)
+        e = Circle(xy=vector, radius=float(radius[i]), linewidth=1.)
         ax.add_artist(e)
         e.set_edgecolor(colors[i])
         e.set_facecolor('none')
@@ -185,4 +191,4 @@ def plot_dic(circles_dic, figure_title, filtered_words=[]):
     radius = [values[-1] for values in circles_dic.values()]
     vectors = [np.multiply(np.array(values[:2]), values[-2]) for values in circles_dic.values()]
     plot(vectors, radius, words, fig, ax)
-    fig.savefig(figure_title+".svg")
+    fig.savefig(figure_title + ".svg")
