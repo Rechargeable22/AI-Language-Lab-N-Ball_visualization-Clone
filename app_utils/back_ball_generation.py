@@ -2,7 +2,7 @@ import json
 import os
 import random
 
-import plotly_visualization.plotly as util
+import plotly_visualization.graphs_navigator as util
 
 from app_utils import runner as r
 

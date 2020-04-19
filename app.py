@@ -9,7 +9,7 @@ from rq import Queue
 from app_utils.back_ball_generation import background_ball_generation
 from balls_generation.files_utils import read_input_words
 from app_utils.web_input_parsing import input_text_to_path
-from plotly_visualization.plotly import plot_animation
+from plotly_visualization.graphs_navigator import plot_animation
 
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")
