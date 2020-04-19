@@ -2,6 +2,7 @@ import plotly_visualization.balls_graph as balls_graph
 import json
 import plotly
 
+from plotly_visualization.animation_graph import animation_graph_plot
 from plotly_visualization.tree_forest_graph import path_tree_forest
 
 
@@ -23,3 +24,6 @@ def plot_combined_tree_json(input_list, path):
 
 def plot_balls(outfolder_path):
     return balls_graph.plot_balls(outfolder_path)
+
+def plot_animation(list):
+    return animation_graph_plot(list)
