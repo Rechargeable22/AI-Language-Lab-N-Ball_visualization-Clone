@@ -7,7 +7,8 @@ from werkzeug.utils import secure_filename
 from rq import Queue
 
 from app_utils.back_ball_generation import background_ball_generation
-from plotly_visualization.plotly import plot_balls, plot_combined_tree_path
+from plotly_visualization.animation_graph import animation_graph_plot
+from plotly_visualization.animation_graph_v2 import animation_graph_plot2
 from balls_generation.files_utils import read_input_words
 from app_utils.web_input_parsing import input_text_to_path
 
@@ -45,15 +46,14 @@ def index():
     return render_template('home.html')
 
 
-@app.route('/plotly')
-def plotly():
-    return plot_balls()
-
+# @app.route('/plotly')
+# def plotly():
+#     animation_graph_plot2()
+#     return render_template('plotly.html')
 
 @app.route('/tree')
 def tree():
-    input_list = ["apple.n.01", "tree.n.01", 'fruit.v.02']
-    return plot_combined_tree_path(input_list)
+    return animation_graph_plot()
 
 
 @app.route('/file', methods=['POST'])
