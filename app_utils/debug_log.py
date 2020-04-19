@@ -117,6 +117,8 @@ def log_processing(ball_generation_log, childrenDic):
     for index, log in enumerate(ball_generation_log):
         if log.op == Operation.INITIALIZE:
             current = log.key
+            if current in circles:
+                continue
 
             if current in overlapping_circles:
                 # TODO: initialize containing children
@@ -126,25 +128,24 @@ def log_processing(ball_generation_log, childrenDic):
                 max_list = [perfect_circles[e].vector[0]+perfect_circles[e].radius for e in circles_to_wrap]
                 max_x = max(max_list)
                 curr_vec = np.array([(min_x+max_x/2), 0])
-                curr_radius = (max_x-min_x) / 2 * 1.0    # maybe we can make this stand out by multiplying with 0.9
+                curr_radius = (max_x-min_x) / 2 * 0.8    # maybe we can make this stand out by multiplying with 0.9
                 circles[current] = DebugCircle(curr_vec, curr_radius, current, color=perfect_circles[current].color)
-                continue
-
-            for l in ball_generation_log:
-                if l.op_args and current in l.op_args:
-                    other = l.key
-                    curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,)) - 0.5) * perfect_circles[
-                        other].radius
-                    curr_radius = perfect_circles[other].radius
-                    circles[current] = DebugCircle(curr_vec, curr_radius, log.key, color=perfect_circles[current].color)
-                elif len(childrenDic[current]) > 0:
-                    children = childrenDic[current]
-                    children_vecs = [perfect_circles[c].vector for c in children]
-                    curr_vec = np.average([children_vecs], axis=1).flatten()
-                    curr_radius = perfect_circles[children[0]].radius
-                    circles[current] = DebugCircle(curr_vec, curr_radius, log.key, color=perfect_circles[current].color)
-                else:
-                    circles[current] = copy.deepcopy(perfect_circles[current])
+            else:
+                for l in ball_generation_log:
+                    if l.op_args and current in l.op_args:
+                        other = l.key
+                        curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,)) - 0.5) * perfect_circles[
+                            other].radius
+                        curr_radius = perfect_circles[other].radius
+                        circles[current] = DebugCircle(curr_vec, curr_radius, log.key, color=perfect_circles[current].color)
+                    elif len(childrenDic[current]) > 0:
+                        children = childrenDic[current]
+                        children_vecs = [perfect_circles[c].vector for c in children]
+                        curr_vec = np.average([children_vecs], axis=1).flatten()
+                        curr_radius = perfect_circles[children[0]].radius
+                        circles[current] = DebugCircle(curr_vec, curr_radius, log.key, color=perfect_circles[current].color)
+                    else:
+                        circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.CONTAIN:
             circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.SEPERATE:
