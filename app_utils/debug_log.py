@@ -23,11 +23,12 @@ class NBall:
 
 
 class DebugCircle:
-    def __init__(self, vector, radius, text):
+    def __init__(self, vector, radius, text, color):
         self.vector = vector
         self.radius = radius
         self.first_sibling = False
         self.text = text
+        self.color = color
 
     def __repr__(self):
         return f"DebugCircle((x:{self.vector[0]}, y:{self.vector[1]}), r:{self.radius})"
@@ -62,7 +63,8 @@ def gen_layer(node, left, right, dic):
             circles.append(gen_layer(child, left + i * diameter_per_child, left + (i + 1) * diameter_per_child, dic))
         return circles
     else:
-        return DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node)
+        color = "#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+        return DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node, color=color)
 
 
 def flatten(l):
@@ -125,7 +127,7 @@ def log_processing(ball_generation_log, childrenDic):
                 max_x = max(max_list)
                 curr_vec = np.array([(min_x+max_x/2), 0])
                 curr_radius = (max_x-min_x) / 2 * 1.0    # maybe we can make this stand out by multiplying with 0.9
-                circles[current] = DebugCircle(curr_vec, curr_radius, current)
+                circles[current] = DebugCircle(curr_vec, curr_radius, current, color=perfect_circles[current].color)
                 continue
 
             for l in ball_generation_log:
@@ -134,13 +136,13 @@ def log_processing(ball_generation_log, childrenDic):
                     curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,)) - 0.5) * perfect_circles[
                         other].radius
                     curr_radius = perfect_circles[other].radius
-                    circles[current] = DebugCircle(curr_vec, curr_radius, log.key)
+                    circles[current] = DebugCircle(curr_vec, curr_radius, log.key, color=perfect_circles[current].color)
                 elif len(childrenDic[current]) > 0:
                     children = childrenDic[current]
                     children_vecs = [perfect_circles[c].vector for c in children]
                     curr_vec = np.average([children_vecs], axis=1).flatten()
                     curr_radius = perfect_circles[children[0]].radius
-                    circles[current] = DebugCircle(curr_vec, curr_radius, log.key)
+                    circles[current] = DebugCircle(curr_vec, curr_radius, log.key, color=perfect_circles[current].color)
                 else:
                     circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.CONTAIN:
@@ -159,14 +161,12 @@ def log_processing(ball_generation_log, childrenDic):
                     max_x = max(max_list)
                     other_vec = np.array([(min_x + max_x)/2, 0])
                     other_radius = (max_x - min_x) / 2 * 1.0  # maybe we can make this stand out by multiplying with 0.9
-                    circles[other] = DebugCircle(other_vec, other_radius, other)
-                    pass
+                    circles[other] = DebugCircle(other_vec, other_radius, other, color=perfect_circles[other].color)
                 else:
                     # set other circle to the perfect circle
                     del(overlapping_circles[other])
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
-            pass
         # draw circles
         plot_circles(circles)
 
@@ -175,16 +175,18 @@ def plot_circles(circles):
     vectors = []
     radii = []
     words = []
+    colors = []
     for key, value in circles.items():
         vectors.append(value.vector)
         radii.append(value.radius)
         words.append(key)
+        colors.append(value.color)
 
     # for k, c in perfect_circles.items():
     #     vectors.append(c.vector)
     #     radii.append(c.radius)
     #     words.append(c.text)
-    plot(vectors, radii, words)
+    plot(vectors, radii, words, colors)
 
 
 def plot_operation():
