@@ -6,9 +6,6 @@ import plotly_visualization.balls_to_json as util
 import json
 import plotly
 
-from plotly_visualization.combined_paths_tree import combined_tree_paths_fig
-from plotly_visualization.single_path_tree import tree_path_fig
-
 def plot_balls(outfolder_path):
     ball = util.balls_to_object(f"{outfolder_path}/reduced_nballs_after.txt")
 
@@ -20,23 +17,13 @@ def plot_balls(outfolder_path):
     df['y1'] = df.y + df.radius
 
     final_df = df.sort_values(by=['radius'], ascending=False)
-    print(final_df.to_string())
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=final_df["x"],
         y=final_df["y0"] - (final_df["radius"] * 0.05),
         text=final_df["word"],
         mode="text",
-        # size=final_df["radius"]
-        # textfont_size=final_df["radius"].astype(float),
     ))
-
-    # fig = go.Figure(data=[go.Scatter(
-    #     x=final_df["x"],
-    #     y=final_df["y0"] - (final_df["radius"] * 0.05),
-    #     mode='markers + text',
-    #     marker_size=final_df["radius"]
-    # )])
 
     circles = []
     for b in ball:
@@ -80,30 +67,4 @@ def plot_balls(outfolder_path):
 
     # fig.show(config={'scrollZoom': True})
 
-    return serialized
-
-def plot_tree_path(input_key):
-    fig = tree_path_fig(input_key, "out/test1/small.wordSensePath.txt")
-    fig.show()
-    return ""
-
-
-def tree_path_json(input_key, path):
-    fig = tree_path_fig(input_key, path + "/small.wordSensePath.txt")
-    serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return serialized
-
-def plot_combined_tree_path(input_list):
-    fig = combined_tree_paths_fig(input_list, "out/test1/small.wordSensePath.txt")
-    fig.show()
-    return ""
-
-def plot_combined_tree_json(input_list, path):
-    # change input list from paths to old format
-    print(input_list)
-    input_list = [element.split()[0] for element in input_list][1:]
-    print(input_list)
-
-    fig = combined_tree_paths_fig(input_list, path + "/small.wordSensePath.txt")
-    serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return serialized
