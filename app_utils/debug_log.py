@@ -2,6 +2,7 @@ import collections
 import copy
 from enum import Enum
 import random
+import time
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -34,17 +35,15 @@ class DebugCircle:
         return f"DebugCircle((x:{self.vector[0]}, y:{self.vector[1]}), r:{self.radius})"
 
 
-def get_parent(root, childDict):
-    for key, value in childDict.items():
-        if root in value:
-            return key
-    return None
+class Log:
+    def __init__(self, key, operation, operation_args, vector):
+        self.key = key
+        self.op = operation
+        self.op_args = operation_args
+        self.vec = vector
 
-
-def get_siblings(root, childDict):
-    out = childDict[get_parent(root, childDict)]
-    out = [x for i, x in enumerate(out) if x != root]
-    return out
+    def __repr__(self):
+        return f"Log({self.key}, {self.op}, {self.op_args})"
 
 
 def gen_layer(node, left, right, dic):
@@ -58,7 +57,8 @@ def gen_layer(node, left, right, dic):
         circles = []
         if node != "*root*":
             color = "#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
-            circles.append(DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node, color=color))
+            circles.append(DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node,
+                                       color=color))
         for i, child in enumerate(children):
             circles.append(gen_layer(child, left + i * diameter_per_child, left + (i + 1) * diameter_per_child, dic))
         return circles
@@ -67,17 +67,16 @@ def gen_layer(node, left, right, dic):
         return DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node, color=color)
 
 
-def flatten(l):
-    for el in l:
-        if isinstance(el, collections.Iterable):
-            for sub in flatten(el):
-                yield sub
-        else:
-            yield el
-
-
 def generate_perfect_circles(dic):
     # generates positions for circles in which they match the given tree structure perfectly
+    def flatten(l):
+        for el in l:
+            if isinstance(el, collections.Iterable):
+                for sub in flatten(el):
+                    yield sub
+            else:
+                yield el
+
     circles = gen_layer(node="*root*", left=0., right=1., dic=dic)
     circles = list(flatten(circles))
     circle_dict = {}
@@ -86,32 +85,16 @@ def generate_perfect_circles(dic):
     return circle_dict
 
 
-class Log:
-    def __init__(self, key, operation, operation_args, vector):
-        self.key = key
-        self.op = operation
-        self.op_args = operation_args
-        self.vec = vector
-
-    def __repr__(self):
-        return f"Log({self.key}, {self.op}, {self.op_args})"
-
-
 def log_processing(ball_generation_log, childrenDic):
-    print("\nLog processing")
-    print("Children dic:", childrenDic)
     perfect_circles = generate_perfect_circles(childrenDic)
-    print(perfect_circles)
     [print(log) for log in ball_generation_log]
-
-    # (a,b) a falsely contains b and has to seperate it -> For all b we save a list of a's in which in falsely is e.g. dict[tank] = [plant, animal]
+    # (a,b) a falsely contains b and has to separate it
+    #   -> For all b we save a list of a's in which in falsely is e.g. dict[tank] = [plant, animal]
     overlap_pairs = [(log.key, arg) for log in ball_generation_log for arg in log.op_args if
                      log.op == Operation.SEPERATE]
     overlapping_circles = collections.defaultdict(list)
     for a, b in overlap_pairs:
         overlapping_circles[b].append(a)
-
-
 
     circles = {}
     for index, log in enumerate(ball_generation_log):
@@ -119,14 +102,13 @@ def log_processing(ball_generation_log, childrenDic):
             current = log.key
 
             if current in overlapping_circles:
-                # TODO: initialize containing children
                 circles_to_wrap = overlapping_circles[current] + [current]
-                min_list = [perfect_circles[e].vector[0]-perfect_circles[e].radius for e in circles_to_wrap]
+                min_list = [perfect_circles[e].vector[0] - perfect_circles[e].radius for e in circles_to_wrap]
                 min_x = min(min_list)
-                max_list = [perfect_circles[e].vector[0]+perfect_circles[e].radius for e in circles_to_wrap]
+                max_list = [perfect_circles[e].vector[0] + perfect_circles[e].radius for e in circles_to_wrap]
                 max_x = max(max_list)
-                curr_vec = np.array([(min_x+max_x/2), 0])
-                curr_radius = (max_x-min_x) / 2 * 1.0    # maybe we can make this stand out by multiplying with 0.9
+                curr_vec = np.array([(min_x + max_x / 2), 0])
+                curr_radius = (max_x - min_x) / 2 * 1.  # maybe we can make this stand out by multiplying with 0.9
                 circles[current] = DebugCircle(curr_vec, curr_radius, current, color=perfect_circles[current].color)
                 continue
 
@@ -148,62 +130,37 @@ def log_processing(ball_generation_log, childrenDic):
         elif log.op == Operation.CONTAIN:
             circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.SEPERATE:
-            current = log.key       # current stays the same, we kick out other.
-            other = log.op_args[0]   # elment to be seperated from current; not sure about [0]
+            current = log.key  # current stays the same, we kick out other.
+            other = log.op_args[0]  # elment to be seperated from current; not sure about [0]
             if other in overlapping_circles:
                 overlapping_circles[other].remove(current)
                 # calculate position of other
                 if overlapping_circles[other]:
                     # still contains elements, compute cover for them
-                    min_list = [perfect_circles[e].vector[0] - perfect_circles[e].radius for e in overlapping_circles[other]]
+                    min_list = [perfect_circles[e].vector[0] - perfect_circles[e].radius for e in
+                                overlapping_circles[other]]
                     min_x = min(min_list)
-                    max_list = [perfect_circles[e].vector[0] + perfect_circles[e].radius for e in overlapping_circles[other]]
+                    max_list = [perfect_circles[e].vector[0] + perfect_circles[e].radius for e in
+                                overlapping_circles[other]]
                     max_x = max(max_list)
-                    other_vec = np.array([(min_x + max_x)/2, 0])
-                    other_radius = (max_x - min_x) / 2 * 1.0  # maybe we can make this stand out by multiplying with 0.9
+                    other_vec = np.array([(min_x + max_x) / 2, 0])
+                    other_radius = (max_x - min_x) / 2 * 1.  # maybe we can make this stand out by multiplying with 0.9
                     circles[other] = DebugCircle(other_vec, other_radius, other, color=perfect_circles[other].color)
                 else:
                     # set other circle to the perfect circle
-                    del(overlapping_circles[other])
+                    del (overlapping_circles[other])
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
-        # draw circles
         plot_circles(circles)
 
 
 def plot_circles(circles):
-    vectors = []
-    radii = []
-    words = []
-    colors = []
-    for key, value in circles.items():
-        vectors.append(value.vector)
-        radii.append(value.radius)
-        words.append(key)
-        colors.append(value.color)
+    vectors = [value.vector for key, value in circles.items()]
+    radii = [value.radius for key, value in circles.items()]
+    words = [key for key, value in circles.items()]
+    colors = [value.color for key, value in circles.items()]
 
-    # for k, c in perfect_circles.items():
-    #     vectors.append(c.vector)
-    #     radii.append(c.radius)
-    #     words.append(c.text)
     plot(vectors, radii, words, colors)
-
-
-def plot_operation():
-    circle1 = plt.Circle((0, 0), 0.2, color='r')
-    circle2 = plt.Circle((0.5, 0.5), 0.2, color='blue')
-    circle3 = plt.Circle((1, 1), 0.2, color='g', clip_on=False)
-
-    fig, ax = plt.subplots()  # note we must use plt.subplots, not plt.subplot
-    # (or if you have an existing figure)
-    # fig = plt.gcf()
-    # ax = fig.gca()
-
-    ax.add_artist(circle1)
-    ax.add_artist(circle2)
-    ax.add_artist(circle3)
-
-    fig.savefig('plotcircles.png')
 
 
 def random_point(xy, r):
@@ -215,7 +172,6 @@ def random_point(xy, r):
 def plot(vectors, radius, words, colors):
     fig, ax = pyplot.subplots()
     fig.suptitle("NBalls in 2D", fontsize=20)
-    # colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for i in range(len(vectors))]
 
     for i, vector in enumerate(np.array(vectors)):
         e = Circle(xy=vector, radius=float(radius[i]), linewidth=1.)
@@ -239,17 +195,6 @@ def plot(vectors, radius, words, colors):
         point = random_point(vectors[i], radius[i])
         ax.text(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
     fig.show()
+    time.sleep(0.5)
     fig.savefig("Perfect circles.svg")
     plt.show()
-
-
-def plot_dic(circles_dic, figure_title, filtered_words=[]):
-    fig, ax = pyplot.subplots()
-    fig.suptitle(figure_title, fontsize=20)
-    if len(filtered_words) > 0:
-        circles_dic = {k: circles_dic[k] for k in filtered_words if k in circles_dic}
-    words = list(circles_dic.keys())
-    radius = [values[-1] for values in circles_dic.values()]
-    vectors = [np.multiply(np.array(values[:2]), values[-2]) for values in circles_dic.values()]
-    plot(vectors, radius, words, fig, ax)
-    fig.savefig(figure_title + ".svg")
