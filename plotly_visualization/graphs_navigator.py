@@ -26,4 +26,12 @@ def plot_balls(outfolder_path):
     return balls_graph.plot_balls(outfolder_path)
 
 def plot_animation(list):
-    return animation_graph_plot(list)
+    fig= animation_graph_plot(list)
+
+    fig.show(config={'scrollZoom': True, 'displayModeBar': False})
+    return "animation"
+
+def plot_animation_json(list):
+    fig= animation_graph_plot(list)
+    serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return serialized

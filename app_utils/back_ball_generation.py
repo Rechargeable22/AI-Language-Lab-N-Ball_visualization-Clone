@@ -16,7 +16,7 @@ def background_ball_generation(input_words):
 
     debug_circles_list = []
     r.run(f"--no_visualize_nballs --outfolder_path {outfolder_path}", input_words, debug_circles_list)
-    print(debug_circles_list)   # use me :>
+    print(outfolder_path)   # use me :>
 
     word_senses = {}
     word_definitions = {}
@@ -38,7 +38,8 @@ def background_ball_generation(input_words):
            # "word_definitions": word_definitions,
            # "word_path_fig": word_path_fig,
            "plotly_json": util.plot_balls(outfolder_path),
-           "plotly_full_tree": util.plot_combined_tree_json(word_senses_cumulative, outfolder_path)}
+           "plotly_full_tree": util.plot_combined_tree_json(word_senses_cumulative, outfolder_path),
+           "plotly_animation":util.plot_animation_json(debug_circles_list)}
     out = json.dumps(out)
 
     return out

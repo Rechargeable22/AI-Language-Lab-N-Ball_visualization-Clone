@@ -123,8 +123,13 @@ def animation_graph_plot(list):
         sliders=sliders
     )
 
-    fig.show(config={'scrollZoom': True, 'displayModeBar': False})
-    return "animation"
+
+
+    # fig.show(config={'scrollZoom': True})
+
+    return fig
+
+
 
 
 def generate_frame(circles, final_df, frames, frame_name):

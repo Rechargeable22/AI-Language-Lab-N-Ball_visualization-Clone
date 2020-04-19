@@ -155,7 +155,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
         debug_circles_list.append(copy.deepcopy(circles))
-        plot_circles(circles, action=log.op)
+        # plot_circles(circles, action=log.op)
 
 
 def plot_circles(circles, action):

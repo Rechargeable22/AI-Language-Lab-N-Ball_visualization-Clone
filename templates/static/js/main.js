@@ -180,6 +180,11 @@ function onBallGenerationDone(dataDict) {
     layout.dragmode = 'pan';
     Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
 
+    const animation_data = JSON.parse(dataDict.plotly_animation);
+    layout = animation_data.layout;
+    layout.dragmode = 'pan';
+    Plotly.newPlot('animationPlot', plotly_data.data, layout, {scrollZoom: true});
+
     buildFullTree(dataDict.plotly_full_tree);
 
 }
