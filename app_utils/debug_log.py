@@ -85,7 +85,7 @@ def generate_perfect_circles(dic):
     return circle_dict
 
 
-def log_processing(ball_generation_log, childrenDic):
+def log_processing(ball_generation_log, childrenDic, debug_circles_list):
     perfect_circles = generate_perfect_circles(childrenDic)
     [print(log) for log in ball_generation_log]
     # (a,b) a falsely contains b and has to separate it
@@ -110,7 +110,7 @@ def log_processing(ball_generation_log, childrenDic):
                 max_list = [perfect_circles[e].vector[0] + perfect_circles[e].radius for e in circles_to_wrap]
                 max_x = max(max_list)
                 curr_vec = np.array([(min_x+max_x/2), 0])
-                curr_radius = (max_x-min_x) / 2 * 0.8    # maybe we can make this stand out by multiplying with 0.9
+                curr_radius = (max_x-min_x) / 2 * 1.    # maybe we can make this stand out by multiplying with 0.9
                 circles[current] = DebugCircle(curr_vec, curr_radius, current, color=perfect_circles[current].color)
             else:
                 for l in ball_generation_log:
@@ -152,16 +152,17 @@ def log_processing(ball_generation_log, childrenDic):
                     del (overlapping_circles[other])
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
-        plot_circles(circles)
+        debug_circles_list.append(copy.deepcopy(circles))
+        plot_circles(circles, action=log.op)
 
 
-def plot_circles(circles):
+def plot_circles(circles, action):
     vectors = [value.vector for key, value in circles.items()]
     radii = [value.radius for key, value in circles.items()]
     words = [key for key, value in circles.items()]
     colors = [value.color for key, value in circles.items()]
 
-    plot(vectors, radii, words, colors)
+    plot(vectors, radii, words, colors, action)
 
 
 def random_point(xy, r):
@@ -170,9 +171,9 @@ def random_point(xy, r):
     return xy[0] - 0.2 * r, xy[1] - 1.2 * r
 
 
-def plot(vectors, radius, words, colors):
+def plot(vectors, radius, words, colors, action):
     fig, ax = pyplot.subplots()
-    fig.suptitle("NBalls in 2D", fontsize=20)
+    fig.suptitle(f"NBalls in 2D - {str(action).split('.')[1]}", fontsize=20)
 
     for i, vector in enumerate(np.array(vectors)):
         e = Circle(xy=vector, radius=float(radius[i]), linewidth=1.)
@@ -196,6 +197,6 @@ def plot(vectors, radius, words, colors):
         point = random_point(vectors[i], radius[i])
         ax.text(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
     fig.show()
-    time.sleep(0.5)
+    time.sleep(1)
     fig.savefig("Perfect circles.svg")
     plt.show()

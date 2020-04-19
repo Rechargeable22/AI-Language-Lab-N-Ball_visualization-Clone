@@ -6,7 +6,7 @@ from balls_generation import main as m
 from app_utils.web_input_parsing import input_text_to_path
 
 
-def run(ext_args=None, input_words=None):
+def run(ext_args=None, input_words=None, debug_circles_list=None):
     print(sys.argv)
     parser = argparse.ArgumentParser(description="Installation and configuration of Natlink and its dependency")
     parser.add_argument('--no_balls', dest='generate_balls', action='store_false')
@@ -34,7 +34,7 @@ def run(ext_args=None, input_words=None):
     app_utils.fetch_glove_model.fetch_glove()
 
     if generate_balls:
-        m.main((f" --generate_nballs  --w2v {word_embedding} --output {outfolder_path}").split(), input_words)
+        m.main((f" --generate_nballs  --w2v {word_embedding} --output {outfolder_path}").split(), input_words, debug_circles_list)
 
     BALLS_FILE_PATH = f"{outfolder_path}/nballs.txt"
     CHILDREN_FILE_PATH = f"{outfolder_path}/children.txt"
@@ -52,4 +52,6 @@ def run(ext_args=None, input_words=None):
 
 
 if __name__ == "__main__":
-    run("", input_text_to_path("duck is animal, dog is animal, chicken is animal,human is animal, socrates is human, kant is human, wolf is animal, tank is not animal, flower is plant, rose is flower, tulp is flower"))
+    output = []
+    run("", input_text_to_path("duck is animal, dog is animal, chicken is animal,human is animal, socrates is human, kant is human, wolf is animal, tank is not animal, flower is plant, rose is flower, tulp is flower"), output)
+    print(output)

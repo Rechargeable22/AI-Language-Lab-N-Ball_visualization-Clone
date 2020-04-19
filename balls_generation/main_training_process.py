@@ -588,7 +588,7 @@ def make_DC_for_first_level_children(root="*root*", firstChild='entity.n.01', ws
 # @debug
 def train_word2ball(root="", outputPath='', logFile='', wsChildrenDic=dict(),
                     word2ballDic=dict(), word2vecDic=dict(), outputPathBack=None,
-                    wscatCodeDic=dict(), outputBallFile=None):
+                    wscatCodeDic=dict(), outputBallFile=None, debug_circles_list=None):
     """
     :param root:
     :param outputPath:
@@ -615,5 +615,5 @@ def train_word2ball(root="", outputPath='', logFile='', wsChildrenDic=dict(),
     testing_whole_family(outputPath=outputPath, wsChildrenDic=wsChildrenDic, outputBallFile=outputBallFile)
 
     # our code
-    log_processing(ball_generation_log, wsChildrenDic)
+    log_processing(ball_generation_log, wsChildrenDic, debug_circles_list)
     # [print(log) for log in ball_generation_log]

@@ -13,8 +13,10 @@ def background_ball_generation(input_words):
     outfolder_path = f"out/{outfolder_name}"
     if not os.path.isdir(outfolder_path):
         os.mkdir(outfolder_path)
-    r.run(f"--no_visualize_nballs --outfolder_path {outfolder_path}", input_words)
 
+    debug_circles_list = []
+    r.run(f"--no_visualize_nballs --outfolder_path {outfolder_path}", input_words, debug_circles_list)
+    print(debug_circles_list)   # use me :>
 
     word_senses = {}
     word_definitions = {}

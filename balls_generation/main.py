@@ -8,7 +8,7 @@ from mathplot_visualization.ploting import visualize
 from balls_generation.files_utils import set_up_data_folder
 
 
-def main(ext_args=None, custom_word_paths=None):
+def main(ext_args=None, custom_word_paths=None, debug_circles_list=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--train_nball')
     parser.add_argument('--w2v')
@@ -50,7 +50,7 @@ def main(ext_args=None, custom_word_paths=None):
             train_word2ball(root="*root*", outputPath=balls_files_path, wsChildrenDic=wsChildrenDic,
                             word2vecDic=word2vecDic, wscatCodeDic=wscatCodeDic, logFile=logFile,
                             word2ballDic=dict(),
-                            outputBallFile=n_balls_file_path)
+                            outputBallFile=n_balls_file_path, debug_circles_list=debug_circles_list)
             if os.path.exists(n_balls_file_path):
                 print("Finish generating balls successfully")
                 print("N-balls file can be found in ", n_balls_file_path)
