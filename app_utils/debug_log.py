@@ -56,7 +56,8 @@ def gen_layer(node, left, right, dic):
             diameter_per_child = (right - left) / len(children)
         circles = []
         if node != "*root*":
-            circles.append(DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node))
+            color = "#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+            circles.append(DebugCircle(vector=np.array([(left + right) / 2, 0]), radius=(right - left) / 2, text=node, color=color))
         for i, child in enumerate(children):
             circles.append(gen_layer(child, left + i * diameter_per_child, left + (i + 1) * diameter_per_child, dic))
         return circles
@@ -117,6 +118,14 @@ def log_processing(ball_generation_log, childrenDic):
 
             if current in overlapping_circles:
                 # TODO: initialize containing children
+                circles_to_wrap = overlapping_circles[current] + [current]
+                min_list = [perfect_circles[e].vector[0]-perfect_circles[e].radius for e in circles_to_wrap]
+                min_x = min(min_list)
+                max_list = [perfect_circles[e].vector[0]+perfect_circles[e].radius for e in circles_to_wrap]
+                max_x = max(max_list)
+                curr_vec = np.array([(min_x+max_x/2), 0])
+                curr_radius = (max_x-min_x) / 2 * 1.0    # maybe we can make this stand out by multiplying with 0.9
+                circles[current] = DebugCircle(curr_vec, curr_radius, current)
                 continue
 
             for l in ball_generation_log:
@@ -138,16 +147,24 @@ def log_processing(ball_generation_log, childrenDic):
             circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.SEPERATE:
             current = log.key       # current stays the same, we kick out other.
-            other = l.op_args[0]   # elment to be seperated from current; not sure about [0]
+            other = log.op_args[0]   # elment to be seperated from current; not sure about [0]
             if other in overlapping_circles:
                 overlapping_circles[other].remove(current)
                 # calculate position of other
                 if overlapping_circles[other]:
                     # still contains elements, compute cover for them
+                    min_list = [perfect_circles[e].vector[0] - perfect_circles[e].radius for e in overlapping_circles[other]]
+                    min_x = min(min_list)
+                    max_list = [perfect_circles[e].vector[0] + perfect_circles[e].radius for e in overlapping_circles[other]]
+                    max_x = max(max_list)
+                    other_vec = np.array([(min_x + max_x)/2, 0])
+                    other_radius = (max_x - min_x) / 2 * 1.0  # maybe we can make this stand out by multiplying with 0.9
+                    circles[other] = DebugCircle(other_vec, other_radius, other)
                     pass
                 else:
-                    del(overlapping_circles[other])
                     # set other circle to the perfect circle
+                    del(overlapping_circles[other])
+                    circles[other] = copy.deepcopy(perfect_circles[other])
 
             pass
         # draw circles
@@ -193,10 +210,10 @@ def random_point(xy, r):
     return xy[0] - 0.2 * r, xy[1] - 1.2 * r
 
 
-def plot(vectors, radius, words):
+def plot(vectors, radius, words, colors):
     fig, ax = pyplot.subplots()
     fig.suptitle("NBalls in 2D", fontsize=20)
-    colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for i in range(len(vectors))]
+    # colors = ["#" + ''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for i in range(len(vectors))]
 
     for i, vector in enumerate(np.array(vectors)):
         e = Circle(xy=vector, radius=float(radius[i]), linewidth=1.)
