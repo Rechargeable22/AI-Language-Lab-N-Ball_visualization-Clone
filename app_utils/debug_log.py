@@ -16,6 +16,7 @@ class Operation(Enum):
     INITIALIZE = 0
     SEPERATE = 1
     CONTAIN = 2
+    PERFECT = 3
 
 
 class NBall:
@@ -28,7 +29,7 @@ class DebugCircle:
         self.vector = vector
         self.radius = radius
         self.first_sibling = False
-        self.text = text
+        self.word = text
         self.color = color
 
     def __repr__(self):
@@ -81,11 +82,13 @@ def generate_perfect_circles(dic):
     circles = list(flatten(circles))
     circle_dict = {}
     for c in circles:
-        circle_dict[c.text] = c
+        circle_dict[c.word] = c
     return circle_dict
 
 
+
 def log_processing(ball_generation_log, childrenDic, debug_circles_list):
+
     perfect_circles = generate_perfect_circles(childrenDic)
     [print(log) for log in ball_generation_log]
     # (a,b) a falsely contains b and has to separate it
@@ -112,26 +115,31 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                 curr_vec = np.array([(min_x + max_x) / 2, 0])
                 curr_radius = (max_x - min_x) / 2 * 1.  # maybe we can make this stand out by multiplying with 0.9
                 circles[current] = DebugCircle(curr_vec, curr_radius, current, color=perfect_circles[current].color)
+            # else:
+            #     for l in ball_generation_log:
+            #         if l.op_args and current in l.op_args:
+            #             other = l.key
+            #             curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,)) - 0.5) * \
+            #                        perfect_circles[other].radius
+            #             curr_radius = perfect_circles[other].radius
+            #             circles[current] = DebugCircle(curr_vec, curr_radius, log.key,
+            #                                            color=perfect_circles[current].color)
+            elif len(childrenDic[current]) > 0:
+                children = childrenDic[current]
+                children_vecs = [perfect_circles[c].vector for c in children]
+                curr_vec = np.average([children_vecs], axis=1).flatten()
+                curr_radius = perfect_circles[children[0]].radius *0.7
+                circles[current] = DebugCircle(curr_vec, curr_radius, log.key,
+                                               color=perfect_circles[current].color)
             else:
-                for l in ball_generation_log:
-                    if l.op_args and current in l.op_args:
-                        other = l.key
-                        curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,)) - 0.5) * \
-                                   perfect_circles[other].radius
-                        curr_radius = perfect_circles[other].radius
-                        circles[current] = DebugCircle(curr_vec, curr_radius, log.key,
-                                                       color=perfect_circles[current].color)
-                    elif len(childrenDic[current]) > 0:
-                        children = childrenDic[current]
-                        children_vecs = [perfect_circles[c].vector for c in children]
-                        curr_vec = np.average([children_vecs], axis=1).flatten()
-                        curr_radius = perfect_circles[children[0]].radius
-                        circles[current] = DebugCircle(curr_vec, curr_radius, log.key,
-                                                       color=perfect_circles[current].color)
-                    else:
-                        circles[current] = copy.deepcopy(perfect_circles[current])
+                circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.CONTAIN:
             circles[current] = copy.deepcopy(perfect_circles[current])
+            # def such_children_to_perfect(key):
+            #     for child in childrenDic[key]:
+            #         such_children_to_perfect(child)
+            #         circles[child]=copy.deepcopy(perfect_circles[child])
+            # such_children_to_perfect(current)
         elif log.op == Operation.SEPERATE:
             current = log.key  # current stays the same, we kick out other.
             other = log.op_args[0]  # elment to be seperated from current; not sure about [0]
@@ -156,6 +164,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
 
         debug_circles_list.append(copy.deepcopy(circles))
         # plot_circles(circles, action=log.op)
+    # plot_circles(perfect_circles, action=Operation.PERFECT)
 
 
 def plot_circles(circles, action):

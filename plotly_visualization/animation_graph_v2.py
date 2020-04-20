@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 import numpy as np
 
 
-def animation_graph_plot2(list, step_index):
+def animation_graph_plot2(step, step_index):
 
     fig = go.Figure()
     fig.update_layout(
@@ -29,7 +29,11 @@ def animation_graph_plot2(list, step_index):
         if index is step_index:
             plot_step(step, fig)
 
-    fig.show(config={'scrollZoom': True})
+    plot_step(step, fig)
+
+
+
+    # fig.show(config={'scrollZoom': True})
 
     return fig
 

@@ -33,7 +33,7 @@ def plot(vectors, radius, words, fig, ax):
 
     for i, word in enumerate(words):
         point = random_point(vectors[i], radius[i])
-        ax.text(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
+        ax.word(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
     fig.show()
 
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
     for i, word in enumerate(words):
         point = random_point(vectors[i], radius[i])
-        ax.text(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
+        ax.word(point[0], point[1], '%s' % (str(word)), size=10, zorder=1, color=colors[i])
 
     fig.show()
     plt.show()

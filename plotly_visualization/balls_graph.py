@@ -2,31 +2,22 @@ import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
 
-import plotly_visualization.balls_to_json as util
+
 import json
 import plotly
 
-def plot_balls(outfolder_path):
-    ball = util.balls_to_object(f"{outfolder_path}/reduced_nballs_after.txt")
+def plot_balls(balls):
 
-    df = pd.DataFrame([t.__dict__ for t in ball])
-    df[['x', 'y']] = pd.DataFrame(df.vector.values.tolist(), index=df.index)
-    df['x0'] = df.x - df.radius
-    df['x1'] = df.x + df.radius
-    df['y0'] = df.y - df.radius
-    df['y1'] = df.y + df.radius
-
-    final_df = df.sort_values(by=['radius'], ascending=False)
     fig = go.Figure()
     fig.add_trace(go.Scatter(
-        x=final_df["x"],
-        y=final_df["y0"] - (final_df["radius"] * 0.05),
-        text=final_df["word"],
+        x=[x.vector[0]-x.radius for x in balls],
+        y=[x.vector[1]-x.radius for x in balls] ,
+        text=[x.word for x in balls],
         mode="text",
     ))
-
+    np.random.seed(0)
     circles = []
-    for b in ball:
+    for b in balls:
         color = np.random.choice(range(256), size=3)
         circles.append(dict(
             type="circle",

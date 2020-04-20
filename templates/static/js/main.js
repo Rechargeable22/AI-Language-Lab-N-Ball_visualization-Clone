@@ -170,7 +170,8 @@ function requestBallGeneration(e) {
     xhr.send("inputWords=" + inputWords);
     clearCol(0);
 }
-
+var frame=0
+var frame_data=null
 
 function onBallGenerationDone(dataDict) {
     document.getElementById("folder-structure").style.display = "block";
@@ -180,13 +181,18 @@ function onBallGenerationDone(dataDict) {
     layout.dragmode = 'pan';
     Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
 
-    const animation_data = JSON.parse(dataDict.plotly_animation);
+    frame_data=dataDict.plotly_animation;
+
+    frame=0;
+    drawDebug()
+
+}
+
+function drawDebug(){
+    const animation_data = JSON.parse(frame_data[frame]);
     layout = animation_data.layout;
     layout.dragmode = 'pan';
-    Plotly.newPlot('animationPlot', plotly_data.data, layout, {scrollZoom: true});
-
-    buildFullTree(dataDict.plotly_full_tree);
-
+    Plotly.newPlot('animationPlot', animation_data.data, layout, {scrollZoom: true});
 }
 
 function buildFullTree(plotly_full_tree) {
@@ -196,6 +202,18 @@ function buildFullTree(plotly_full_tree) {
     Plotly.newPlot('fullTree', plotly_data.data, layout, {staticPlot: true});
 }
 
+function debugNextStep() {
+    if (frame_data && frame+1 < frame_data.length)
+        frame+=1
+    drawDebug()
+}
+
+function debugPreviousStep() {
+if (frame_data && frame > 0)
+        frame-=1
+    drawDebug()
+}
+
 window.onload = function () {
     col = [document.getElementById("col1"), document.getElementById("col2"),
         document.getElementById("col3")];
@@ -203,5 +221,7 @@ window.onload = function () {
     submitForm.addEventListener('submit', requestBallGeneration);
     // document.getElementById("input-file").addEventListener("submit", requestBallGeneration);
     document.getElementById("upload-button").addEventListener("click", requestBallGenerationFromFile);
+    document.getElementById("previous-step-button").addEventListener("click", debugPreviousStep);
+    document.getElementById("next-step-button").addEventListener("click", debugNextStep);
 
 };

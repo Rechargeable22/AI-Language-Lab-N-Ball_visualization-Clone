@@ -5,6 +5,7 @@ import plotly
 from plotly_visualization.animation_graph import animation_graph_plot
 from plotly_visualization.animation_graph_v2 import animation_graph_plot2
 from plotly_visualization.tree_forest_graph import path_tree_forest
+import plotly_visualization.balls_to_json as util
 
 
 def plot_combined_tree_path(input_list):
@@ -24,7 +25,8 @@ def plot_combined_tree_json(input_list, path):
 
 
 def plot_balls(outfolder_path):
-    return balls_graph.plot_balls(outfolder_path)
+    balls = util.balls_to_object(f"{outfolder_path}/reduced_nballs_after.txt")
+    return balls_graph.plot_balls(balls)
 
 def plot_animation(list):
     fig= animation_graph_plot2(list, 1)
@@ -32,7 +34,10 @@ def plot_animation(list):
     fig.show(config={'scrollZoom': True, 'displayModeBar': False})
     return "animation"
 
-def plot_animation_json(list):
-    fig= animation_graph_plot2(list, 1)
-    serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return serialized
+def plot_animation_json(debug_steps):
+    output=[]
+    for i,v in enumerate(debug_steps):
+        print(v)
+        serialized = balls_graph.plot_balls([a for k,a in v.items()])
+        output.append(serialized)
+    return output
