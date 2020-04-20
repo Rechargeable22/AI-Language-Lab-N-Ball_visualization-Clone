@@ -3,6 +3,7 @@ import json
 import plotly
 
 from plotly_visualization.animation_graph import animation_graph_plot
+from plotly_visualization.animation_graph_v2 import animation_graph_plot2
 from plotly_visualization.tree_forest_graph import path_tree_forest
 
 
@@ -26,12 +27,12 @@ def plot_balls(outfolder_path):
     return balls_graph.plot_balls(outfolder_path)
 
 def plot_animation(list):
-    fig= animation_graph_plot(list)
+    fig= animation_graph_plot2(list)
 
     fig.show(config={'scrollZoom': True, 'displayModeBar': False})
     return "animation"
 
 def plot_animation_json(list):
-    fig= animation_graph_plot(list)
+    fig= animation_graph_plot2(list)
     serialized = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return serialized
