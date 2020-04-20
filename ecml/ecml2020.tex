@@ -31,7 +31,7 @@ Fifth Author\inst{1,2}}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
-\institute{University of Bonn, Germany \and
+\institute{University of Bonn, Germany  \\
 \email{\{\}@uni-bonn.de}\\ 
 \and
 Fraunhofer IAIS, Germany\\
@@ -41,7 +41,7 @@ Fraunhofer IAIS, Germany\\
 
 %150-250 words
 \begin{abstract}
-Region-based embeddings have been proven to be useful in knowledge graph reasoning. Existing visualization tool cannot preserve topological relations among high dimensional regions. We present a tool for visualizing high-dimensional balls that keeps topological relations after their dimensions are reduced to 2-dimensions. Four functions are provided: (1) Simple diagrammatic reasoning for syllogism; (2) diagrammatic reasoning with back-ground knowledge; (3) visualizing the construction process of ball-embeddings; (4) providing a web-service to impose a taxonomy structure onto its vector embeddings with zero-energy loss. A demonstration video of this tool is available at \dots. 
+Region-based embeddings have been proven to be useful in knowledge graph reasoning. Existing visualization tool cannot preserve topological relations among high dimensional regions. We present a tool for visualizing high-dimensional balls that keeps topological relations after their dimensions are reduced to 2-dimensions. The first version of this tool provides four functions as follows: (1) Simple diagrammatic reasoning for syllogism; (2) diagrammatic reasoning with back-ground knowledge; (3) visualizing the construction process of ball-embeddings; (4) providing a web-service to impose a taxonomy structure onto its vector embeddings with zero-energy loss. A demonstration video of this tool is available at \dots. 
  
 \keywords{Diagrammatic reasoning \and ball embeddings \and visualization.}
 \end{abstract}
@@ -50,7 +50,11 @@ Region-based embeddings have been proven to be useful in knowledge graph reasoni
 %
 \section{Introduction}
 
-Taxonomy, as a classification of concepts, exists in almost every disciplinary, such as file systems in computer science , government organization of a country, classification of viruses, plants, and animals. Though a powerful tool for learning from data, Deep Learning limits itself in representing everything as vectors, and can only approximate symbolic representation and reasoning. This limitation can be approached by promoting vector embeddings to ball embeddings. Vector embeddings of nodes in a taxonomy structure can be promoted into balls in higher-dimensional space, such that (1) each vector embedding is well preserved by the central point of a ball; (2) child-parent relations are precisely encoded by inclusion relations among balls. Significant results are obtained in experiments on unifying word-embeddings with hypernym trees and on unifying entity-embeddings learned from knowledge-graphs and tree structures. Being able to precisely imposing external symbolic structures onto Deep Learning systems not only paves the way towards resolving the antagonism between connectionism and symbolicism in the literature, but also has tremendous value in real applications. For example, being able to impose traffic rules onto autonomous driving cars would ultimately solve the safety issue.  
+ Bing able to learn from data, and robust to noisy inputs, Deep-Learning has been successful in a variety of AI tasks that have frustrated classic symbolic approaches for decades, such as object classification, machine translation, voice recognition, question-answering \cite{LeCunNature15}. However, Deep-Learning  Systems lack of explainability, can be fooled \cite{BiDAF16,JiaLiangaL17,Belinkov17}, and normally need much more learning data than human does \cite{tenenbaum15}. This introduces potential dangers into safety critical applications, such as autonomous driving. Introducing innate structures into Deep-Learning system has been advocated, and listed as one of the AI research topics in the Townhall meeting at AAAI-19, so that Deep-Learning research shall solve logical reasoning tasks (System 2 of mind) \cite{Kahneman11,benjio19}. As logical reasoning, such as Syllogism, is better represented by inclusion relations among regions, instead of translation among vectors \cite{Venn1880,diagram95}, recent researches have been attempting to promote vectors into regions to improve performances of logical query, triple classification, link prediction of Knowledge Graph \cite{dong19iclr,dong19,li2019smoothing,JuanziEmnlp18,ren2020}.   
+
+% Though a powerful tool for learning from data, Deep Learning limits itself in representing everything as vectors, and can only approximate symbolic representation and reasoning. This limitation can be approached by promoting vector embeddings to ball embeddings. Vector embeddings of nodes in a taxonomy structure can be promoted into balls in higher-dimensional space, such that (1) each vector embedding is well preserved by the central point of a ball; (2) child-parent relations are precisely encoded by inclusion relations among balls. Significant results are obtained in experiments on unifying word-embeddings with hypernym trees and on unifying entity-embeddings learned from knowledge-graphs and tree structures. Being able to precisely imposing external symbolic structures onto Deep Learning systems not only paves the way towards resolving the antagonism between connectionism and symbolicism in the literature, but also has tremendous value in real applications. For example, being able to impose traffic rules onto autonomous driving cars would ultimately solve the safety issue.  
+
+% Taxonomy, as a classification of concepts, exists in almost every disciplinary, such as file systems in computer science , government organization of a country, classification of viruses, plants, and animals. 
 
 Ball embeddings are rigorously constructed by a sequence of geometric transformations under the  condition that the loss function of the embedding must be zero, which is a condition that is not required and has not been targeted by Deep Learning approaches. This also raises the visualization problem of ball embeddings. The popular  tool t-NSE for visualizing vector embeddings cannot be directly applied for visualizing ball embeddings, for the dimensional reduction process of t-NSE does not guarantee the topological relations among balls. In this paper, we demonstrate an open source system that is able to visualize ball embeddings while keeping their topological relations. The main contributions of this system are as follows: (1) it has an vivid interactive user interface that can be used for diagrammatic reasoning among taxonomy; (2) it provides an effective and friendly approach for debugging the geometric construction process of ball embeddings; (3) it provides a batch service that accepts a large scale input for construct ball embeddings. 
 
@@ -136,5 +140,7 @@ link to the video
 %
 % \bibliographystyle{splncs04}
 % \bibliography{mybibliography}
-% 
+
+\bibliographystyle{plain}
+\bibliography{XBib_NN,XBib} 
 \end{document}
