@@ -1,21 +1,32 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="jumbotron text-center">
-    <h1>Visualizing high dimensional balls while keeping topologic relations</h1>
-    <p class="lead">Imposing Category Trees Onto Word-Embeddings Using A Geometric Construction.</p>
-    <p>Source code and data-sets are free for public access at <a href="https://github.com/gnodisnait/nball4tree.git">
-        https://github.com/gnodisnait/nball4tree.git</a>. For further questions please write us an
-        <a href="mailto:dongt@bit.uni-bonn.de">email</a>.
-    </p>
+<div style="float: right; margin-right: 3rem;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Aiga_mail.png" style="height: 60px;">
+    <a href="mailto:dongt@bit.uni-bonn.de">Contact</a>
+</div>
+<div style="display:flex; flex-direction: row; justify-content: left; margin-left: 3rem; margin-top: 1rem; margin-bottom: 1rem;">
+    <div style="padding-right: 50px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Universit%C3%A4t_Bonn.svg/184px-Universit%C3%A4t_Bonn.svg.png">
+    </div>
 
-    <p style="margin: 7em;">
-    <form id="input-words" method="POST">
-<!--        <input id="input-text-field" name="text">-->
-        <textarea id="input-text-field" name="text" cols="40" rows="5"></textarea>
-        <input id="input-submit-field" type="submit" class="btn btn-primary btn-md">
+    <h1 style="padding-top: 5px;">High Dimensional Balls Visualization </h1>
+</div>
+<div class="jumbotron text-center">
+    <p class="lead">Imposing Category Trees Onto Word-Embeddings Using A Geometric Construction.</p>
+    <p style="margin-top: 3rem;">Please submit or upload your tree:</p>
+
+
+    <form id="input-words" method="POST"
+          style="display:flex; flex-direction: row; justify-content: center; margin-left: 3rem;  margin-bottom: 1rem;">
+        <!--        <input id="input-text-field" name="text">-->
+        <textarea id="input-text-field" name="text" cols="100" rows="2"></textarea>
+
+        <input id="input-submit-field" type="submit" class="btn btn-primary btn-md"
+               style="height: 5rem; margin-left: 10px;">
+
     </form>
-    </p>
+
     <form id="input-file" method=post enctype=multipart/form-data>
         <input type=file name=file id="fileval">
         <button type="button" value="Upload" name="Upload" id="upload-button" class="btn btn-primary btn-md">
@@ -72,7 +83,8 @@
 </div>
 
 <div class="container">
-    <button type="button" value="Previous Step" name="Previous Step" id="previous-step-button" class="btn btn-primary btn-md">
+    <button type="button" value="Previous Step" name="Previous Step" id="previous-step-button"
+            class="btn btn-primary btn-md">
         Previous step
     </button>
     <button type="button" value="Next Step" name="Next Step" id="next-step-button" class="btn btn-primary btn-md">
