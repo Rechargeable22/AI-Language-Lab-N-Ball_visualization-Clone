@@ -15,7 +15,6 @@ def background_ball_generation(input_words):
         os.mkdir(outfolder_path)
 
     debug_circles_list = []
-    print(input_words)
     r.run(f"--no_visualize_nballs --outfolder_path {outfolder_path}", input_words, debug_circles_list)
 
 

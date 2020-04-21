@@ -152,8 +152,6 @@ function requestBallGenerationFromFile() {
     };
 
     xhr.send(formData);
-    document.getElementById("folder-structure").style.display = "none";
-    clearCol(0);
 }
 
 function requestBallGeneration(e) {
@@ -170,7 +168,6 @@ function requestBallGeneration(e) {
     };
 
     xhr.send("inputWords=" + inputWords);
-    clearCol(0);
 }
 
 function onBallGenerationDone(dataDict) {
