@@ -49,7 +49,7 @@ def plot_balls(balls):
         xaxis_showgrid=False,
         yaxis_showgrid=False,
         showlegend=False,
-        plot_bgcolor='white',
+        plot_bgcolor='rgb(240, 240, 240)',
         margin=dict(
             l=0,
             r=0,
