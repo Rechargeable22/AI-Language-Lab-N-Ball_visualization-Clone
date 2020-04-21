@@ -61,9 +61,12 @@ The popular  tool t-NSE \cite{Maaten08} for visualizing vector embeddings cannot
 
 \section{The Architecture}
 
-Flask with task queue 
+In order to provide useful visual feedback for the construction process of the ball embeddings the user needs to provide a history of the construction of their ball embeddings. In order to make the system more accessible and allow for quick demonstrations purposes we allow the user to alternatively provide a set of words along with their taxonomy. Using the approach of [] we then compute a set of high quality word embedding along with their construction history.
 
-draw a picture
+To make the system accessible from almost any modern devise we chose to expose the user interface through a website. The user request is accepted by a flask web-server and placed in compute queue to allow for concurrent access and real-time feedback for the user even if the server is busy. 
+
+Finally given the ball embedding history we determine for every step if any two N-balls intersect, contain each other or are separate. This allows us to create a visual feedback reminiscent of a debugger of the N-balls construction along with a input taxonomy as a tree. Not only can the user see when his approach violates the taxonomy but also how and with which participant.
+
 
 \section{Services}
 
