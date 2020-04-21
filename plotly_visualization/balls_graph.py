@@ -10,8 +10,8 @@ def plot_balls(balls):
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(
-        x=[x.vector[0]-x.radius for x in balls],
-        y=[x.vector[1]-x.radius for x in balls] ,
+        x=[x.vector[0] for x in balls],
+        y=[x.vector[1]-x.radius - (x.radius*0.1) for x in balls] ,
         text=[x.word for x in balls],
         mode="text",
     ))
