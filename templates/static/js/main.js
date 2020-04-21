@@ -183,6 +183,8 @@ function onBallGenerationDone(dataDict) {
 
     frame_data=dataDict.plotly_animation;
 
+    buildFullTree(dataDict.plotly_full_tree);
+
     frame=0;
     drawDebug()
 

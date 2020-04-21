@@ -34,15 +34,22 @@ def plot_balls(balls):
     fig.update_layout(
         shapes=circles,
         yaxis=dict(
+            showline=False,
+            showgrid=False,
+            showticklabels=False,
             scaleanchor="x",
             scaleratio=1,
-            showline=False,
+
         ),
         xaxis=dict(
             showline=False,
+            showgrid=False,
+            showticklabels=False,
         ),
         xaxis_showgrid=False,
         yaxis_showgrid=False,
+        showlegend=False,
+        plot_bgcolor='white',
         margin=dict(
             l=0,
             r=0,
