@@ -101,7 +101,9 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
 
     circles = {}
     for index, log in enumerate(ball_generation_log):
+        log_string = ""
         if log.op == Operation.INITIALIZE:
+            log_string = "initialize"
             current = log.key
             if current in circles:
                 continue
@@ -134,6 +136,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
             else:
                 circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.CONTAIN:
+            log_string = "contain"
             circles[current] = copy.deepcopy(perfect_circles[current])
             # def such_children_to_perfect(key):
             #     for child in childrenDic[key]:
@@ -141,6 +144,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
             #         circles[child]=copy.deepcopy(perfect_circles[child])
             # such_children_to_perfect(current)
         elif log.op == Operation.SEPERATE:
+            log_string = "separate"
             current = log.key  # current stays the same, we kick out other.
             other = log.op_args[0]  # elment to be seperated from current; not sure about [0]
             if other in overlapping_circles:
@@ -162,7 +166,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                     del (overlapping_circles[other])
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
-        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log.op})   # richtig hacky :)
+        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log_string})   # richtig hacky :)
         # plot_circles(circles, action=log.op)
     # plot_circles(perfect_circles, action=Operation.PERFECT)
 

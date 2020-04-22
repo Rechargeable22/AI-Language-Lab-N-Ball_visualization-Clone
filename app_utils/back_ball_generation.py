@@ -43,7 +43,7 @@ def background_ball_generation(input_words):
         "plotly_json": util.plot_balls(outfolder_path),
         "plotly_full_tree": util.plot_combined_tree_json(word_senses_cumulative, outfolder_path),
         "plotly_animation": util.plot_animation_json(debug_circles_list),
-        "log": log}
+        "generation_log": log}
     out = json.dumps(out)
 
     return out

@@ -1,6 +1,7 @@
 let col = [];
-let frame=0;
-let frame_data=null;
+let frame = 0;
+let frame_data = null;
+let log_data = null;
 
 const clearCol = (colNum) => {
     console.assert(colNum >= 0 && colNum < 3, "False index: " + colNum);
@@ -171,7 +172,7 @@ function requestBallGeneration(e) {
 }
 
 function onBallGenerationDone(dataDict) {
-    frame=0;
+    frame = 0;
     document.getElementById("folder-structure").style.display = "block";
     document.getElementById("generationOut").style.display = "block";
     // buildFolders(dataDict);  // not anymore :(
@@ -179,17 +180,19 @@ function onBallGenerationDone(dataDict) {
     let layout = plotly_data.layout;
     layout.dragmode = 'pan';
     Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
-    frame_data=dataDict.plotly_animation;
+    frame_data = dataDict.plotly_animation;
+    log_data = dataDict.generation_log;
     buildFullTree(dataDict.plotly_full_tree);
     drawDebug()
 
 }
 
-function drawDebug(){
+function drawDebug() {
     const animation_data = JSON.parse(frame_data[frame]);
     layout = animation_data.layout;
     layout.dragmode = 'pan';
     Plotly.newPlot('animationPlot', animation_data.data, layout, {scrollZoom: true});
+    document.getElementById("logText").textContent = log_data[frame];
 }
 
 function buildFullTree(plotly_full_tree) {
@@ -200,14 +203,14 @@ function buildFullTree(plotly_full_tree) {
 }
 
 function debugNextStep() {
-    if (frame_data && frame+1 < frame_data.length)
-        frame+=1;
+    if (frame_data && frame + 1 < frame_data.length)
+        frame += 1;
     drawDebug()
 }
 
 function debugPreviousStep() {
-if (frame_data && frame > 0)
-        frame-=1;
+    if (frame_data && frame > 0)
+        frame -= 1;
     drawDebug()
 }
 
