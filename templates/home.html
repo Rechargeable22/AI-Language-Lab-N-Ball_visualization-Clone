@@ -2,19 +2,26 @@
 
 {% block body %}
 <div style="float: right; margin-right: 3rem;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Aiga_mail.png" style="height: 60px;">
-    <a href="mailto:dongt@bit.uni-bonn.de">Contact</a>
+
 </div>
-<div style="display:flex; flex-direction: row; justify-content: left; margin-left: 3rem; margin-top: 1rem; margin-bottom: 1rem;">
+
+<div style="display:flex; flex-direction: row; justify-content: space-between; margin: 1%;">
     <div style="padding-right: 50px;">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Universit%C3%A4t_Bonn.svg/184px-Universit%C3%A4t_Bonn.svg.png">
     </div>
-
     <h1 style="padding-top: 5px;">High Dimensional Words Balls Visualization </h1>
+    <div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Aiga_mail.png" style="height: 60px;">
+        <a href="mailto:dongt@bit.uni-bonn.de">Contact</a>
+    </div>
 </div>
+
 <div class="jumbotron text-center">
     <p class="lead">Imposing Category Trees Onto Word-Embeddings Using A Geometric Construction.</p>
     <p style="margin-top: 3rem;">Please submit or upload your tree:</p>
+    <p>Trees shall have the following structure: <span style="margin-left: 3em;"></span><samp><var>Noun</var> is (not)
+        <var>Noun</var></samp></p>
+    <p>e.g. <samp>chicken is animal, human is animal, socrates is human, kant is human</samp></p>
 
 
     <form id="input-words" method="POST"
@@ -70,26 +77,32 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="chart" id="fullTree"></div>
-</div>
+<div id="generationOut" style="display: none; text-align: center;">
+    <h4>Tree</h4>
+    <div class="container">
+        <div class="chart" id="fullTree"></div>
+    </div>
 
-<div class="container">
-    <div class="chart" id="ballPlot"></div>
-</div>
+    <h4 style="margin-top: 2em">Tree imposed on word embeddings</h4>
+    <div class="container">
+        <div class="chart" id="ballPlot"></div>
+    </div>
 
-<div class="container">
-    <div class="chart" id="animationPlot"></div>
-</div>
+    <h4 style="margin-top: 2em">Tree generation</h4>
+    <div class="container">
+        <div class="chart" id="animationPlot"></div>
+    </div>
 
-<div class="container">
-    <button type="button" value="Previous Step" name="Previous Step" id="previous-step-button"
-            class="btn btn-primary btn-md">
-        Previous step
-    </button>
-    <button type="button" value="Next Step" name="Next Step" id="next-step-button" class="btn btn-primary btn-md">
-        Next step
-    </button>
+    <div style="margin-bottom: 5%" class="container">
+        <button type="button" value="Previous Step" name="Previous Step" id="previous-step-button"
+                class="btn btn-primary btn-md">
+            Previous step
+        </button>
+        <button type="button" value="Next Step" name="Next Step" id="next-step-button" class="btn btn-primary btn-md">
+            Next step
+        </button>
+    </div>
+
 </div>
 
 

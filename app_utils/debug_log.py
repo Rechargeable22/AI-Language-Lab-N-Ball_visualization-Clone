@@ -162,7 +162,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                     del (overlapping_circles[other])
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
-        debug_circles_list.append(copy.deepcopy(circles))
+        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log.op})   # richtig hacky :)
         # plot_circles(circles, action=log.op)
     # plot_circles(perfect_circles, action=Operation.PERFECT)
 

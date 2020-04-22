@@ -1,4 +1,6 @@
 let col = [];
+let frame=0;
+let frame_data=null;
 
 const clearCol = (colNum) => {
     console.assert(colNum >= 0 && colNum < 3, "False index: " + colNum);
@@ -150,8 +152,6 @@ function requestBallGenerationFromFile() {
     };
 
     xhr.send(formData);
-    document.getElementById("folder-structure").style.display = "none";
-    clearCol(0);
 }
 
 function requestBallGeneration(e) {
@@ -168,24 +168,19 @@ function requestBallGeneration(e) {
     };
 
     xhr.send("inputWords=" + inputWords);
-    clearCol(0);
 }
-var frame=0
-var frame_data=null
 
 function onBallGenerationDone(dataDict) {
+    frame=0;
     document.getElementById("folder-structure").style.display = "block";
-    buildFolders(dataDict);
+    document.getElementById("generationOut").style.display = "block";
+    // buildFolders(dataDict);  // not anymore :(
     const plotly_data = JSON.parse(dataDict.plotly_json);
     let layout = plotly_data.layout;
     layout.dragmode = 'pan';
     Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
-
     frame_data=dataDict.plotly_animation;
-
     buildFullTree(dataDict.plotly_full_tree);
-
-    frame=0;
     drawDebug()
 
 }
@@ -206,13 +201,13 @@ function buildFullTree(plotly_full_tree) {
 
 function debugNextStep() {
     if (frame_data && frame+1 < frame_data.length)
-        frame+=1
+        frame+=1;
     drawDebug()
 }
 
 function debugPreviousStep() {
 if (frame_data && frame > 0)
-        frame-=1
+        frame-=1;
     drawDebug()
 }
 

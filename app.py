@@ -18,7 +18,7 @@ app._static_folder = os.path.abspath("templates/static/")
 r = redis.Redis()
 q_high = Queue("high", connection=r)  # start with rq worker high
 q_low = Queue("low", connection=r)  # start with rq worker low
-QUEUE_THRESHOLD = 30  # inputs > QUEUE_THRESHOLD => run on the low priority queue
+QUEUE_THRESHOLD = 50  # inputs > QUEUE_THRESHOLD => run on the low priority queue
 
 
 def ball_generation_response(input_words):
@@ -63,8 +63,13 @@ def requested_ball_generation_from_file():
         if fn != "":
             if fn.rsplit(".")[1] == "txt":
                 random_suffix = str(random.randint(0, 1000000)) + "-"
-                file.save(os.path.join("res/tmp", random_suffix + fn))
-                input_words = read_input_words(os.path.join("res/tmp", random_suffix + fn))
+                file.save(os.path.join("out", random_suffix + fn))
+                input_words = []
+                with open(os.path.join("out", random_suffix + fn), mode="r", encoding="utf-8") as file:
+                    for line in file:
+                        line = line.replace("\n", "")
+                        input_words.append(line)
+                input_words = input_text_to_path(str("".join(input_words)))
                 return jsonify(ball_generation_response(input_words)), 202
 
     return jsonify({"status": "failed"}), 400
@@ -73,6 +78,8 @@ def requested_ball_generation_from_file():
 @app.route('/', methods=['POST'])
 def requested_ball_generation():
     input_words = request.form['inputWords']
+    print(input_words)
+
     input_words = input_text_to_path(input_words)
 
     return jsonify(ball_generation_response(input_words)), 202
