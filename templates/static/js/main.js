@@ -173,7 +173,7 @@ function requestBallGeneration(e) {
 
 function onBallGenerationDone(dataDict) {
     frame = 0;
-    document.getElementById("folder-structure").style.display = "block";
+    // document.getElementById("folder-structure").style.display = "block";
     document.getElementById("generationOut").style.display = "block";
     // buildFolders(dataDict);  // not anymore :(
     const plotly_data = JSON.parse(dataDict.plotly_json);
