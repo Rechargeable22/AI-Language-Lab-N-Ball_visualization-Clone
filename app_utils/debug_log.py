@@ -1,5 +1,7 @@
 import collections
 import copy
+import decimal
+import simplejson as json
 from enum import Enum
 import random
 import time
@@ -12,11 +14,17 @@ from matplotlib import pyplot
 from matplotlib.patches import Circle
 
 
-class Operation(Enum):
+class Operation:
     INITIALIZE = 0
     SEPERATE = 1
     CONTAIN = 2
     PERFECT = 3
+
+    def __init__(self, op):
+        self.op = op
+
+    def __eq__(self, other):
+        return self.op == other
 
 
 class NBall:
@@ -43,8 +51,17 @@ class Log:
         self.op_args = operation_args
         self.vec = vector
 
-    def __repr__(self):
-        return f"Log({self.key}, {self.op}, {self.op_args})"
+    # def __repr__(self):
+    #     return f"Log({self.key}, {self.op}, {self.op_args})"
+
+class DecimalEncoder(json.JSONEncoder):
+    def _iterencode(self, o, markers=None):
+        if isinstance(o, decimal.Decimal):
+            # wanted a simple yield str(o) in the next line,
+            # but that would mean a yield on the line with super(...),
+            # which wouldn't work (see my comment below), so...
+            return (str(o) for o in [o])
+        return super(DecimalEncoder, self)._iterencode(o, markers)
 
 
 def gen_layer(node, left, right, dic):
@@ -88,6 +105,10 @@ def generate_perfect_circles(dic):
 
 def log_processing(ball_generation_log, childrenDic, debug_circles_list):
     perfect_circles = generate_perfect_circles(childrenDic)
+    print("Children:", childrenDic)
+    b = [log.__dict__ for log in ball_generation_log]
+    a = json.dumps(b, cls=DecimalEncoder)
+
     [print(log) for log in ball_generation_log]
     # (a,b) a falsely contains b and has to separate it
     #   -> For all b we save a list of a's in which in falsely is e.g. dict[tank] = [plant, animal]

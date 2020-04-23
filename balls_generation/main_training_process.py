@@ -72,7 +72,7 @@ def initialize_ball(root, addDim=[], L0=0.1, R0=0.1,
     word2ballDic[root] = vec_norm(cpoint) + [L0, R0]
     print(f"Initialize Ball for root: {root}")
     ball_generation_log.append(
-        Log(key=root, operation=Operation.INITIALIZE, operation_args=[], vector=NBall(word2ballDic[root])))
+        Log(key=root, operation=Operation.INITIALIZE, operation_args=[], vector=word2ballDic[root]))
     if outputPath:
         create_ball_file(root, outputPath=outputPath, word2ballDic=word2ballDic)
     return word2ballDic[root], word2ballDic
@@ -306,7 +306,7 @@ def training_DC_by_name(childrenNames, wsChildrenDic=dict(), word2ballDic=dict()
 
                 ball_generation_log.append(
                     Log(key=curTreeName, operation=Operation.SEPERATE, operation_args=[refTreeName],
-                        vector=NBall(word2ballDic[curTreeName])))
+                        vector=word2ballDic[curTreeName]))
 
                 assert ratio0 != -1
 
@@ -369,7 +369,7 @@ def training_one_family(treeStruc=None, root=None, addDim=[], wsChildrenDic=dict
                                             wsChildrenDic=wsChildrenDic, wscatCodeDic=wscatCodeDic,
                                             word2ballDic=word2ballDic, outputPath=outputPath, logFile=logFile)
         ball_generation_log.append(
-            Log(key=root, operation=Operation.CONTAIN, operation_args=children, vector=NBall(word2ballDic[root])))
+            Log(key=root, operation=Operation.CONTAIN, operation_args=children, vector=word2ballDic[root]))
 
         return word2ballDic
 
