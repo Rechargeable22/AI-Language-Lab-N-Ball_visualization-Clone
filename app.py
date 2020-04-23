@@ -89,7 +89,7 @@ def requested_ball_generation():
 
     input_words = input_text_to_path(input_words)
 
-    return jsonify(ball_generation_response(input_words), background_ball_generation), 202
+    return jsonify(ball_generation_response(input_words, background_ball_generation)), 202
 
 
 @app.route('/tasks', methods=['POST'])
