@@ -86,9 +86,7 @@ def generate_perfect_circles(dic):
     return circle_dict
 
 
-
 def log_processing(ball_generation_log, childrenDic, debug_circles_list):
-
     perfect_circles = generate_perfect_circles(childrenDic)
     [print(log) for log in ball_generation_log]
     # (a,b) a falsely contains b and has to separate it
@@ -130,7 +128,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                 children = childrenDic[current]
                 children_vecs = [perfect_circles[c].vector for c in children]
                 curr_vec = np.average([children_vecs], axis=1).flatten()
-                curr_radius = perfect_circles[children[0]].radius *0.7
+                curr_radius = perfect_circles[children[0]].radius * 0.7
                 circles[current] = DebugCircle(curr_vec, curr_radius, log.key,
                                                color=perfect_circles[current].color)
             else:
@@ -166,7 +164,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                     del (overlapping_circles[other])
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
-        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log_string})   # richtig hacky :)
+        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log_string})  # richtig hacky :)
         # plot_circles(circles, action=log.op)
     # plot_circles(perfect_circles, action=Operation.PERFECT)
 
