@@ -1,3 +1,7 @@
+#ballPlotContainer, #fullTreeContainer, #animationPlotContainer{
+    display: none;
+}
+
 .list-group{
     height: 300px;
     overflow: scroll;

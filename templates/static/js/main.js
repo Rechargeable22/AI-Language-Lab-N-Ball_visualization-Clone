@@ -176,13 +176,21 @@ function onBallGenerationDone(dataDict) {
     // document.getElementById("folder-structure").style.display = "block";
     document.getElementById("generationOut").style.display = "block";
     // buildFolders(dataDict);  // not anymore :(
-    const plotly_data = JSON.parse(dataDict.plotly_json);
-    let layout = plotly_data.layout;
-    layout.dragmode = 'pan';
-    Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
+    if (dataDict.plotly_json) {
+        const plotly_data = JSON.parse(dataDict.plotly_json);
+        let layout = plotly_data.layout;
+        layout.dragmode = 'pan';
+        Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
+        buildFullTree(dataDict.plotly_full_tree);
+        document.getElementById("ballPlotContainer").style.display="block";
+        document.getElementById("fullTreeContainer").style.display="block";
+    } else {
+        // close useless plots
+        document.getElementById("ballPlotContainer").style.display="none";
+        document.getElementById("fullTreeContainer").style.display="none";
+    }
     frame_data = dataDict.plotly_animation;
     log_data = dataDict.generation_log;
-    buildFullTree(dataDict.plotly_full_tree);
     drawDebug()
 
 }
@@ -193,6 +201,8 @@ function drawDebug() {
     layout.dragmode = 'pan';
     Plotly.newPlot('animationPlot', animation_data.data, layout, {scrollZoom: true});
     document.getElementById("logText").textContent = log_data[frame];
+    document.getElementById("animationPlotContainer").style.display="block";
+
 }
 
 function buildFullTree(plotly_full_tree) {
