@@ -85,9 +85,10 @@ def requested_ball_generation_from_file():
 @app.route('/', methods=['POST'])
 def requested_ball_generation():
     input_words = request.form['inputWords']
-    print(input_words)
 
+    print(input_words)
     input_words = input_text_to_path(input_words)
+    print(input_words)
 
     return jsonify(ball_generation_response(input_words, background_ball_generation)), 202
 
@@ -119,6 +120,44 @@ def get_status():
     else:
         response_object = {"status": "error"}
     return jsonify(response_object)
+
+
+@app.route('/learning', methods=['POST'])
+def requested_learning_view():
+    # collect parameters needed
+    x = 4
+    y = 7
+    base = "president"
+
+    # randomly select z entites from wordnet that are somewhat related to the base entity
+
+
+    # generate x random statements involving the base and z entities that are true per definition. Our groundtruth
+
+    # generate y random statements as before. These are not necessarily be true but depend on the groundtruth
+
+    # let user answer whether he thinks each statement is true or false. Show a Venn Diagram for each statement.
+    # It might be more useful to highlight the words in question in a diagram of the whole structure.
+
+
+
+
+
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ def run(ext_args=None, input_words=None, debug_circles_list=None):
     app_utils.fetch_glove_model.fetch_glove()
     print(args)
     if generate_balls:
-        m.main((f" --generate_nballs  --w2v {word_embedding} --output {outfolder_path}").split(), input_words, debug_circles_list)
+        m.main(f" --generate_nballs  --w2v {word_embedding} --output {outfolder_path}".split(), input_words, debug_circles_list)
 
     BALLS_FILE_PATH = f"{outfolder_path}/nballs.txt"
     CHILDREN_FILE_PATH = f"{outfolder_path}/children.txt"
