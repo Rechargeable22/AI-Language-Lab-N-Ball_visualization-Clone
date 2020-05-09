@@ -124,13 +124,19 @@ def get_status():
 
 @app.route('/learning', methods=['POST'])
 def requested_learning_view():
+    import random
     # collect parameters needed
     x = 4
     y = 7
     base = "president"
 
     # randomly select z entites from wordnet that are somewhat related to the base entity
-
+    # these should be randomly generated from wordnet but make sense in the context
+    mock_entities = ["lawyer", "dentist", "woman", "man", "philosopher", "maniac", "musician", "mathematician"]
+    z = 4
+    words = random.choices(mock_entities+[base], k=z)
+    print(words)
+    # ill continue in another file
 
     # generate x random statements involving the base and z entities that are true per definition. Our groundtruth
 
