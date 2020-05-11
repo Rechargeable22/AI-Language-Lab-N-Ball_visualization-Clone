@@ -1,6 +1,7 @@
 let col = [];
-let frame=0;
-let frame_data=null;
+let frame = 0;
+let frame_data = null;
+let log_data = null;
 
 const clearCol = (colNum) => {
     console.assert(colNum >= 0 && colNum < 3, "False index: " + colNum);
@@ -171,25 +172,37 @@ function requestBallGeneration(e) {
 }
 
 function onBallGenerationDone(dataDict) {
-    frame=0;
-    document.getElementById("folder-structure").style.display = "block";
+    frame = 0;
+    // document.getElementById("folder-structure").style.display = "block";
     document.getElementById("generationOut").style.display = "block";
     // buildFolders(dataDict);  // not anymore :(
-    const plotly_data = JSON.parse(dataDict.plotly_json);
-    let layout = plotly_data.layout;
-    layout.dragmode = 'pan';
-    Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
-    frame_data=dataDict.plotly_animation;
-    buildFullTree(dataDict.plotly_full_tree);
+    if (dataDict.plotly_json) {
+        const plotly_data = JSON.parse(dataDict.plotly_json);
+        let layout = plotly_data.layout;
+        layout.dragmode = 'pan';
+        Plotly.newPlot('ballPlot', plotly_data.data, layout, {scrollZoom: true});
+        buildFullTree(dataDict.plotly_full_tree);
+        document.getElementById("ballPlotContainer").style.display="block";
+        document.getElementById("fullTreeContainer").style.display="block";
+    } else {
+        // close useless plots
+        document.getElementById("ballPlotContainer").style.display="none";
+        document.getElementById("fullTreeContainer").style.display="none";
+    }
+    frame_data = dataDict.plotly_animation;
+    log_data = dataDict.generation_log;
     drawDebug()
 
 }
 
-function drawDebug(){
+function drawDebug() {
     const animation_data = JSON.parse(frame_data[frame]);
     layout = animation_data.layout;
     layout.dragmode = 'pan';
     Plotly.newPlot('animationPlot', animation_data.data, layout, {scrollZoom: true});
+    document.getElementById("logText").textContent = log_data[frame];
+    document.getElementById("animationPlotContainer").style.display="block";
+
 }
 
 function buildFullTree(plotly_full_tree) {
@@ -200,18 +213,45 @@ function buildFullTree(plotly_full_tree) {
 }
 
 function debugNextStep() {
-    if (frame_data && frame+1 < frame_data.length)
-        frame+=1;
+    if (frame_data && frame + 1 < frame_data.length)
+        frame += 1;
     drawDebug()
 }
 
 function debugPreviousStep() {
-if (frame_data && frame > 0)
-        frame-=1;
+    if (frame_data && frame > 0)
+        frame -= 1;
     drawDebug()
 }
 
 window.onload = function () {
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
     col = [document.getElementById("col1"), document.getElementById("col2"),
         document.getElementById("col3")];
     let submitForm = document.getElementById("input-words");

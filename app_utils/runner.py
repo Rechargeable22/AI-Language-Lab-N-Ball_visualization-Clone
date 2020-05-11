@@ -34,7 +34,7 @@ def run(ext_args=None, input_words=None, debug_circles_list=None):
     app_utils.fetch_glove_model.fetch_glove()
     print(args)
     if generate_balls:
-        m.main((f" --generate_nballs  --w2v {word_embedding} --output {outfolder_path}").split(), input_words, debug_circles_list)
+        m.main(f" --generate_nballs  --w2v {word_embedding} --output {outfolder_path}".split(), input_words, debug_circles_list)
 
     BALLS_FILE_PATH = f"{outfolder_path}/nballs.txt"
     CHILDREN_FILE_PATH = f"{outfolder_path}/children.txt"
@@ -53,8 +53,8 @@ def run(ext_args=None, input_words=None, debug_circles_list=None):
 
 if __name__ == "__main__":
     output = []
-    run("", input_text_to_path(
-        "human is animal"),
-        output)
-    # run(" --no_visualize_nballs --outfolder_path out/random", input_text_to_path("duck is animal, dog is animal, chicken is animal,human is animal, socrates is human, kant is human, wolf is animal, tank is not animal, flower is plant, rose is flower, tulp is flower"), output)
+    # run("", input_text_to_path(
+    #     "human is animal, "),
+    #     output)
+    run(" --no_visualize_nballs --outfolder_path out/random", input_text_to_path("duck is animal, dog is animal, chicken is animal,human is animal, socrates is human, kant is human, wolf is animal, tank is not animal, flower is plant, rose is flower, tulp is flower"), output)
     print(output)

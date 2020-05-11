@@ -9,38 +9,54 @@
     <div style="padding-right: 50px;">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Universit%C3%A4t_Bonn.svg/184px-Universit%C3%A4t_Bonn.svg.png">
     </div>
-    <h1 style="padding-top: 5px;">High Dimensional Words Balls Visualization </h1>
     <div>
         <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Aiga_mail.png" style="height: 60px;">
         <a href="mailto:dongt@bit.uni-bonn.de">Contact</a>
     </div>
 </div>
-
-<div class="jumbotron text-center">
-    <p class="lead">Imposing Category Trees Onto Word-Embeddings Using A Geometric Construction.</p>
-    <p style="margin-top: 3rem;">Please submit or upload your tree:</p>
-    <p>Trees shall have the following structure: <span style="margin-left: 3em;"></span><samp><var>Noun</var> is (not)
-        <var>Noun</var></samp></p>
-    <p>e.g. <samp>chicken is animal, human is animal, socrates is human, kant is human</samp></p>
+<div id="top-div">
+    <div class="jumbotron text-center" id="headline-div">
+        <h1>Visualizing High-dimensional Ball-Embeddings while Keeping Topological Relations </h1>
 
 
-    <form id="input-words" method="POST"
-          style="display:flex; flex-direction: row; justify-content: center; margin-left: 3rem;  margin-bottom: 1rem;">
-        <!--        <input id="input-text-field" name="text">-->
-        <textarea id="input-text-field" name="text" cols="100" rows="2"></textarea>
+        <div style="margin-bottom: 10rem;"></div>
+    </div>
+    <div class="jumbotron text-center" id="form-div">
+        <p style="color: white; ">Please submit or upload your tree:</p>
+        <form id="input-words" method="POST"
+              style="display:flex; flex-direction: row; justify-content: center; margin-left: 3rem;  margin-bottom: 1rem;">
 
-        <input id="input-submit-field" type="submit" class="btn btn-primary btn-md"
-               style="height: 5rem; margin-left: 10px;">
+            <!-- Trigger/Open The Modal -->
+            <button id="myBtn"><i class="fa fa-info"></i></button>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p style="margin-top: 3em;">Trees shall have the following structure: <span
+                            style="margin-left: 3em;"></span><samp><var>Noun</var> is (not)
+                        <var>Noun</var></samp></p>
+                    <p>e.g. <samp>chicken is animal, human is animal, socrates is human, kant is human</samp></p>
+                </div>
+            </div>
 
-    </form>
+            <textarea id="input-text-field" name="text" cols="100" rows="2"></textarea>
 
-    <form id="input-file" method=post enctype=multipart/form-data>
-        <input type=file name=file id="fileval">
-        <button type="button" value="Upload" name="Upload" id="upload-button" class="btn btn-primary btn-md">
-            Upload
-        </button>
-    </form>
+            <input id="input-submit-field" type="submit" class="btn btn-primary btn-md"
+                   style="height: 5rem; margin-left: 10px;">
+
+        </form>
+
+        <form id="input-file" method=post enctype=multipart/form-data style="color: white; ">
+            <input type=file name=file id="fileval">
+            <button type="button" value="Upload" name="Upload" id="upload-button" class="btn btn-primary btn-md">
+                Upload
+            </button>
+        </form>
+    </div>
 </div>
+
+<div style="margin-bottom: 15rem;"></div></div>
 
 <div id="generating-ball" style="display: none; flex-direction: column; align-items: center">
     <p>Generating balls</p>
@@ -55,7 +71,6 @@
     </div>
     <p id="queue-text" style="margin: 5px">Waiting in queue</p>
 </div>
-
 
 <div class="container mt-4 mb-5" id="folder-structure" style="display: none">
     <div class="row title-row mb-3">
@@ -77,21 +92,31 @@
     </div>
 </div>
 
+
 <div id="generationOut" style="display: none; text-align: center;">
-    <h4>Tree</h4>
-    <div class="container">
-        <div class="chart" id="fullTree"></div>
+    <div id="fullTreeContainer">
+        <h4>Tree</h4>
+        <div class="container">
+            <div class="chart" id="fullTree"></div>
+        </div>
     </div>
 
-    <h4 style="margin-top: 2em">Tree imposed on word embeddings</h4>
-    <div class="container">
-        <div class="chart" id="ballPlot"></div>
+    <div id="ballPlotContainer">
+        <h4 style="margin-top: 2em">Tree imposed on word embeddings</h4>
+        <div class="container">
+            <div class="chart" id="ballPlot"></div>
+        </div>
     </div>
 
-    <h4 style="margin-top: 2em">Tree generation</h4>
-    <div class="container">
-        <div class="chart" id="animationPlot"></div>
+    <div id="animationPlotContainer">
+        <h4 style="margin-top: 2em">Tree generation</h4>
+        <div class="container">
+            <div class="chart" id="animationPlot"></div>
+        </div>
     </div>
+
+    <p><samp id="logText"></samp></p>
+
 
     <div style="margin-bottom: 5%" class="container">
         <button type="button" value="Previous Step" name="Previous Step" id="previous-step-button"

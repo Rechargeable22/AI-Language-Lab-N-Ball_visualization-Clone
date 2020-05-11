@@ -1,5 +1,7 @@
 import collections
 import copy
+import decimal
+import simplejson as json
 from enum import Enum
 import random
 import time
@@ -12,11 +14,17 @@ from matplotlib import pyplot
 from matplotlib.patches import Circle
 
 
-class Operation(Enum):
+class Operation:
     INITIALIZE = 0
     SEPERATE = 1
     CONTAIN = 2
     PERFECT = 3
+
+    def __init__(self, op):
+        self.op = op
+
+    def __eq__(self, other):
+        return self.op == other
 
 
 class NBall:
@@ -43,8 +51,17 @@ class Log:
         self.op_args = operation_args
         self.vec = vector
 
-    def __repr__(self):
-        return f"Log({self.key}, {self.op}, {self.op_args})"
+    # def __repr__(self):
+    #     return f"Log({self.key}, {self.op}, {self.op_args})"
+
+class DecimalEncoder(json.JSONEncoder):
+    def _iterencode(self, o, markers=None):
+        if isinstance(o, decimal.Decimal):
+            # wanted a simple yield str(o) in the next line,
+            # but that would mean a yield on the line with super(...),
+            # which wouldn't work (see my comment below), so...
+            return (str(o) for o in [o])
+        return super(DecimalEncoder, self)._iterencode(o, markers)
 
 
 def gen_layer(node, left, right, dic):
@@ -86,10 +103,12 @@ def generate_perfect_circles(dic):
     return circle_dict
 
 
-
 def log_processing(ball_generation_log, childrenDic, debug_circles_list):
-
     perfect_circles = generate_perfect_circles(childrenDic)
+    print("Children:", childrenDic)
+    b = [log.__dict__ for log in ball_generation_log]
+    a = json.dumps(b, cls=DecimalEncoder)
+    print(a)
     [print(log) for log in ball_generation_log]
     # (a,b) a falsely contains b and has to separate it
     #   -> For all b we save a list of a's in which in falsely is e.g. dict[tank] = [plant, animal]
@@ -101,7 +120,9 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
 
     circles = {}
     for index, log in enumerate(ball_generation_log):
+        log_string = ""
         if log.op == Operation.INITIALIZE:
+            log_string = "initialize"
             current = log.key
             if current in circles:
                 continue
@@ -128,12 +149,13 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                 children = childrenDic[current]
                 children_vecs = [perfect_circles[c].vector for c in children]
                 curr_vec = np.average([children_vecs], axis=1).flatten()
-                curr_radius = perfect_circles[children[0]].radius *0.7
+                curr_radius = perfect_circles[children[0]].radius * 0.7
                 circles[current] = DebugCircle(curr_vec, curr_radius, log.key,
                                                color=perfect_circles[current].color)
             else:
                 circles[current] = copy.deepcopy(perfect_circles[current])
         elif log.op == Operation.CONTAIN:
+            log_string = "contain"
             circles[current] = copy.deepcopy(perfect_circles[current])
             # def such_children_to_perfect(key):
             #     for child in childrenDic[key]:
@@ -141,6 +163,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
             #         circles[child]=copy.deepcopy(perfect_circles[child])
             # such_children_to_perfect(current)
         elif log.op == Operation.SEPERATE:
+            log_string = "separate"
             current = log.key  # current stays the same, we kick out other.
             other = log.op_args[0]  # elment to be seperated from current; not sure about [0]
             if other in overlapping_circles:
@@ -162,7 +185,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                     del (overlapping_circles[other])
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
-        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log.op})   # richtig hacky :)
+        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log_string})  # richtig hacky :)
         # plot_circles(circles, action=log.op)
     # plot_circles(perfect_circles, action=Operation.PERFECT)
 
