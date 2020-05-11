@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: ecml2020.aux
+The style file: plain.bst
+Database file #1: XBib_NN.bib
+Database file #2: XBib.bib
+You've used 15 entries,
+            2118 wiz_defined-function locations,
+            598 strings with 6840 characters,
+and the built_in function-call counts, 5380 in all, are:
+= -- 509
+> -- 283
+< -- 3
++ -- 111
+- -- 96
+* -- 366
+:= -- 894
+add.period$ -- 47
+call.type$ -- 15
+change.case$ -- 91
+chr.to.int$ -- 0
+cite$ -- 15
+duplicate$ -- 216
+empty$ -- 422
+format.name$ -- 96
+if$ -- 1137
+int.to.chr$ -- 0
+int.to.str$ -- 15
+missing$ -- 16
+newline$ -- 79
+num.names$ -- 31
+pop$ -- 110
+preamble$ -- 1
+purify$ -- 78
+quote$ -- 0
+skip$ -- 143
+stack$ -- 0
+substring$ -- 270
+swap$ -- 49
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 56
+warning$ -- 0
+while$ -- 44
+width$ -- 17
+write$ -- 167

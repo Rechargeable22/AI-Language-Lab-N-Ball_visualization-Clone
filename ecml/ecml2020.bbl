@@ -1,0 +1,94 @@
+\begin{thebibliography}{10}
+
+\bibitem{Belinkov17}
+Yonatan Belinkov and Yonatan Bisk.
+\newblock Synthetic and natural noise both break neural machine translation.
+\newblock {\em CoRR}, abs/1711.02173, 2017.
+
+\bibitem{benjio19}
+Joshua Bengio.
+\newblock From system 1 deep learning to system 2 deep learning.
+\newblock In {\em Keynote at NeurIPS}, 2019.
+
+\bibitem{dong19iclr}
+Tiansi Dong, Chrisitan Bauckhage, Hailong Jin, Juanzi Li, Olaf~H. Cremers,
+  Daniel Speicher, Armin~B. Cremers, and J\"{o}rg Zimmermann.
+\newblock Imposing {Category} {Trees} {Onto} {Word}-{Embeddings} {Using} {A}
+  {Geometric} {Construction}.
+\newblock In {\em ICLR-19}, New Orleans, {USA.} May 6-9, 2019.
+
+\bibitem{dong19}
+Tiansi Dong, Zhigang Wang, Juanzi Li, Christian Bauckhage, and Armin~B.
+  Cremers.
+\newblock Triple {Classification} {Using} {Regions} and {Fine}-{Grained}
+  {Entity} {Typing}.
+\newblock In {\em Proceedings of the Thirty-{Third} {AAAI} Conference on
+  Artificial Intelligence (AAAI-19)}, pages 77--85, Honolulu, Hawaii, {USA.}
+  January 27 -- February 1, 2019.
+
+\bibitem{diagram95}
+Janice Glasgow, N.~Hari Narayanan, and B.~Chandrasekaran, editors.
+\newblock {\em Diagrammatic Reasoning: Cognitive and Computational
+  Perspectives}.
+\newblock MIT Press, Cambridge, MA, USA, 1995.
+
+\bibitem{JiaLiangaL17}
+Robin Jia and Percy Liang.
+\newblock Adversarial examples for evaluating reading comprehension systems.
+\newblock In {\em Proceedings of the 2017 Conference on Empirical Methods in
+  Natural Language Processing, {EMNLP} 2017, Copenhagen, Denmark, September
+  9-11, 2017}, pages 2021--2031, 2017.
+
+\bibitem{Kahneman11}
+D.~Kahneman.
+\newblock {\em Thinking, fast and slow}.
+\newblock Allen Lane, Penguin Books, 2011.
+\newblock Nobel laureate in Economics in 2002.
+
+\bibitem{tenenbaum15}
+Brenden Lake, Ruslan Salakhutdinov, and {Joshua B.} Tenenbaum.
+\newblock Human-level concept learning through probabilistic program induction.
+\newblock {\em Science}, 350(6266):1332--1338, 12 2015.
+
+\bibitem{LeCunNature15}
+Yann LeCun, Yoshua Bengio, and Geoffrey~E. Hinton.
+\newblock Deep learning.
+\newblock {\em Nature}, 521(7553):436--444, 2015.
+
+\bibitem{li2019smoothing}
+Xiang Li, Luke Vilnis, Dongxu Zhang, Michael Boratko, and Andrew McCallum.
+\newblock Smoothing the geometry of box embeddings.
+\newblock In {\em International Conference on Learning Representations (ICLR)},
+  2019.
+
+\bibitem{JuanziEmnlp18}
+Xin Lv, Lei Hou, Juanzi Li, and Zhiyuan Liu.
+\newblock Differentiating concepts and instances for knowledge graph embedding.
+\newblock In {\em Proceedings of the 2018 Conference on Empirical Methods in
+  Natural Language Processing}, pages 1971--1979. Association for Computational
+  Linguistics, 2018.
+
+\bibitem{ren2020}
+H.~Ren, W.~Hu, and J.~Leskovec.
+\newblock Query2box: {Reasoning} over {Knowledge} {Graphs} in {Vector} {Space}
+  {Using} {Box} {Embeddings}.
+\newblock In {\em ICLR-20}, 2020.
+
+\bibitem{BiDAF16}
+Min~Joon Seo, Aniruddha Kembhavi, Ali Farhadi, and Hannaneh Hajishirzi.
+\newblock Bidirectional attention flow for machine comprehension.
+\newblock {\em CoRR}, abs/1611.01603, 2016.
+
+\bibitem{Maaten08}
+L.~Van~Maaten, , and G.~Hinton.
+\newblock Visualizing {Data} using t-{SNE}.
+\newblock {\em Journal of Machine Learning Research}, 9:2579--2605, 2008.
+
+\bibitem{Venn1880}
+John Venn.
+\newblock On the diagrammatic and mechanical representation of propositions and
+  reasonings.
+\newblock {\em The London, Edinburgh and Dublin Philosophical Magazine and
+  Journal of Science}, 10(58):1--18, 1880.
+
+\end{thebibliography}
