@@ -6,7 +6,7 @@ import simplejson as json
 import plotly_visualization.graphs_navigator as util
 
 from app_utils import runner as r
-from app_utils.debug_log import Log, log_processing, Operation
+from app_utils.Visualize_Ball_Generation_Debug_Steps import Log, log_processing, Operation
 
 
 def background_ball_generation(input_words):
