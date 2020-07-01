@@ -17,7 +17,7 @@ pip install --upgrade -r requirements.txt
 
 # System Overview
 
-![Overview](../blob/master/report/res/overview.png)
+![Overview](https://github.com/Rechargeable22/AI-Language-Lab-N-Ball_visualization-Clone/blob/master/report/res/overview.png)
 
 # N-Balls-Visualization
 
