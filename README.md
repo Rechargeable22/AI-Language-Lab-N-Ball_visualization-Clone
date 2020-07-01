@@ -15,6 +15,9 @@ pip install --upgrade -r requirements.txt
 
 **Hyponym** A hyponym is in a type-of relationship with its hypernym. For example, pigeon, crow, eagle and seagull are all hyponyms of bird (their hypernym); which, in turn, is a hyponym of animal.
 
+# System Overview
+
+![Overview](../blob/master/report/res/overview.png)
 
 # N-Balls-Visualization
 
