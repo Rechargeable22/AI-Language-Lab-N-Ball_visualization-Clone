@@ -1,4 +1,4 @@
-scikit-learn
+scikit-learn~=0.23.1
 cycler
 gdbn
 gnumpy
@@ -6,11 +6,11 @@ jedi
 joblib
 kiwisolver
 Lasagne
-matplotlib
-nltk
+matplotlib~=3.2.2
+nltk~=3.5
 nolearn
 nose
-numpy
+numpy~=1.19.0
 pyparsing
 python-dateutil
 singledispatch
@@ -20,5 +20,11 @@ Theano
 traitlets
 virtualenv
 requests
-redis
-rq
+redis~=3.5.3
+rq~=1.4.3
+Flask~=1.1.2
+Werkzeug~=1.0.1
+setuptools~=47.3.1
+simplejson~=3.17.0
+pandas~=1.0.5
+plotly~=4.8.2
