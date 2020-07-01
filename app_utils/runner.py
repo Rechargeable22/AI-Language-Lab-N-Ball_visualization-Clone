@@ -1,3 +1,5 @@
+# For manual (without the website) testing
+
 import sys
 import argparse
 

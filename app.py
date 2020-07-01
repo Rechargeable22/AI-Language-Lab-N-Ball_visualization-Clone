@@ -44,10 +44,16 @@ def index():
     return render_template('home.html')
 
 
-# @app.route('/plotly')
-# def plotly():
-#     animation_graph_plot2()
-#     return render_template('plotly.html')
+@app.route('/', methods=['POST'])
+def requested_ball_generation():
+    input_words = request.form['inputWords']
+
+    print(input_words)
+    input_words = input_text_to_path(input_words)
+    print(input_words)
+
+    return jsonify(ball_generation_response(input_words, background_ball_generation)), 202
+
 
 @app.route('/tree')
 def tree():
@@ -82,17 +88,6 @@ def requested_ball_generation_from_file():
     return jsonify({"status": "failed"}), 400
 
 
-@app.route('/', methods=['POST'])
-def requested_ball_generation():
-    input_words = request.form['inputWords']
-
-    print(input_words)
-    input_words = input_text_to_path(input_words)
-    print(input_words)
-
-    return jsonify(ball_generation_response(input_words, background_ball_generation)), 202
-
-
 @app.route('/tasks', methods=['POST'])
 def get_status():
     # flash("Requested generation")
@@ -120,50 +115,6 @@ def get_status():
     else:
         response_object = {"status": "error"}
     return jsonify(response_object)
-
-
-@app.route('/learning', methods=['POST'])
-def requested_learning_view():
-    import random
-    # collect parameters needed
-    x = 4
-    y = 7
-    base = "president"
-
-    # randomly select z entites from wordnet that are somewhat related to the base entity
-    # these should be randomly generated from wordnet but make sense in the context
-    mock_entities = ["lawyer", "dentist", "woman", "man", "philosopher", "maniac", "musician", "mathematician"]
-    z = 4
-    words = random.choices(mock_entities+[base], k=z)
-    print(words)
-    # ill continue in another file
-
-    # generate x random statements involving the base and z entities that are true per definition. Our groundtruth
-
-    # generate y random statements as before. These are not necessarily be true but depend on the groundtruth
-
-    # let user answer whether he thinks each statement is true or false. Show a Venn Diagram for each statement.
-    # It might be more useful to highlight the words in question in a diagram of the whole structure.
-
-
-
-
-
-    pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

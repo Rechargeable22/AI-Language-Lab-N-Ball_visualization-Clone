@@ -6,7 +6,7 @@ ProjectBase$ rq worker high
 ProjectBase$ rq worker low
 ```
 
-
+Use the fetch glove once
 
 
 
