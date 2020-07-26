@@ -7,9 +7,8 @@ from werkzeug.utils import secure_filename
 from rq import Queue
 
 from web_app.Background_ball_generation import background_ball_generation, generate_animation_from_log
-from balls_generation.files_utils import read_input_words
 from web_app.web_input_parsing import input_text_to_path
-from plotly_visualization.graphs_navigator import plot_animation
+from web_app.plotly_visualization.graphs_navigator import plot_animation
 
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")

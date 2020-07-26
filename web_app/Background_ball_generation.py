@@ -3,10 +3,10 @@ import os
 import random
 import simplejson as json
 
-import plotly_visualization.graphs_navigator as util
+import web_app.plotly_visualization.graphs_navigator as util
 
 from web_app import runner as r
-from web_app.Visualize_Ball_Generation_Debug_Steps import Log, log_processing, Operation
+from web_app.Visualize_Ball_Generation_Debug_Steps import Log, log_processing
 
 
 def background_ball_generation(input_words):
