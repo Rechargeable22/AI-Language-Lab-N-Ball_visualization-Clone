@@ -1,23 +1,50 @@
-#Set up runner
+# Overview
+
+This repository will help you to generate N-Ball embeddings for abitrary tree-structures and then ...
+
+
+
+# System Overview
+
+![Overview](https://github.com/Rechargeable22/AI-Language-Lab-N-Ball_visualization-Clone/blob/master/report/res/overview.png)
+
+# Installation
 ```
 ProjectBase$ apt install redis
 ProjectBase$ pip install rq rq-dashboard
 ProjectBase$ rq worker high
 ProjectBase$ rq worker low
-```
 
+```
+pip install --upgrade -r requirements.txt
 Use the fetch glove once
 
 
 
+
+
 # Usefullness
-pip install --upgrade -r requirements.txt
+
 
 **Hyponym** A hyponym is in a type-of relationship with its hypernym. For example, pigeon, crow, eagle and seagull are all hyponyms of bird (their hypernym); which, in turn, is a hyponym of animal.
 
-# System Overview
+# Definitions
 
-![Overview](https://github.com/Rechargeable22/AI-Language-Lab-N-Ball_visualization-Clone/blob/master/report/res/overview.png)
+### String Tree-Structure
+
+Every line contains a node of the tree.
+Every line has whitespace separated entries that define the complete branch from the root to the node that is being defined. The first entry always names the node that is being described. The remaining entries describe the branch from the root.
+First entry corresponds to the node that is being recorded e.g. apple.n.01 . The second entry
+E.g.
+```
+*root* *root*
+apple.n.01 *root* entity.n.01 object.n.01 whole.n.02 fruit.n.01 apple.n.01 
+```
+First line: Node-name `*root*`, complete branch from root `*root*`.
+Second line; Node-name `apple.n.01`, complete branch from root `*root* entity.n.01 object.n.01 whole.n.02 fruit.n.01 apple.n.01 `.
+In this example the inbetween nodes would need to be defined similarly to apple.
+
+The .n/.v addition to the words are in accordance to [wordnet](https://medium.com/parrot-prediction/dive-into-wordnet-with-nltk-b313c480e788) but not nessecary.
 
 # N-Balls-Visualization
 
