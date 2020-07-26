@@ -1,14 +1,11 @@
-# For manual (without the website) testing
-
-import sys
 import argparse
 
 import app_utils.Fetch_glove_model
 from balls_generation import main as m
-from app_utils.web_input_parsing import input_text_to_path
 
 
-def run(ext_args: str = None, input_words:str=None, debug_circles_list:list=None) -> None:
+
+def run(ext_args: str = None, input_words: str = None, debug_circles_list: list = None) -> None:
     """
     Translates the CLI of the N-Ball generation to be python callable. Takes a tree-structure
     and generates corresponding output files see  :func:'balls_generation.main.main'
@@ -63,10 +60,3 @@ def run(ext_args: str = None, input_words:str=None, debug_circles_list:list=None
     if visualize_nballs:
         m.main(f" --vis --circles {CIRCLES_FILE_PATH}".split())
 
-
-if __name__ == "__main__":
-    output = []
-    run(" --no_visualize_nballs --outfolder_path out/random", input_text_to_path(
-        "duck is animal, dog is animal, chicken is animal,human is animal, socrates is human, kant is human, wolf is animal, tank is not animal, flower is plant, rose is flower, tulp is flower"),
-        output)
-    print(output)
