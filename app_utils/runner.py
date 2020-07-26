@@ -11,7 +11,7 @@ def run(ext_args: str = None, input_words: str = None, debug_circles_list: list 
     and generates corresponding output files see  :func:'balls_generation.main.main'
 
     :param ext_args: comma seperated CLI arguments as str, see :func:'balls_generation.main.main'
-    :param input_words: the tree structure that is used to generate the N-Balls, see #String Tree-Structure
+    :param input_words: the tree structure that is used to generate the N-Balls, see ReadMe#String Tree-Structure
     :param debug_circles_list: should pass empty list will be filled with debug steps of the N-Ball generation.
     Unlike other returns that are written to disk we opted to keep this additional output in memory
 
