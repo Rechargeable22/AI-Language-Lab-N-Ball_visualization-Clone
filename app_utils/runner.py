@@ -4,7 +4,6 @@ import app_utils.Fetch_glove_model
 from balls_generation import main as m
 
 
-
 def run(ext_args: str = None, input_words: str = None, debug_circles_list: list = None) -> None:
     """
     Translates the CLI of the N-Ball generation to a python callable interface. Takes a tree-structure
@@ -59,4 +58,3 @@ def run(ext_args: str = None, input_words: str = None, debug_circles_list: list 
 
     if visualize_nballs:
         m.main(f" --vis --circles {CIRCLES_FILE_PATH}".split())
-
