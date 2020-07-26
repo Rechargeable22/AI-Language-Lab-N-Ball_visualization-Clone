@@ -1,7 +1,7 @@
 import itertools
 import json
 
-from mathplot_visualization.vectors_utils_2d import *
+from balls_generation.mathplot_visualization.vectors_utils_2d import *
 
 
 def check_one_level(word, circles_dic, children_dic, disjoint_failed=None, contained_failed=None):

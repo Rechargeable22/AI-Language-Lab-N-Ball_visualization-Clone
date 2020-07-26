@@ -1,6 +1,6 @@
 import argparse
 
-import app_utils.Fetch_glove_model
+import web_app.Fetch_glove_model
 from balls_generation import main as m
 
 
@@ -40,7 +40,7 @@ def run(ext_args: str = None, input_words: str = None, debug_circles_list: list 
 
     # default word-embedding used for N-Ball
     word_embedding = "res/glove.6B.50d.txt"
-    app_utils.Fetch_glove_model.fetch_glove()
+    web_app.Fetch_glove_model.fetch_glove()
 
     if generate_balls:
         m.main(f" --generate_nballs  --w2v {word_embedding} --output {outfolder_path}".split(), input_words,

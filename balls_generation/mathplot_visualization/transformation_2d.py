@@ -1,5 +1,5 @@
 import itertools
-from mathplot_visualization.vectors_utils_2d import *
+from balls_generation.mathplot_visualization.vectors_utils_2d import *
 
 ALPHA = 0.000000000001
 

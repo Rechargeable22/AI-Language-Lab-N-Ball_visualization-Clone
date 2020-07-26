@@ -15,7 +15,7 @@ from balls_generation.geo_transformation import ratio_homothetic_DC_transform, \
     shift_whole_tree_of
 import functools
 import collections
-from app_utils.Visualize_Ball_Generation_Debug_Steps import Operation, NBall, log_processing, Log
+from web_app.Visualize_Ball_Generation_Debug_Steps import Operation, NBall, log_processing, Log
 
 decimal.getcontext().prec = DECIMAL_PRECISION
 

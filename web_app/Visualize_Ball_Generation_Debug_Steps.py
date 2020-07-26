@@ -54,6 +54,7 @@ class Log:
     # def __repr__(self):
     #     return f"Log({self.key}, {self.op}, {self.op_args})"
 
+
 class DecimalEncoder(json.JSONEncoder):
     def _iterencode(self, o, markers=None):
         if isinstance(o, decimal.Decimal):

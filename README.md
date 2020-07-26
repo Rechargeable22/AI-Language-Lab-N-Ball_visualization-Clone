@@ -8,6 +8,9 @@ This repository will help you to generate N-Ball embeddings for abitrary tree-st
 
 ![Overview](https://github.com/Rechargeable22/AI-Language-Lab-N-Ball_visualization-Clone/blob/master/report/res/overview.png)
 
+## Folder Structure
+
+
 # Installation
 ```
 apt install redis
@@ -48,7 +51,7 @@ First line: Node-name `*root*`, complete branch from root `*root*`.
 Second line; Node-name `apple.n.01`, complete branch from root `*root* entity.n.01 object.n.01 whole.n.02 fruit.n.01 apple.n.01 `.
 In this example the inbetween nodes would need to be defined similarly to apple.
 
-Also so see: [web parsing](app_utils/web_input_parsing.py)
+Also so see: [web parsing](web_app/web_input_parsing.py)
 
 The .n/.v addition to the words are in accordance to [wordnet](https://medium.com/parrot-prediction/dive-into-wordnet-with-nltk-b313c480e788) but not nessecary.
 

@@ -1,7 +1,7 @@
 from balls_generation.files_utils import *
-from mathplot_visualization.dimensions_utils import reduce_dimensions
-from mathplot_visualization.checker import check_all_tree
-from mathplot_visualization.transformation_2d import fix_one_family
+from balls_generation.mathplot_visualization.dimensions_utils import reduce_dimensions
+from balls_generation.mathplot_visualization.checker import check_all_tree
+from balls_generation.mathplot_visualization.transformation_2d import fix_one_family
 
 def reduce_and_fix(balls_file_path, children_file_path, output):
     output_file_path, output_file_ext = os.path.splitext(output)
