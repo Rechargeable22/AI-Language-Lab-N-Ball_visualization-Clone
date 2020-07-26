@@ -10,6 +10,7 @@ from app_utils.Visualize_Ball_Generation_Debug_Steps import Log, log_processing,
 
 
 def background_ball_generation(input_words):
+    # TODO folder name collision
     outfolder_name = random.randint(0, 1000000)
     outfolder_path = f"out/{outfolder_name}"
     if not os.path.isdir(outfolder_path):
