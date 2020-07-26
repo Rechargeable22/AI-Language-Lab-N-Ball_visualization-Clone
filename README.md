@@ -10,14 +10,18 @@ This repository will help you to generate N-Ball embeddings for abitrary tree-st
 
 # Installation
 ```
-ProjectBase$ apt install redis
-ProjectBase$ pip install rq rq-dashboard
-ProjectBase$ rq worker high
-ProjectBase$ rq worker low
+apt install redis
+pip install rq rq-dashboard
+pip install --upgrade -r requirements.txt
+```
+Then to run the code:
 
 ```
-pip install --upgrade -r requirements.txt
-Use the fetch glove once
+rq worker high
+rq worker low
+python app.py
+```
+ The website should then be locally [available]( http://127.0.0.1:5000/).
 
 
 
