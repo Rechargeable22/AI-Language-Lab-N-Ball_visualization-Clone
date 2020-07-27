@@ -4,7 +4,7 @@ from igraph import Graph
 from balls_generation.files_utils import read_word_path
 
 
-def path_tree_forest(input_list, file_path):
+def plot_path_tree_forest(input_list, file_path):
     paths = read_word_path(file_path)
     if "*root*" in paths:
         del paths["*root*"]

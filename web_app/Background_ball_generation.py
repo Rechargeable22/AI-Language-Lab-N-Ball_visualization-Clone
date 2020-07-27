@@ -27,7 +27,7 @@ def background_ball_generation(input_words):
     word_senses_cumulative = input_words  # hack me
 
     out = {
-        "plotly_json": util.plot_balls(outfolder_path),
+        "plotly_json": util.plot_balls_json(outfolder_path),
         "plotly_full_tree": util.plot_combined_tree_json(word_senses_cumulative, outfolder_path),
         "plotly_animation": util.plot_animation_json(debug_circles_list),
         "generation_log": log}
