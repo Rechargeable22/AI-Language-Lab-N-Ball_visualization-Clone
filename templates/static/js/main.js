@@ -197,8 +197,8 @@ function requestBallGeneration(e) {
 }
 
 /**
- *  Renders received data from finished ball generation on the website.
- * @param dataDict
+ * Renders received data from finished ball generation on the website.
+ * @param dataDict: Object containing data to render the plotly plots and the generation animation.
  */
 function onBallGenerationDone(dataDict) {
     frame = 0;
@@ -224,6 +224,9 @@ function onBallGenerationDone(dataDict) {
 
 }
 
+/**
+ * Renders ball generation
+ */
 function drawDebug() {
     const animation_data = JSON.parse(frame_data[frame]);
     layout = animation_data.layout;
@@ -234,19 +237,28 @@ function drawDebug() {
 
 }
 
+/**
+ * Renders a family tree of the generated balls showcasing the parent child relationships.
+ * @param plotly_full_tree: JSON encoded plotly object that represents the tree.
+ */
 function buildFullTree(plotly_full_tree) {
     let plotly_data = JSON.parse(plotly_full_tree);
-    // let plotly_data = plotly_full_tree;
     let layout = plotly_data.layout;
     Plotly.newPlot('fullTree', plotly_data.data, layout, {staticPlot: true});
 }
 
+/**
+ * Takes a step forward in the ball generation animation.
+ */
 function debugNextStep() {
     if (frame_data && frame + 1 < frame_data.length)
         frame += 1;
     drawDebug()
 }
 
+/**
+ * Takes a step forward in the ball generation animation.
+ */
 function debugPreviousStep() {
     if (frame_data && frame > 0)
         frame -= 1;
@@ -267,19 +279,19 @@ window.onload = function () {
     // When the user clicks on the button, open the modal
     btn.onclick = function() {
       modal.style.display = "block";
-    }
+    };
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
       modal.style.display = "none";
-    }
+    };
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
       }
-    }
+    };
 
     col = [document.getElementById("col1"), document.getElementById("col2"),
         document.getElementById("col3")];
