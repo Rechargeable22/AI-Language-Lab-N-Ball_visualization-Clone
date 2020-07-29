@@ -99,8 +99,8 @@ def get_status():
     """
     Server Interface of the Webeapp that can be queried to check on task process of the ball generation.
     Queue_priority and a task_id are required arguments.
-    :return:    An error if the task is not yet completed or an object containing all the data that is needed to render
-                the results of the ball generation.
+    :return:    An error or an object containing either all the data that is needed to render
+                the results of the ball generation or the place of the task in the current queue.
     """
     res = request.get_json()
     if res["queue_priority"] == "high":

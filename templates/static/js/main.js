@@ -3,6 +3,10 @@ let frame = 0;
 let frame_data = null;
 let log_data = null;
 
+/**
+ * >>>>>>>>>>>>>
+ * Functions used by the buildFolders function
+ */
 const clearCol = (colNum) => {
     console.assert(colNum >= 0 && colNum < 3, "False index: " + colNum);
     let child = col[colNum].lastElementChild;
@@ -50,7 +54,10 @@ function createThirdColumnDiv(t) {
     return divElement;
 }
 
-/** Deprecated sexy code **/
+/**
+ * Renders an interactive folder structure explaining the different meanings of words.
+ * @param dataDict: Object containing the information needed to generate the folders.
+ */
 function buildFolders(dataDict) {
     let col1 = col[0];
     let col2 = col[1];
@@ -95,6 +102,10 @@ function buildFolders(dataDict) {
     }
 }
 
+/**
+ * Renders the position in the task queue to the website.
+ * @param data: object containing the position and type of queue the task is in
+ */
 function displayQueuePosition(data) {
     const queuedJobIds = data.queued_job_ids;
     const jobPosition = parseInt(queuedJobIds.indexOf(data.task_id));
@@ -112,6 +123,13 @@ function displayQueuePosition(data) {
     }
 }
 
+/**
+ * Client side function that calls the server and requests an update on the ball generation task once every second
+ * (active polling).
+ * Propagates the current position in the task queue.
+ * Calls functions to render received data on success.
+ * @param data
+ */
 function requestBallGenerationStatus(data) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/tasks', true);
@@ -140,6 +158,9 @@ function requestBallGenerationStatus(data) {
     xhr.send(JSON.stringify(data));
 }
 
+/**
+ * Requests the server to start the ball generation process for a file uploaded by the user.
+ */
 function requestBallGenerationFromFile() {
     let formData = new FormData();
     const file = document.getElementById('fileval').files[0];
@@ -156,6 +177,9 @@ function requestBallGenerationFromFile() {
     xhr.send(formData);
 }
 
+/**
+ * Requests the server to start the ball generation process from user input.
+ */
 function requestBallGeneration(e) {
     e.preventDefault();
 
@@ -172,6 +196,10 @@ function requestBallGeneration(e) {
     xhr.send("inputWords=" + inputWords);
 }
 
+/**
+ *  Renders received data from finished ball generation on the website.
+ * @param dataDict
+ */
 function onBallGenerationDone(dataDict) {
     frame = 0;
     // document.getElementById("folder-structure").style.display = "block";
