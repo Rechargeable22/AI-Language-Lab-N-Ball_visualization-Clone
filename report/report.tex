@@ -1,5 +1,5 @@
 \documentclass[]{article}
-
+\usepackage{listings}
 %opening
 \title{Visualizing High-dimensional Ball-Embeddings
 	while Keeping Topological Relations}
@@ -45,7 +45,19 @@ To make the system accessible from almost any modern devise we chose to expose t
 
 Finally given the ball embedding history we determine for every step if any two N-balls intersect, contain each other or are separate. This allows us to create a visual feedback reminiscent of a debugger of the N-balls construction along with a input taxonomy as a tree. Not only can the user see when his approach violates the taxonomy but also how and with which participant.
 
+\subsection{Flask}
+In order to provide a easily accessible demonstration website or visualization and interactive debugging tool is available through a website. As the original N-Ball embedding is implemented in Python, flask was chosen as a web framework.  Flask is a Python based micro framework and as such does not require any additional libraries and is readily available through the python package manager. 
+As is convention with a flask application we provide HTML templates in the template folder. These templates are just the basic HTML skeleton which defines where and in which order a different graphs, input fields and text fields will be inserted on the website. The basic formatting is done through the CSS bootstrap framework. We further extend on this with our own CSS file which can be found under templates/static/css along with the JavaScript code under templates/static/js. 
 
+
+\subsection{Redis}
+For every input the system needs to generate the corresponding ball embeddings, save each step in the construction process, reduce the dimension of the embedding down to two dimensions for visualization and where possible resolve overlapping that results from the dimensionality reduction. Depending on the size of the input tree this process can take anywhere from a few seconds to a few minutes. With a naïve implementation the Web server would simply do all of these tasks before sending back the response to the user. This would not only leave she was awaiting with no feedback but even more importantly the server would not be reachable at all during that timeframe for other users. While works well for single user it is obviously unacceptable for a publicly available website. We need to make sure that a large will not block the Web server for everybody else for minutes possibly even hours. Therefore we need to decouple the serving of the website from the actual computation of the ball embeddings. This is done by using a task queue.
+We chose to use a commonly used task queue named redis. This allows us to create a task queue so when the user requests the computation of a ball embedding we added to the task you and immediately returned to the user to tell him that we received his request and that he has been placed into the task queue. Once the task is complete the results can be sent to the users browser through AJAX without the need to refresh or redirect the website. This allows for seamless display of the results. While the website will return immediately and give the user adequate feedback this still allows a single user to effectively block the queue. As he places a large request once the Web server starts computing this task it will not work on tasks that have been requested later. In order to keep the websites response time for small requests low we introduced a second high priority queue that is reserved for small to moderate input sizes to ensure that users they want to experiment with the service will not be blocked by a single large request.
+\begin{lstlisting}
+r = redis.Redis()
+q_high = Queue("high", connection=r)
+q_low  = Queue("low", connection=r)  
+\end{lstlisting}
 
 \section{Services}
 
