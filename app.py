@@ -99,7 +99,7 @@ def requested_ball_generation_from_file():
 @app.route('/tasks', methods=['POST'])
 def get_status():
     """
-    Server Interface of the Webeapp that can be queried to check on task process of the ball generation.
+    Server Interface of the Webapp that can be queried to check on task process of the ball generation.
     Queue_priority and a task_id are required arguments.
     :return:    An error or an object containing either all the data that is needed to render
                 the results of the ball generation or the place of the task in the current queue.
