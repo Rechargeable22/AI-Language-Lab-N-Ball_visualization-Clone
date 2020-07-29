@@ -25,7 +25,7 @@ def ball_generation_response(input_words, f):
     Enqueues the task f in the correct queue. Short tasks in the high-priority queue and long in the low-priority queue.
     :param input_words: User input words from which we generate balls
     :param f: The function that shall be perfomed on the input
-    :return: Object containing the task_id that can be queried to check the jobs status.
+    :return: Object containing the task_id and queue_priority that can be queried to check the jobs status.
     """
     if len(input_words) > QUEUE_THRESHOLD:
         job = q_low.enqueue(f, input_words, job_timeout=60000)
@@ -53,6 +53,7 @@ def index():
 def requested_ball_generation():
     """
     Called when the user enters words to the webapp's form and then submits it.
+    return: Information to udentify the request namly its queue_priority and taskID as json
     """
     input_words = request.form['inputWords']
     print(input_words)
@@ -67,7 +68,7 @@ def requested_ball_generation_from_file():
     """
     Startes the ball generation process from an uploaded file. This can either be a sequence of words in which case
     it gets processed like manually entered text, or a JSON file in which it's considered to be a generation log file.
-    :return: An error if the background task cant be started.
+    :return: request info or an error if the background task cant be started.
     """
     if "file" in request.files:
         file = request.files["file"]
