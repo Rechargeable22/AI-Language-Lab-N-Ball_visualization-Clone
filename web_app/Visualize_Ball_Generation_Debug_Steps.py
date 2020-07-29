@@ -109,8 +109,8 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
     print("Children:", childrenDic)
     b = [log.__dict__ for log in ball_generation_log]
     a = json.dumps(b, cls=DecimalEncoder)
-    print(a)
-    [print(log) for log in ball_generation_log]
+    # print(a)
+    # [print(log) for log in ball_generation_log]    # if you want to see what the log looks like
     # (a,b) a falsely contains b and has to separate it
     #   -> For all b we save a list of a's in which in falsely is e.g. dict[tank] = [plant, animal]
     overlap_pairs = [(log.key, arg) for log in ball_generation_log for arg in log.op_args if

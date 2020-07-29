@@ -47,6 +47,7 @@ def background_ball_generation(input_words):
 
 
 def generate_animation_from_log(json_input):
+    # Debug helpers
     # ball_generation_log, childrenDic
     sample_children = {'*root*': ['tank', 'flower', 'animal'], 'animal': ['human', 'chicken'], 'chicken': [],
                        'human': ['kant', 'socrates'], 'socrates': [], 'kant': [], 'tank': [], 'flower': []}

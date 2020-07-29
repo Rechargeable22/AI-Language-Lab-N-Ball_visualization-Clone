@@ -614,6 +614,5 @@ def train_word2ball(root="", outputPath='', logFile='', wsChildrenDic=dict(),
 
     testing_whole_family(outputPath=outputPath, wsChildrenDic=wsChildrenDic, outputBallFile=outputBallFile)
 
-    # our code
+    # Introduction of log processing code
     log_processing(ball_generation_log, wsChildrenDic, debug_circles_list)
-    # [print(log) for log in ball_generation_log]
