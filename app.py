@@ -21,6 +21,12 @@ QUEUE_THRESHOLD = 50  # inputs > QUEUE_THRESHOLD => run on the low priority queu
 
 
 def ball_generation_response(input_words, f):
+    """
+    Enqueues the task f in the correct queue. Short tasks in the high-priority queue and long in the low-priority queue.
+    :param input_words: User input words from which we generate balls
+    :param f: The function that shall be perfomed on the input
+    :return: Object containing the task_id that can be queried to check the jobs status.
+    """
     if len(input_words) > QUEUE_THRESHOLD:
         job = q_low.enqueue(f, input_words, job_timeout=60000)
         q_name = "low"
@@ -46,7 +52,7 @@ def index():
 @app.route('/', methods=['POST'])
 def requested_ball_generation():
     """
-    Called when the user enters words to the webapps form and then submits it.
+    Called when the user enters words to the webapp's form and then submits it.
     """
     input_words = request.form['inputWords']
     print(input_words)
@@ -58,6 +64,11 @@ def requested_ball_generation():
 
 @app.route('/file', methods=['POST'])
 def requested_ball_generation_from_file():
+    """
+    Startes the ball generation process from an uploaded file. This can either be a sequence of words in which case
+    it gets processed like manually entered text, or a JSON file in which it's considered to be a generation log file.
+    :return: An error if the background task cant be started.
+    """
     if "file" in request.files:
         file = request.files["file"]
         fn = secure_filename(file.filename)
@@ -85,7 +96,12 @@ def requested_ball_generation_from_file():
 
 @app.route('/tasks', methods=['POST'])
 def get_status():
-    # flash("Requested generation")
+    """
+    Server Interface of the Webeapp that can be queried to check on task process of the ball generation.
+    Queue_priority and a task_id are required arguments.
+    :return:    An error if the task is not yet completed or an object containing all the data that is needed to render
+                the results of the ball generation.
+    """
     res = request.get_json()
     if res["queue_priority"] == "high":
         task = q_high.fetch_job(res["task_id"])
