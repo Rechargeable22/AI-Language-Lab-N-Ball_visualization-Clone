@@ -56,8 +56,6 @@ def balls_to_json(path):
 
         out.append(item)
 
-
-    # print(json_balls)
     return out
 
 

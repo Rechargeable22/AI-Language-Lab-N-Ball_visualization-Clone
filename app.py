@@ -8,15 +8,15 @@ from rq import Queue
 
 from web_app.Background_ball_generation import background_ball_generation, generate_animation_from_log
 from web_app.web_input_parsing import input_text_to_path
-from web_app.plotly_visualization.graphs_navigator import plot_animation
+
 
 app = Flask(__name__)
 app._static_folder = os.path.abspath("templates/static/")
 
-### Queue stuff
+"""Connects webserver to redis queue and sets a threshold value for sorting incoming jobs"""
 r = redis.Redis()
-q_high = Queue("high", connection=r)  # start with rq worker high
-q_low = Queue("low", connection=r)  # start with rq worker low
+q_high = Queue("high", connection=r)  # start with 'rq worker high'
+q_low = Queue("low", connection=r)  # start with 'rq worker low'
 QUEUE_THRESHOLD = 50  # inputs > QUEUE_THRESHOLD => run on the low priority queue
 
 
@@ -45,19 +45,15 @@ def index():
 
 @app.route('/', methods=['POST'])
 def requested_ball_generation():
+    """
+    Called when the user enters words to the webapps form and then submits it.
+    """
     input_words = request.form['inputWords']
-
     print(input_words)
     input_words = input_text_to_path(input_words)
     print(input_words)
 
     return jsonify(ball_generation_response(input_words, background_ball_generation)), 202
-
-
-@app.route('/tree')
-def tree():
-    list = []
-    return plot_animation(list)
 
 
 @app.route('/file', methods=['POST'])

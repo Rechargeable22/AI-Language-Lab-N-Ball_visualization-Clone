@@ -50,6 +50,7 @@ function createThirdColumnDiv(t) {
     return divElement;
 }
 
+/** Deprecated sexy code **/
 function buildFolders(dataDict) {
     let col1 = col[0];
     let col2 = col[1];
