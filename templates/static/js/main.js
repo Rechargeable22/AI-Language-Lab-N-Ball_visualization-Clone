@@ -3,6 +3,10 @@ let frame = 0;
 let frame_data = null;
 let log_data = null;
 
+/**
+ * >>>>>>>>>>>>>
+ * Functions used by the buildFolders function
+ */
 const clearCol = (colNum) => {
     console.assert(colNum >= 0 && colNum < 3, "False index: " + colNum);
     let child = col[colNum].lastElementChild;
@@ -50,7 +54,10 @@ function createThirdColumnDiv(t) {
     return divElement;
 }
 
-/** Deprecated sexy code **/
+/**
+ * Renders an interactive folder structure explaining the different meanings of words.
+ * @param dataDict: Object containing the information needed to generate the folders.
+ */
 function buildFolders(dataDict) {
     let col1 = col[0];
     let col2 = col[1];
@@ -95,6 +102,10 @@ function buildFolders(dataDict) {
     }
 }
 
+/**
+ * Renders the position in the task queue to the website.
+ * @param data: object containing the position and type of queue the task is in
+ */
 function displayQueuePosition(data) {
     const queuedJobIds = data.queued_job_ids;
     const jobPosition = parseInt(queuedJobIds.indexOf(data.task_id));
@@ -112,6 +123,13 @@ function displayQueuePosition(data) {
     }
 }
 
+/**
+ * Client side function that calls the server and requests an update on the ball generation task once every second
+ * (active polling).
+ * Propagates the current position in the task queue.
+ * Calls functions to render received data on success.
+ * @param data
+ */
 function requestBallGenerationStatus(data) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/tasks', true);
@@ -140,6 +158,9 @@ function requestBallGenerationStatus(data) {
     xhr.send(JSON.stringify(data));
 }
 
+/**
+ * Requests the server to start the ball generation process for a file uploaded by the user.
+ */
 function requestBallGenerationFromFile() {
     let formData = new FormData();
     const file = document.getElementById('fileval').files[0];
@@ -156,6 +177,9 @@ function requestBallGenerationFromFile() {
     xhr.send(formData);
 }
 
+/**
+ * Requests the server to start the ball generation process from user input.
+ */
 function requestBallGeneration(e) {
     e.preventDefault();
 
@@ -172,6 +196,10 @@ function requestBallGeneration(e) {
     xhr.send("inputWords=" + inputWords);
 }
 
+/**
+ * Renders received data from finished ball generation on the website.
+ * @param dataDict: Object containing data to render the plotly plots and the generation animation.
+ */
 function onBallGenerationDone(dataDict) {
     frame = 0;
     // document.getElementById("folder-structure").style.display = "block";
@@ -196,6 +224,9 @@ function onBallGenerationDone(dataDict) {
 
 }
 
+/**
+ * Renders ball generation
+ */
 function drawDebug() {
     const animation_data = JSON.parse(frame_data[frame]);
     layout = animation_data.layout;
@@ -206,19 +237,28 @@ function drawDebug() {
 
 }
 
+/**
+ * Renders a family tree of the generated balls showcasing the parent child relationships.
+ * @param plotly_full_tree: JSON encoded plotly object that represents the tree.
+ */
 function buildFullTree(plotly_full_tree) {
     let plotly_data = JSON.parse(plotly_full_tree);
-    // let plotly_data = plotly_full_tree;
     let layout = plotly_data.layout;
     Plotly.newPlot('fullTree', plotly_data.data, layout, {staticPlot: true});
 }
 
+/**
+ * Takes a step forward in the ball generation animation.
+ */
 function debugNextStep() {
     if (frame_data && frame + 1 < frame_data.length)
         frame += 1;
     drawDebug()
 }
 
+/**
+ * Takes a step forward in the ball generation animation.
+ */
 function debugPreviousStep() {
     if (frame_data && frame > 0)
         frame -= 1;
@@ -239,19 +279,19 @@ window.onload = function () {
     // When the user clicks on the button, open the modal
     btn.onclick = function() {
       modal.style.display = "block";
-    }
+    };
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
       modal.style.display = "none";
-    }
+    };
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
       }
-    }
+    };
 
     col = [document.getElementById("col1"), document.getElementById("col2"),
         document.getElementById("col3")];

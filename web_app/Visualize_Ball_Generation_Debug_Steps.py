@@ -15,6 +15,9 @@ from matplotlib.patches import Circle
 
 
 class Operation:
+    """
+    The 4 operations used in the animation of the generation process
+    """
     INITIALIZE = 0
     SEPERATE = 1
     CONTAIN = 2
@@ -28,11 +31,17 @@ class Operation:
 
 
 class NBall:
+    """
+    A N-Dimensional ball defined by its location in vectorspace
+    """
     def __init__(self, vector):
         self.vector = vector
 
 
 class DebugCircle:
+    """
+    Class of 2D Circles shown in the animation. Defined by x, y location, radius and the word they represent.
+    """
     def __init__(self, vector, radius, text, color):
         self.vector = vector
         self.radius = radius
@@ -45,17 +54,25 @@ class DebugCircle:
 
 
 class Log:
+    """
+    Log of all actions performed in the N-Ball generation process.
+    It can be used to generate a simplified generation animation.
+    :param key: Word/Name of the ball in question e.g. "socrates"
+    :param operation: Operation performed at this step in the generation
+    :param op_args: arguments for the operation
+    :param vec: high-dim vector of the ball in question
+    """
     def __init__(self, key, operation, operation_args, vector):
         self.key = key
         self.op = operation
         self.op_args = operation_args
         self.vec = vector
 
-    # def __repr__(self):
-    #     return f"Log({self.key}, {self.op}, {self.op_args})"
-
 
 class DecimalEncoder(json.JSONEncoder):
+    """
+    Helper class for JSON encoding logs
+    """
     def _iterencode(self, o, markers=None):
         if isinstance(o, decimal.Decimal):
             # wanted a simple yield str(o) in the next line,
@@ -66,7 +83,15 @@ class DecimalEncoder(json.JSONEncoder):
 
 
 def gen_layer(node, left, right, dic):
-    # generate circles for each layer of the source tree recursively
+    """
+    Generate circles for each layer of the source tree recursively.
+
+    :param node: Name of current ball
+    :param left: space limit to left
+    :param right: space limit to right
+    :param dic: Dictionary containing parent children relationships of the balls we want to embed as circles
+    :return:
+    """
     children = dic[node]
     if children:
         if len(children) == 1:
@@ -87,7 +112,12 @@ def gen_layer(node, left, right, dic):
 
 
 def generate_perfect_circles(dic):
-    # generates positions for circles in which they match the given tree structure perfectly
+    """
+    Generates positions for circles in which they match the given tree structure perfectly.
+
+    :param dic: Dictionary containing parent children relationships of the balls we want to embed as circles
+    :return: Dictionary of DebugCircle class objects that are perfectly aligned for the generation animation
+    """
     def flatten(l):
         for el in l:
             if isinstance(el, collections.Iterable):
@@ -105,12 +135,20 @@ def generate_perfect_circles(dic):
 
 
 def log_processing(ball_generation_log, childrenDic, debug_circles_list):
+    """
+    Takes the log of the ball generation process and a dictionary containing the parent child relationships between
+    balls and fills up the 'debug_circles_list' dictionary with a simplified animation/history of the ball generation
+    process. The dictionary contains a list of currently rendered circles and the accompanying operation.
+    :param ball_generation_log: List of Log object that describe the generation process
+    :param childrenDic: Dict of parent child relationships of balls
+    :param debug_circles_list:
+    :return:
+    """
     perfect_circles = generate_perfect_circles(childrenDic)
     print("Children:", childrenDic)
-    b = [log.__dict__ for log in ball_generation_log]
+    b = [log.__dict__ for log in ball_generation_log]   # {'key': 'socrates', 'op': 0, 'op_args': [], 'vec': [Decimal('0.003969213617755114223681905'), ...
     a = json.dumps(b, cls=DecimalEncoder)
-    # print(a)
-    # [print(log) for log in ball_generation_log]    # if you want to see what the log looks like
+    print(a)    # the log we can use to generate an animation printed to the command line
     # (a,b) a falsely contains b and has to separate it
     #   -> For all b we save a list of a's in which in falsely is e.g. dict[tank] = [plant, animal]
     overlap_pairs = [(log.key, arg) for log in ball_generation_log for arg in log.op_args if
@@ -137,15 +175,6 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                 curr_vec = np.array([(min_x + max_x) / 2, 0])
                 curr_radius = (max_x - min_x) / 2 * 1.  # maybe we can make this stand out by multiplying with 0.9
                 circles[current] = DebugCircle(curr_vec, curr_radius, current, color=perfect_circles[current].color)
-            # else:
-            #     for l in ball_generation_log:
-            #         if l.op_args and current in l.op_args:
-            #             other = l.key
-            #             curr_vec = perfect_circles[other].vector + (np.random.random_sample((2,)) - 0.5) * \
-            #                        perfect_circles[other].radius
-            #             curr_radius = perfect_circles[other].radius
-            #             circles[current] = DebugCircle(curr_vec, curr_radius, log.key,
-            #                                            color=perfect_circles[current].color)
             elif len(childrenDic[current]) > 0:
                 children = childrenDic[current]
                 children_vecs = [perfect_circles[c].vector for c in children]
@@ -158,11 +187,6 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
         elif log.op == Operation.CONTAIN:
             log_string = "contain"
             circles[current] = copy.deepcopy(perfect_circles[current])
-            # def such_children_to_perfect(key):
-            #     for child in childrenDic[key]:
-            #         such_children_to_perfect(child)
-            #         circles[child]=copy.deepcopy(perfect_circles[child])
-            # such_children_to_perfect(current)
         elif log.op == Operation.SEPERATE:
             log_string = "separate"
             current = log.key  # current stays the same, we kick out other.
@@ -187,10 +211,12 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
         debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log_string})  # richtig hacky :)
-        # plot_circles(circles, action=log.op)
-    # plot_circles(perfect_circles, action=Operation.PERFECT)
 
 
+"""
+>>>>>>>>>>>>>>>>>
+Convenience functions for directly plotting circles outside of the webapp
+"""
 def plot_circles(circles, action):
     vectors = [value.vector for key, value in circles.items()]
     radii = [value.radius for key, value in circles.items()]

@@ -6,6 +6,17 @@ import plotly
 
 
 def plot_balls(balls):
+    """
+    Creates the figure using plotly library.
+    Adds all the labels for the balls as a traces.
+    Adds all the balls as a shapes.
+    Updates the layout of the plot.
+    Parse figure to json.
+
+    :param balls: list of objects of Ball class. See :func:'balls_to_object.balls_wrapper.plotly_visualization.web_app'
+
+    :return: Serialized JSON formatted ''str'' of plot showing balls-structured tree
+    """
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=[x.vector[0] for x in balls],
