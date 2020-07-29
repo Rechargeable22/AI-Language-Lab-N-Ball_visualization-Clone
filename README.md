@@ -30,12 +30,11 @@ python app.py
 
 
 
-# Usefullness
-
-
-**Hyponym** A hyponym is in a type-of relationship with its hypernym. For example, pigeon, crow, eagle and seagull are all hyponyms of bird (their hypernym); which, in turn, is a hyponym of animal.
-
 # Definitions
+
+
+### Hyponym 
+A hyponym is in a type-of relationship with its hypernym. For example, pigeon, crow, eagle and seagull are all hyponyms of bird (their hypernym); which, in turn, is a hyponym of animal.
 
 ### String Tree-Structure
 

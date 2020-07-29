@@ -10,6 +10,16 @@ from web_app.Visualize_Ball_Generation_Debug_Steps import Log, log_processing
 
 
 def background_ball_generation(input_words):
+    """
+    Generates all data that will be shown in the webapp in a background task due to the long processing time.
+
+    :param input_words: The text submitted by the user e.g. "chicken is animal, human is animal, socrates is human"
+    :return:    A JSON encoded dictionary containing the following data:
+                plotly_json: generated data to show a Tree imposed on word embeddings
+                plotly_full_tree: data to plot a tree overview of the input words
+                plotly_animation: data to plot the stepwise generation process of the tree
+                generation_log: log of the generation process
+    """
     # TODO folder name collision
     outfolder_name = random.randint(0, 1000000)
     outfolder_path = f"out/{outfolder_name}"
