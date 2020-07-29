@@ -1,3 +1,4 @@
+igraph
 scikit-learn~=0.23.1
 cycler
 gdbn

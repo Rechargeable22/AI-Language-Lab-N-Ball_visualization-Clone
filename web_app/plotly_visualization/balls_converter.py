@@ -16,6 +16,14 @@ class Ball:
 
 
 def balls_to_object(path):
+    """
+    Reads the file containing output balls and converts them to the objects of class Ball:
+
+    :param path: path to the file containing output balls.
+
+    :return: list of objects of class Ball
+    """
+
     circles_dic = {}
     read_balls_file(path, circles_dic)
 
@@ -35,6 +43,13 @@ def balls_to_object(path):
 
 
 def balls_to_json(path):
+    """
+    Reads the file containing output balls and converts them to serialized JSON formatted ''str''.
+
+    :param path: path to the file containing output balls.
+
+    :return: list of JSON formatted ''str''
+    """
     circles_dic = {}
     read_balls_file(path, circles_dic)
 
