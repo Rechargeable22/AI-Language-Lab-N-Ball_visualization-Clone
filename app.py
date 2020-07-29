@@ -53,6 +53,7 @@ def index():
 def requested_ball_generation():
     """
     Called when the user enters words to the webapp's form and then submits it.
+    input takes the form "Enity is (NOT)? Enity, ..." e.g. "Sokrates is Human, Sokrates is NOT animal"
     return: Information to udentify the request namly its queue_priority and taskID as json
     """
     input_words = request.form['inputWords']
