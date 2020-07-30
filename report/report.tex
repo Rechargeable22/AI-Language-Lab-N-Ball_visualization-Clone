@@ -24,14 +24,14 @@
 \newpage
 \section{Introduction}
 
-Bing able to learn from data, and robust to noisy inputs, Deep-Learning has been successful in a variety of AI tasks that have frustrated classic symbolic approaches for decades, such as object classification, machine translation, voice recognition, question-answering \cite{LeCunNature15}. However, Deep-Learning  Systems lack of explainability, can be fooled \cite{BiDAF16,JiaLiangaL17,Belinkov17}, and normally need much more learning data than human does \cite{tenenbaum15}. This introduces potential dangers into safety critical applications, such as autonomous driving. Introducing innate structures into Deep-Learning system has been advocated, and listed as one of the AI research topics in the Townhall meeting at AAAI-19, so that Deep-Learning research shall solve logical reasoning tasks (System 2 of mind) \cite{Kahneman11,benjio19}. As logical reasoning, such as Syllogism, is better represented by inclusion relations among regions, instead of translation among vectors \cite{Venn1880,diagram95}, recent researches have been attempting to promote vectors into regions to improve performances of logical query, triple classification, link prediction of Knowledge Graph \cite{dong19iclr,dong19,li2019smoothing,JuanziEmnlp18,ren2020}.   
+%Bing able to learn from data, and robust to noisy inputs, Deep-Learning has been successful in a variety of AI tasks that have frustrated classic symbolic approaches for decades, such as object classification, machine translation, voice recognition, question-answering \cite{LeCunNature15}. However, Deep-Learning  Systems lack of explainability, can be fooled \cite{BiDAF16,JiaLiangaL17,Belinkov17}, and normally need much more learning data than human does \cite{tenenbaum15}. This introduces potential dangers into safety critical applications, such as autonomous driving. Introducing innate structures into Deep-Learning system has been advocated, and listed as one of the AI research topics in the Townhall meeting at AAAI-19, so that Deep-Learning research shall solve logical reasoning tasks (System 2 of mind) \cite{Kahneman11,benjio19}. As logical reasoning, such as Syllogism, is better represented by inclusion relations among regions, instead of translation among vectors \cite{Venn1880,diagram95}, recent researches have been attempting to promote vectors into regions to improve performances of logical query, triple classification, link prediction of Knowledge Graph \cite{dong19iclr,dong19,li2019smoothing,JuanziEmnlp18,ren2020}.   
 
 % Though a powerful tool for learning from data, Deep Learning limits itself in representing everything as vectors, and can only approximate symbolic representation and reasoning. This limitation can be approached by promoting vector embeddings to ball embeddings. Vector embeddings of nodes in a taxonomy structure can be promoted into balls in higher-dimensional space, such that (1) each vector embedding is well preserved by the central point of a ball; (2) child-parent relations are precisely encoded by inclusion relations among balls. Significant results are obtained in experiments on unifying word-embeddings with hypernym trees and on unifying entity-embeddings learned from knowledge-graphs and tree structures. Being able to precisely imposing external symbolic structures onto Deep Learning systems not only paves the way towards resolving the antagonism between connectionism and symbolicism in the literature, but also has tremendous value in real applications. For example, being able to impose traffic rules onto autonomous driving cars would ultimately solve the safety issue.  
 
 % Taxonomy, as a classification of concepts, exists in almost every disciplinary, such as file systems in computer science , government organization of a country, classification of viruses, plants, and animals. 
 
 % Ball embeddings are rigorously constructed by a sequence of geometric transformations under the  condition that the loss function of the embedding must be zero, which is a condition that is not required and has not been targeted by Deep Learning approaches. This also raises the visualization problem of ball embeddings. 
-The popular  tool t-NSE \cite{Maaten08} for visualizing vector embeddings cannot be directly applied for visualizing ball embeddings, for the dimensional reduction process of t-NSE does not guarantee the topological relations among balls. In this paper, we demonstrate an open source system that is able to visualize ball embeddings while keeping their topological relations. The main contributions of this system are as follows: (1) it has an vivid interactive user interface that can be used for diagrammatic reasoning among taxonomy; (2) it provides an effective and friendly approach for debugging the geometric construction process of ball embeddings; (3) it provides a batch service that accepts a large scale input for construct ball embeddings. 
+%The popular  tool t-NSE \cite{Maaten08} for visualizing vector embeddings cannot be directly applied for visualizing ball embeddings, for the dimensional reduction process of t-NSE does not guarantee the topological relations among balls. In this paper, we demonstrate an open source system that is able to visualize ball embeddings while keeping their topological relations. The main contributions of this system are as follows: (1) it has an vivid interactive user interface that can be used for diagrammatic reasoning among taxonomy; (2) it provides an effective and friendly approach for debugging the geometric construction process of ball embeddings; (3) it provides a batch service that accepts a large scale input for construct ball embeddings. 
 
 \section{N-Balls embeddings}
 \label{sec::ball}
@@ -45,8 +45,28 @@ N-Ball and beddings combines both approaches to the reliability of a hierarchica
 \label{sec::arch}
 Here we will describe the basic information flow between the user interface given on the website, the Web server and the processing of the request. In order to display any kind website we first need to set up a Web server that serves HTML files along with their corresponding CSS and JavaScript files. As discussed previously we chose to use flask for this task as it allows us to stay in the Python ecosystem. We created a basic HTML website that provides a input field as well as some basic information about the project says that the user can understand the idea of the project and then proceed to either execute the given example or come up with his own. 
 The user provides a tree structure which you would like to embed into a word embedding. Using statements with a fixed structure
-E1 is E2
-E1 is NOT E2
+\begin{center}
+
+\begin{tabular}{c}
+\begin{lstlisting}
+Enity_1 is Enity_2
+Enity_1 is NOT Enity_2
+\end{lstlisting}
+\end{tabular}
+
+for example
+
+\begin{tabular}{c}
+\begin{lstlisting}
+chicken  is animal
+human    is animal
+socrates is human
+tank     is NOT animal
+kant     is human
+
+\end{lstlisting}
+\end{tabular}
+\end{center}
 provides a simple way to describe a single hypernym, hypnoym relationship in a form that is both human readable and can be easily passed internally. Instead of using the input field the user can also upload a text file where each line contains a single hyper new statement. While this does provide a good way to intuitively define small tree structures we have to make a few assumptions in order to do the actual visualization. Both the underlying word vectors as well as the algorithm to create the N ball embedding is now assumed by our system to be the ones used in the original paper [CITE]. Alternatively the user can upload a Json file where he not only provides the tree structure but can also provide his own N ball embedding's along with the construction steps. With this we can create the visualizations for any Ball embedding. For the use of a simple json format should allow any application to quickly output the required attributes. 
 At this point we have the user input which contains a list of entities as well as their relationship with each other henceforth abbreviated simply with input. The more specific case that also includes N-ball embedding will be handled basically the same with the difference that we can skip the steps required to compute that embedding ourselves. As described in section \ref{sec::redis} instead of handling the request directly we will create a task and place it into a task to to allow for direct feedback.  
 
@@ -69,17 +89,33 @@ As is convention with a flask application we provide HTML templates in the templ
 \label{sec::redis}
 For every input the system needs to generate the corresponding ball embeddings, save each step in the construction process, reduce the dimension of the embedding down to two dimensions for visualization and where possible resolve overlapping that results from the dimensionality reduction. Depending on the size of the input tree this process can take anywhere from a few seconds to a few minutes. With a naïve implementation the Web server would simply do all of these tasks before sending back the response to the user. This would not only leave she was awaiting with no feedback but even more importantly the server would not be reachable at all during that timeframe for other users. While works well for single user it is obviously unacceptable for a publicly available website. We need to make sure that a large will not block the Web server for everybody else for minutes possibly even hours. Therefore we need to decouple the serving of the website from the actual computation of the ball embeddings. This is done by using a task queue.
 We chose to use a commonly used task queue named redis. This allows us to create a task queue so when the user requests the computation of a ball embedding we added to the task you and immediately returned to the user to tell him that we received his request and that he has been placed into the task queue. Once the task is complete the results can be sent to the users browser through AJAX without the need to refresh or redirect the website. This allows for seamless display of the results. While the website will return immediately and give the user adequate feedback this still allows a single user to effectively block the queue. As he places a large request once the Web server starts computing this task it will not work on tasks that have been requested later. In order to keep the websites response time for small requests low we introduced a second high priority queue that is reserved for small to moderate input sizes to ensure that users they want to experiment with the service will not be blocked by a single large request.
+\begin{center}
+
+
+\begin{tabular}{c}
 \begin{lstlisting}
 r = redis.Redis()
 q_high = Queue("high", connection=r)
 q_low  = Queue("low", connection=r)  
 \end{lstlisting}
+\end{tabular}
+\end{center}
 
-\section{Services}
+\subsection{Word sense exploration}
+The initial scope of the project was planning to extract the tree structure that is needed to compute the N-Ball embedding from wordnet. WordNet is a database that collects semantic relationships between English words. The user would have simply given a list of input words that he wishes to explore and we would get all possible connections between these words from WordNet. 
+Right away one issue arises many words in the English language change their meaning depending on the context they are used in. For example the word tank can be used to describe the container that you can fill the fluids or the armored vehicle used in most modern wars. To resolve this ambiguity WordNet attaches a word sense notation to each word. In our example tank.n.01 and tank.n.02 as well as many more. Every entry will now uniquely respond to one word sentence of the word tank. This notation uses .n to denote nouns and .v to denote verbs. After this separation it simply enumerates all existing word sentences. Now that the meaning of each entry is fixed WordNet can assign meaningful relationships between these unique entities. 
 
-\subsection{words meaning and etimology}
+However it might confuse the user that he provided a single word tank but the system presents him with multiple versions of the same word. To make this more understandable we build a word sense Explorer thatshows the user which word sentences exist for every input word. Further we would give a definition of the selected word sense along with a single branch going back from this entity up to the root node that is being visualized.
 
-\subsection{Simple Diagrammatic Reasoning}
+\includegraphics[width=\textwidth]{res/word-sense.png}
+
+Later during the project it was decided to shift the focus of the project towards visual debugging and this feature was canceled.
+\section{User Interaction}
+
+\section{Extentions and Faults}
+\section{Conclusion}
+
+\subsection{Developer Notes and Insights}
 
 Ball embeddings allow for strict reasoning and logical queries. This can be demonstrated with our tool. The user can input hypernym relationships in plain English such as "socrates is human, human is animal" we display that relationship as seen in figure X. Similarity system also handles exclusion such as "soccer is not human,human is mortal" as seen in figure X. Once these relations have been enforced on the sufficiently large corpus, ideally for all words present in the underlying word embedding, this allows for strict logic varies which are otherwise impossible in neural networks.
 

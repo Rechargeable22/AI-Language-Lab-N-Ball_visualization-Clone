@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.4.25)  30 JUL 2020 20:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.4.25)  30 JUL 2020 21:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -127,83 +127,50 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 50.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 50.
+ [3]
 
-LaTeX Warning: Citation `LeCunNature15' on page 2 undefined on input line 27.
+LaTeX Warning: Reference `sec::plotly' on page 4 undefined on input line 77.
 
-
-LaTeX Warning: Citation `BiDAF16' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `JiaLiangaL17' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `Belinkov17' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `tenenbaum15' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `Kahneman11' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `benjio19' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `Venn1880' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `diagram95' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `dong19iclr' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `dong19' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `li2019smoothing' on page 2 undefined on input line 27.
-
-
-
-LaTeX Warning: Citation `JuanziEmnlp18' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `ren2020' on page 2 undefined on input line 27.
-
-
-LaTeX Warning: Citation `Maaten08' on page 2 undefined on input line 34.
-
-[2] [3] [4]
-<res/overview.png, id=22, 763.85374pt x 763.85374pt>
+<res/overview.png, id=18, 763.85374pt x 763.85374pt>
 File: res/overview.png Graphic file (type png)
 <use res/overview.png>
-Package pdftex.def Info: res/overview.png  used on input line 59.
+Package pdftex.def Info: res/overview.png  used on input line 79.
 (pdftex.def)             Requested size: 345.0pt x 345.00145pt.
- [5 <./res/overview.png>] [6]
-Overfull \hbox (2.85281pt too wide) in paragraph at lines 86--86
+[4] [5 <./res/overview.png>] [6]
+<res/word-sense.png, id=31, 1184.425pt x 392.46625pt>
+File: res/word-sense.png Graphic file (type png)
+<use res/word-sense.png>
+Package pdftex.def Info: res/word-sense.png  used on input line 110.
+(pdftex.def)             Requested size: 345.0pt x 114.31532pt.
+ [7 <./res/word-sense.png>]
+Overfull \hbox (2.85281pt too wide) in paragraph at lines 122--122
 []\OT1/cmr/bx/n/12 Diagrammatic Rea-son-ing with Back-ground Knowl-edge 
  []
 
-[7]
+[8]
 No file report.bbl.
-[8] (./report.aux)
+[9] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
  )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 113 ({)
+### simple group (level 1) entered at line 149 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 2784 strings out of 481239
- 38192 string characters out of 5920377
+ 2793 strings out of 481239
+ 38356 string characters out of 5920377
  276601 words of memory out of 5000000
- 18069 multiletter control sequences out of 15000+600000
+ 18077 multiletter control sequences out of 15000+600000
  537703 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 30i,6n,36p,1767b,971s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 30i,14n,36p,1767b,1124s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</u
 sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/tex
@@ -214,10 +181,10 @@ t/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts
 public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pf
 b>
-Output written on report.pdf (8 pages, 200664 bytes).
+Output written on report.pdf (9 pages, 230554 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 76 PDF objects out of 1000 (max. 8388607)
+ 51 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
