@@ -5,7 +5,7 @@ import simplejson as json
 
 import web_app.plotly_visualization.graphs_navigator as util
 
-from web_app import runner as r
+from web_app import nball_cli_to_py as r
 from web_app.Visualize_Ball_Generation_Debug_Steps import Log, log_processing
 
 

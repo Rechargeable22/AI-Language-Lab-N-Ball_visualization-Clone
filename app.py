@@ -57,9 +57,7 @@ def requested_ball_generation():
     return: Information to udentify the request namly its queue_priority and taskID as json
     """
     input_words = request.form['inputWords']
-    print(input_words)
     input_words = input_text_to_path(input_words)
-    print(input_words)
 
     return jsonify(ball_generation_response(input_words, background_ball_generation)), 202
 
