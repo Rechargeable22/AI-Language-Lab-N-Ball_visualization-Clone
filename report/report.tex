@@ -101,6 +101,38 @@ q_low  = Queue("low", connection=r)
 \end{tabular}
 \end{center}
 
+\subsection{Plotly}
+Many different graphs were introduced to the web application to fully present N-Balls embeddings and help the user understand the functionality and the concept of it. A valuable tool, on which we based our figure visualizations, was open-source Plotly library. It helped us to present data in many different forms using Python language. It provided us with means necessary to create scatters plots, shapes, annotations, tree plots as well as was a base for the interactive animated plot, which showed the work of N-Ball embeddings tree creation algorithm. On the end leaving the user with a possibility to observe trees from different angles as well as notice the creation of it. Not only visualizations are showing the concept and algorithm behind but also, they are a useful tool to see if an inputted tree is correct and there are no structural problems with it. Plotly provides the graphical part of the application by allowing to present data/structures with different shapes and colors. Moreover, the library brings the graph management tools like zooming in/out. Once the plots will be generated in python with the use of Plotly they are serialized to JSON string to further be transferred to JavaScript which will manage its location and size on the website. 
+
+
+\subsubsection{Paths tree}
+After obtaining every single keyword with its path, we combined them creating the forest of paths trees. The graph is focused on showing the user the structure and origins of the words. The clauses "is" and "is not" will indicate to which tree the word is belonging.
+
+\includegraphics[width=\textwidth]{res/tree_forest.png}
+
+\subsubsection{N-Ball tree}
+
+In the input, the algorithm receives the list of balls objects. They contain the location of the ball as well as its radius and label. With this information, the balls are transferred to the graph to show the relations between them.
+
+\includegraphics[width=\textwidth]{res/balls_graph.png}
+
+\subsubsection{N-Ball tree animation}
+
+Our animation is triggered by two buttons: "Next step", "Previous step". It is based on the same algorithm as the generation of N-Ball tree. With the difference that in this graph the animation algorithm will generate the same amount of N-Ball tree graphs as the amount of the steps of the balls generation algorithm took.  Therefore the received input for plots generation is a list of steps where every step contains a list of balls with its arguments.
+
+We can distinguish different stages of ball creation:
+\begin{itemize}
+	\item initialize: prints the new ball to the plot.
+	\item  contain: changes the position of the balls in relation to each other that one ball will be contained in another
+	\item  separate: changes th position of the balls in relation to each other that the balls will be separated and will not contain each other
+\end{itemize}
+
+
+\includegraphics[width=\textwidth]{res/animation1.png}
+\includegraphics[width=\textwidth]{res/animation2.png}
+\includegraphics[width=\textwidth]{res/animation3.png}
+\includegraphics[width=\textwidth]{res/animation4.png}
+
 \subsection{Word sense exploration}
 The initial scope of the project was planning to extract the tree structure that is needed to compute the N-Ball embedding from wordnet. WordNet is a database that collects semantic relationships between English words. The user would have simply given a list of input words that he wishes to explore and we would get all possible connections between these words from WordNet. 
 Right away one issue arises many words in the English language change their meaning depending on the context they are used in. For example the word tank can be used to describe the container that you can fill the fluids or the armored vehicle used in most modern wars. To resolve this ambiguity WordNet attaches a word sense notation to each word. In our example tank.n.01 and tank.n.02 as well as many more. Every entry will now uniquely respond to one word sentence of the word tank. This notation uses .n to denote nouns and .v to denote verbs. After this separation it simply enumerates all existing word sentences. Now that the meaning of each entry is fixed WordNet can assign meaningful relationships between these unique entities. 
@@ -110,7 +142,52 @@ However it might confuse the user that he provided a single word tank but the sy
 \includegraphics[width=\textwidth]{res/word-sense.png}
 
 Later during the project it was decided to shift the focus of the project towards visual debugging and this feature was canceled.
+
 \section{User Interaction}
+
+\subsection{Page overview}
+Page was created with a simple and intuitive manner that the user can have a clear indication of the functionalities as well can understand its purpose. The color scheme was chosen based on university colors. 
+
+Page is divided into: 
+\begin{itemize}
+	\item header with logo, title and contact button,
+	\item input box with two methods of submission,
+	\item main body with the generated results.
+\end{itemize}
+
+\includegraphics[width=\textwidth]{res/page.png}
+
+\subsubsection{Contact}
+We provided the contact possibility if there are any questions or remarks. Contact button transfers automatically to the mail service with pre-filled mail address.
+
+\subsubsection{Info}
+Clicking the little button with "i" icon, close to a text box, triggers the opening of the pop up which includes the explanatory information about the input and its example in a clear way that the user knows how to construct his/her own tree. 
+
+\subsection{Input}
+The application provides two ways for input. Its purpose is to ease the user interaction and give the option depending on the size of the query. 
+
+\begin{itemize}
+	\item Text box: user writes manually the input. Created with the thought of small inputs as well as dedicated to page exploration. Text box can accommodate long strings however its main purpose is small query testing. The generation of the output is followed after providing the proper input and clicking on the submit button next to the text box.
+	\item  File upload: function dedicated to pre-written texts, big queries as well as additional information like users own ball embeddings. Designed with the thought to ease the process of creation of the query and faster tree structure testing. Users can use the editor of their own choice for flexibility and then upload files in the text format as well as JSON. 
+\end{itemize}
+
+
+\subsection{Output}
+After input submission website shows three different plots. While the graphs calculating and generation take time depending on the size of the query, user is provided with waiting animation to indicate the process. 
+
+\begin{center}
+	\includegraphics[scale=0.5]{res/waiting.png}
+\end{center}
+
+Plots provide user with different intake and presentation of the inputted tree:
+\begin{itemize}
+	\item Path tree: shows a forest of trees from a structural perspective. User can have an overview of what are exact word paths and how they interact with each other.
+	\item N-Ball tree: shows the ball embeddings and their relation between each other.
+	\item N-Ball tree animation: shows the process of ball embeddings creation. User is provided with two buttons to move to the next and previous step of the application as well as is provided with titles explaining the step.	
+\end{itemize}
+
+All the plots are zoomable with the scrooll wheel. 
+For more information about the plots look to Plotly section.
 
 \section{Extentions and Faults}
 \subsection{Visulization of construction history}
