@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.6.2)  31 JUL 2020 11:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.6.2)  31 JUL 2020 12:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -163,118 +163,106 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 50.
+(Font)              <7> on input line 39.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 50.
+(Font)              <5> on input line 39.
  [3]
 
-LaTeX Warning: Reference `sec::plotly' on page 4 undefined on input line 77.
+LaTeX Warning: Reference `sec::plotly' on page 4 undefined on input line 66.
 
-<res/overview.png, id=18, 763.85374pt x 763.85374pt>
+<res/overview.png, id=16, 763.85374pt x 763.85374pt>
 File: res/overview.png Graphic file (type png)
 <use res/overview.png>
-Package pdftex.def Info: res/overview.png  used on input line 79.
+Package pdftex.def Info: res/overview.png  used on input line 68.
 (pdftex.def)             Requested size: 345.0pt x 345.00145pt.
 [4] [5 <./res/overview.png>] [6]
-<res/tree_forest.png, id=31, 702.625pt x 420.57124pt>
+<res/tree_forest.png, id=29, 702.625pt x 420.57124pt>
 File: res/tree_forest.png Graphic file (type png)
 <use res/tree_forest.png>
-Package pdftex.def Info: res/tree_forest.png  used on input line 111.
+Package pdftex.def Info: res/tree_forest.png  used on input line 100.
 (pdftex.def)             Requested size: 345.0pt x 206.51167pt.
  [7]
-<res/balls_graph.png, id=36, 705.63625pt x 810.02625pt>
+<res/balls_graph.png, id=34, 705.63625pt x 810.02625pt>
 File: res/balls_graph.png Graphic file (type png)
 <use res/balls_graph.png>
-Package pdftex.def Info: res/balls_graph.png  used on input line 117.
+Package pdftex.def Info: res/balls_graph.png  used on input line 106.
 (pdftex.def)             Requested size: 345.0pt x 396.03877pt.
  [8 <./res/tree_forest.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 125.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 114.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 125.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 114.
  [9 <./res/balls_graph.png>]
-<res/animation1.png, id=45, 1130.2225pt x 486.81876pt>
+<res/animation1.png, id=43, 1130.2225pt x 486.81876pt>
 File: res/animation1.png Graphic file (type png)
 <use res/animation1.png>
-Package pdftex.def Info: res/animation1.png  used on input line 131.
+Package pdftex.def Info: res/animation1.png  used on input line 120.
 (pdftex.def)             Requested size: 345.0pt x 148.59464pt.
-<res/animation2.png, id=46, 1125.20375pt x 483.8075pt>
+<res/animation2.png, id=44, 1125.20375pt x 483.8075pt>
 File: res/animation2.png Graphic file (type png)
 <use res/animation2.png>
-Package pdftex.def Info: res/animation2.png  used on input line 132.
+Package pdftex.def Info: res/animation2.png  used on input line 121.
 (pdftex.def)             Requested size: 345.0pt x 148.3399pt.
-<res/animation3.png, id=47, 1128.215pt x 482.80376pt>
+<res/animation3.png, id=45, 1128.215pt x 482.80376pt>
 File: res/animation3.png Graphic file (type png)
 <use res/animation3.png>
-Package pdftex.def Info: res/animation3.png  used on input line 133.
+Package pdftex.def Info: res/animation3.png  used on input line 122.
 (pdftex.def)             Requested size: 345.0pt x 147.63432pt.
-<res/animation4.png, id=48, 1121.18875pt x 484.81125pt>
+<res/animation4.png, id=46, 1121.18875pt x 484.81125pt>
 File: res/animation4.png Graphic file (type png)
 <use res/animation4.png>
-Package pdftex.def Info: res/animation4.png  used on input line 134.
+Package pdftex.def Info: res/animation4.png  used on input line 123.
 (pdftex.def)             Requested size: 345.0pt x 149.18028pt.
  [10 <./res/animation1.png> <./res/animation2.png> <./res/animation3.png>]
-<res/word-sense.png, id=56, 1184.425pt x 392.46625pt>
+<res/word-sense.png, id=54, 1184.425pt x 392.46625pt>
 File: res/word-sense.png Graphic file (type png)
 <use res/word-sense.png>
-Package pdftex.def Info: res/word-sense.png  used on input line 142.
+Package pdftex.def Info: res/word-sense.png  used on input line 131.
 (pdftex.def)             Requested size: 345.0pt x 114.31532pt.
 [11 <./res/animation4.png>]
-<res/page.png, id=61, 1926.19624pt x 698.61pt>
+<res/page.png, id=59, 1926.19624pt x 698.61pt>
 File: res/page.png Graphic file (type png)
 <use res/page.png>
-Package pdftex.def Info: res/page.png  used on input line 158.
+Package pdftex.def Info: res/page.png  used on input line 147.
 (pdftex.def)             Requested size: 345.0pt x 125.1261pt.
  [12 <./res/word-sense.png> <./res/page.png>]
-<res/waiting.png, id=67, 146.5475pt x 130.4875pt>
+<res/waiting.png, id=65, 146.5475pt x 130.4875pt>
 File: res/waiting.png Graphic file (type png)
 <use res/waiting.png>
-Package pdftex.def Info: res/waiting.png  used on input line 179.
+Package pdftex.def Info: res/waiting.png  used on input line 168.
 (pdftex.def)             Requested size: 73.27356pt x 65.24358pt.
 
-[13] [14 <./res/waiting.png>] [15]
-Overfull \hbox (2.85281pt too wide) in paragraph at lines 211--211
-[]\OT1/cmr/bx/n/12 Diagrammatic Rea-son-ing with Back-ground Knowl-edge 
- []
-
-[16] (./report.bbl
+[13] [14 <./res/waiting.png>] (./report.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
-) [17] (./report.aux)
+) [15] [16] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
- )
-(\end occurred inside a group at level 1)
-
-### simple group (level 1) entered at line 238 ({)
-### bottom level 
+ ) 
 Here is how much of TeX's memory you used:
- 3113 strings out of 492609
- 42901 string characters out of 6131463
- 110327 words of memory out of 5000000
- 7012 multiletter control sequences out of 15000+600000
- 8670 words of font info for 31 fonts, out of 8000000 for 9000
+ 3107 strings out of 492609
+ 42836 string characters out of 6131463
+ 110337 words of memory out of 5000000
+ 7009 multiletter control sequences out of 15000+600000
+ 7895 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,14n,32p,1767b,1124s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report.pdf (17 pages, 491044 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on report.pdf (16 pages, 449166 bytes).
 PDF statistics:
- 116 PDF objects out of 1000 (max. 8388607)
- 67 compressed objects within 1 object stream
+ 101 PDF objects out of 1000 (max. 8388607)
+ 56 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
