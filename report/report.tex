@@ -35,16 +35,16 @@ N-Ball embeddings combine both approaches and fuse the reliability of a hierarch
 Here we will describe the basic information flow between the user interface given on the website, the Web server as well as the way request are handled. In order to display any kind website we first need to set up a Web server that serves HTML files along with their corresponding CSS and JavaScript files. As discussed previously we chose to use flask for this task as it allows us to stay in the Python ecosystem. We created a basic HTML website that provides a input field as well as some basic information about the project so that the user can understand the idea of the project and then proceed to either execute the given example or come up with his own. 
 The user provides a tree structure which he would like to embed into a  embedding. Using statements with a fixed structure
 \begin{center}
-
+	
 \begin{tabular}{c}
 \begin{lstlisting}
 Enity_1 is Enity_2
 Enity_1 is NOT Enity_2
 \end{lstlisting}
 \end{tabular}
-
+	
 for example
-
+	
 \begin{tabular}{c}
 \begin{lstlisting}
 chicken  is animal
@@ -52,12 +52,13 @@ human    is animal
 socrates is human
 tank     is NOT animal
 kant     is human
-
+		
 \end{lstlisting}
 \end{tabular}
 \end{center}
 provide a simple way to describe a single hypernym or hypnoym relationship in a form that is both human readable and can be easily parsed internally. Instead of using the input field users can also upload a text file where each line contains a single hypernym statement. While this does provide a good way to intuitively define small tree structures we have to make a few assumptions in order to do the actual visualization. Both the underlying word vectors as well as the algorithm to create the N ball embedding is now assumed by our system to be the ones used in the original paper [CITE]. Alternatively the user can upload a Json file where he not only provides the tree structure but can also provide his own N ball embedding's along with the construction steps. With this we can create the visualizations for any Ball embedding. For the use of a simple json format should allow any application to quickly output the required attributes. 
 At this point we have the user input which contains a list of entities as well as their relationship with each other henceforth abbreviated simply with input. The more specific case that also includes N-ball embedding will be handled basically the same with the difference that we can skip the steps required to compute that embedding ourselves. As described in section \ref{sec::redis} instead of handling the request directly we will create a task and place it into a task to to allow for direct feedback.  
+
 
 Once the server is ready to perform the task, or in words once all of her tasks have been completed, we are ready to prepare the input sets that can be given to the existing N-Ball embedding framework. The existing framework provides a CLI interface and in order to keep changes to that framework to a minimum we opted to write a small API that simply translates CLI back to a Python interface. We further make sure that the required word embedding's are present and if not simply download them for convenience. The original framework creates a number of files for each embedding it computes. To ensure that tasks do not collide with each other as well as to ensure that results will be available after a task has been completed we ensure that every task gets a separate folder. Currently these folders are kept indefinitely and are named by random integer, also see EXTENSION. Finally we can ask the framework to generate the embedding.
 
