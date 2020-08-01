@@ -1,6 +1,7 @@
 \documentclass[]{article}
 \usepackage{listings}
 \usepackage{graphicx}
+\usepackage{float}
 \setlength\parindent{0pt}
 \setlength{\parskip}{1em}
 %opening
@@ -66,7 +67,13 @@ Before we can do any kind of visualization we first need to reduce the dimension
 
 We cannot simply take these 2D projections and generate drafts for them that the user can interactively explore the results of the N ball embedding's. To allow for interactivity this has to be done with JavaScript. Fortunately the Python library plotly also has a JavaScript implementation. This allows us to generate all necessary shapes and markers within the Python code and and then later render them on the website. For more detail see section \ref{sec::plotly}.
 
-\includegraphics[width=\textwidth]{res/overview.png}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{res/overview.png}
+	\caption{architecture overview}
+	\label{fig:overview}
+\end{figure}
+
 To get the results back to the user without the need to reload or redirect on the website we are using asynchronous AJAX requests. As soon the user either submits his input form or a file we send an AJAX request to the Web server which is immediately returned along with information of the task ID that the user has been assigned as well as which task queue this tasks resides in. With these two informations the web client can then periodically request to get a status update on his tasks progress. This update request is answered with it's current queue position or once a task is completed with the results of our plotly visualization. The realization results are passed back as a JSON file which will be parsed in the JavaScript and passed into a JavaScript plotly instance allowing us to display the different graphs.
 
 \subsection{Flask}
@@ -98,13 +105,24 @@ Many different graphs were introduced to the web application to fully present N-
 \subsubsection{Paths tree}
 After obtaining every keyword with its path, we combined them creating the forest of paths trees. The graph is focused on showing the user the structure and origins of the words. The clauses "is" and "is not" will indicate to which tree the word is belonging.
 
-\includegraphics[width=\textwidth]{res/tree_forest.png}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{res/tree_forest.png}
+	\caption{forest of words-paths trees plot}
+	\label{fig:tree_forest}
+\end{figure}
+
 
 \subsubsection{N-Ball tree}
 
 In the input, the algorithm receives the list of balls objects. They contain the location of the ball as well as its radius and label. With this information, the balls are transferred to the graph to show the relations between them.
 
-\includegraphics[width=\textwidth]{res/balls_graph.png}
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{res/balls_graph.png}
+	\caption{N-ball embeddings tree plot}
+	\label{fig:balls_graph}
+\end{figure}
+
 
 \subsubsection{N-Ball tree animation}
 
@@ -117,11 +135,14 @@ We can distinguish different stages of ball creation:
 	\item  separate: changes th position of the balls in relation to each other that the balls will be separated and will not contain each other
 \end{itemize}
 
-
-\includegraphics[width=\textwidth]{res/animation1.png}
-\includegraphics[width=\textwidth]{res/animation2.png}
-\includegraphics[width=\textwidth]{res/animation3.png}
-\includegraphics[width=\textwidth]{res/animation4.png}
+\begin{figure}[H]
+	\begin{tabular}{cc}
+	\includegraphics[width=55mm]{res/animation1.png} & \includegraphics[width=55mm]{res/animation2.png} \\
+	\includegraphics[width=55mm]{res/animation3.png} & \includegraphics[width=55mm]{res/animation4.png} \\
+	\end{tabular}
+	\caption{N-Ball tree animation plot. Step 3,4, }
+	\label{fig:animation}
+\end{figure}
 
 \subsection{Word sense exploration}
 The initial scope of the project was planning to extract the tree structure that is needed to compute the N-Ball embedding from wordnet. WordNet is a database that collects semantic relationships between English words. The user would have simply given a list of input words that he wishes to explore and we would get all possible connections between these words from WordNet. 
@@ -129,7 +150,13 @@ Right away one issue arises as many words in the English language change their m
 
 However it might confuse the user that he provided a single word tank but the system presents him with multiple versions of the same word. To make this more understandable we build a word sense Explorer that shows the user which word sentences exist for every input word. Further we would give a definition of the selected word sense along with a single branch going back from this entity up to the root node that is being visualized.
 
-\includegraphics[width=\textwidth]{res/word-sense.png}
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{res/word-sense.png}
+	\caption{words senses Explorer}
+	\label{fig:word-sense}
+\end{figure}
+
+
 
 Later during the project it was decided to shift the focus of the project towards visual debugging and this feature was discontinued.
 
@@ -145,7 +172,13 @@ Page is divided into:
 	\item main body with the generated results.
 \end{itemize}
 
-\includegraphics[width=\textwidth]{res/page.png}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{res/page.png}
+	\caption{web page overview}
+	\label{fig:page}
+\end{figure}
+
 
 \subsubsection{Contact}
 We provided the contact possibility if there are any questions or remarks. Contact button transfers automatically to the mail service with pre-filled mail address.
@@ -165,9 +198,13 @@ The application provides two ways for input. Its purpose is to ease the user int
 \subsection{Output}
 After input submission website shows three different plots. While the graphs calculating and generation take time depending on the size of the query, user is provided with waiting animation to indicate the process. 
 
-\begin{center}
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.5]{res/waiting.png}
-\end{center}
+	\caption{waiting annimation}
+	\label{fig:waiting}
+\end{figure}
+
 
 Plots provide user with different intake and presentation of the inputted tree:
 \begin{itemize}
