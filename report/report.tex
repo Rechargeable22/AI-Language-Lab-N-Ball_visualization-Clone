@@ -341,19 +341,25 @@ pip install --upgrade -r requirements.txt
 \end{tabular}
 \end{center}
 
-Then prepare the server for 
+Then prepare the server for handling requests with the following commands
 
-
-
-
-
-
-
-
-
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+rq worker high
+rq worker low
+python app.py
+\end{lstlisting}
+\end{tabular}
+\end{center}
 
 
 \section{Conclusion}
+In this lab we have developed a prototype of an interactive and easily portable visualization and education tool for high dimensional ball embeddings. Firstly we enabled users to very simply generated and explore embeddings of arbitrary input word relations. Secondly we visualized the generation process. Users can now clearly see in which order balls get separated and which operations are being performed. Thirdly, we proposed extensions to help with future development. 
+
+
+
+
 
 	
 	%

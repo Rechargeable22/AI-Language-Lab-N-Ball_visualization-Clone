@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.14)  1 AUG 2020 15:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.14)  1 AUG 2020 15:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -303,11 +303,11 @@ Overfull \hbox (195.00537pt too wide) in paragraph at lines 254--263
  [][] 
  []
 
-[17] (./report.bbl
+[17] [18] (./report.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
-) [18] (./report.aux)
+) [19] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -328,10 +328,10 @@ sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
 /local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/l
 ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/lo
 cal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on report.pdf (18 pages, 476504 bytes).
+Output written on report.pdf (19 pages, 477308 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
- 66 compressed objects within 1 object stream
+ 119 PDF objects out of 1000 (max. 8388607)
+ 69 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
