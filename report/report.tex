@@ -191,10 +191,168 @@ Instead we decided to visualize a construction history or another words simple l
 \subsection{Webserver deployment}
 For the testing of the web service we have used the built in Web server that is provided by flask. If the service will be actually deployed this needs to be changed to a proper Web server as is explained in the flask tutorials.
 \subsection{Result Notification}
-Currently we require the user to keep the website open until his request has been completed. Some users may only be interested in the resulting ball embedding but we currently do not offer any ability to download them directly. For these users there should be the possibility of a simple download button to retrieve the ball embedding for exploration on their own system. Further these users may also use our service to compute ball embedding's of larger input trees. For these larger requests the user would be required to provide his email address and once the task is finished we can send him a download link for his ball embedding. Further this would allow us to acquire the email address of interested in our research.
+Currently we require the user to keep the website open until his request has been completed. Some users may only be interested in the resulting ball embedding but we currently do not offer any ability to download them directly. For these users there should be the possibility of a simple download button to retrieve the ball embedding for exploration on their own system. Further these users may also use our service to compute ball embedding's of larger input trees. For these larger requests the user would be required to provide his email address and once the task is finished we can send him a download link for his ball embedding. Further this would allow us to acquire the email addresses of persons interested in our research.
 
 
 \section{Developer Notes and Insights}
+During the embedding generation the web server generates some files. While they may not be of concern for the end user observing the website it is helpful for future developers of the application to understand their format.
+
+\subsection{Contents of out folder}
+When running the application a new folder is created in the directory $out/$. The embedding algorithm we based our web interface in then generates the following files in it
+
+\begin{center}
+
+\begin{tabular}{c}
+\begin{lstlisting}
+dataout/animal
+dataout/chicken
+dataout/human
+dataout/kant
+dataout/socrates
+\end{lstlisting}
+\end{tabular}
+\\dataout/\\
+ folder containing text files of the embedded words with their word vector as content
+
+\begin{tabular}{c}
+\begin{lstlisting}
+*root* animal
+animal human chicken
+chicken
+human socrates kant
+socrates
+kant	
+\end{lstlisting}
+\end{tabular}
+\\children.txt
+\\Contains parent child relationships between words. The first word is the parent and all following words in each line are all of it's children
+
+\begin{tabular}{c}
+\begin{lstlisting}
+kant 0.1 0.2 ...
+animal 0.1 -0.2 ...
+chicken -0.1 0.2 ...
+socrates 0.1 -0.2 ...
+human 0.31 -0.2 ...
+\end{lstlisting}
+\end{tabular}
+\\nballs.txt
+\\List of words with their high dimensional embedding vector
+
+\begin{tabular}{c}
+\begin{lstlisting}
+kant -0.9918952599968487 -0.12705822758005025 2.1959802804003976 0.10456600738584972
+animal -0.9910574347196298 0.13343598123050138 2.216535643937416 11.283144873641081
+chicken 0.9999999970703485 7.654608514690322e-05 8.739571619189181 0.05
+socrates -0.9946545650656365 -0.1032583952717131 2.1896836872717182 0.10456600738584972
+human -0.995477011571193 0.09500273382006987 2.1966314964104017 0.8734831363495301
+\end{lstlisting}
+\end{tabular}
+\\reduced\_nballs\_before.txt
+\\Words after their dimensionality has been reduced to 2d. The first values are the x and y coordinate, the third the radius of the circle
+
+\begin{tabular}{c}
+\begin{lstlisting}
+kant -0.9918952599968487 -0.12705822758005025 2.1959802804003976 0.026192692377707306
+animal -0.9910574347196298 0.13343598123050138 2.216535643937416 11.283144873641081
+chicken 0.9999999970703485 7.654608514690322e-05 8.739571619189181 0.05
+socrates -0.9946545650656365 -0.1032583952717131 2.1896836872717182 0.026192692377707306
+human -0.995477011571193 0.09500273382006987 2.1966314964104017 0.8734831363495301
+\end{lstlisting}
+\end{tabular}
+\\reduced\_nballs\_after.txt
+\\While reducing the dimensionality some child parent relationships might get violated. Here are the words after fixing.
+
+\begin{tabular}{c}
+\begin{lstlisting}
+*root* 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+animal 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+chicken 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+human 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+socrates 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
+kant 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
+\end{lstlisting}
+\end{tabular}
+\\small.catcode.txt
+\\ ?? dunno ??
+
+
+\begin{tabular}{c}
+\begin{lstlisting}
+*root* *root* 
+animal *root* animal 
+chicken *root* animal chicken 
+human *root* animal human 
+socrates *root* animal human socrates 
+kant *root* animal human kant 
+
+\end{lstlisting}
+\end{tabular}
+\\small.wordSensePath.txt
+\\The first word denotes the word in question. Then we see the parent child relationship path from the root node to the word in question.
+
+\end{center}
+
+\subsection{File types accepted by server}
+The server accepts txt and json files. They should be formated as such
+
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+
+chicken is animal
+human is animal
+socrates is human
+kant is human
+
+
+\end{lstlisting}
+\end{tabular}
+\\input\_file.txt
+\\The text field allows the user to rapidly test various word combinations. As the length of the input increases it might prove cumbersome to enter all words by hand. To resolve this the application supports uploading text files. These files should be structured to have one sentence in the form of “CHILD is [NOT] PARENT” per line.
+\end{center}
+
+It is furthermore possible to upload log files of an N-Ball generation process that can then be viewed in the debug animation tool. A log file is an array of JSON objects that have following key:
+\begin{itemize}
+\item “Key”: Name of the N-Ball that an operation is performed on
+\item “Op”: Code of the operation that is happening at this step in the log
+\begin{itemize}
+\item 0: initialize, the N-Ball is getting initialized 
+\item 1: spererate, the N-Ball is getting separated from the N-Balls provided in “op\_args”
+\item 2: contain, the N-Ball is being enlarged to contain the children provided in “op\_args”
+\end{itemize}
+\item “Op\_args”: Arguments used in the operation
+\end{itemize}
+[ {"key": "socrates", "op": 0, "op\_args": [], "vec": [...]}, 
+{"key": "kant", "op": 0, "op\_args": [], "vec": [...]}, ... ]	
+
+
+\subsection{Setup}
+The setup is described in the REAMDE.md.
+Start with installing redis and all required packages by running the following commands
+
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+apt install redis
+pip install rq rq-dashboard
+pip install --upgrade -r requirements.txt
+\end{lstlisting}
+\end{tabular}
+\end{center}
+
+Then prepare the server for 
+
+
+
+
+
+
+
+
+
+
+
 \section{Conclusion}
 
 	

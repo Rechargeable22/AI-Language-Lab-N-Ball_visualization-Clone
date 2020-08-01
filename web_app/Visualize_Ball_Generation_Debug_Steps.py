@@ -149,6 +149,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
     b = [log.__dict__ for log in ball_generation_log]   # {'key': 'socrates', 'op': 0, 'op_args': [], 'vec': [Decimal('0.003969213617755114223681905'), ...
     # c = [(value for key, value in dict(log.__dict__).items() if key not in ['vec']) for log in ball_generation_log]
 
+    # IMPORTANT, a has the format that a log needs to have when you upload it to the server
     a = json.dumps(b, cls=DecimalEncoder)
     print("log example:", a)    # the log we can use to generate an animation printed to the command line
     # (a,b) a falsely contains b and has to separate it
@@ -192,7 +193,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
         elif log.op == Operation.SEPERATE:
             log_string = "separate"
             current = log.key  # current stays the same, we kick out other.
-            other = log.op_args[0]  # elment to be seperated from current; not sure about [0]
+            other = log.op_args[0]  # element to be seperated from current; not sure about [0]
             if other in overlapping_circles:
                 overlapping_circles[other].remove(current)
                 # calculate position of other
@@ -212,7 +213,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
                     del (overlapping_circles[other])
                     circles[other] = copy.deepcopy(perfect_circles[other])
 
-        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log_string})  # richtig hacky :)
+        debug_circles_list.append({"circles": copy.deepcopy(circles), "log": log_string})
 
 
 """
