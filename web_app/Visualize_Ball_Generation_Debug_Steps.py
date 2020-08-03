@@ -147,7 +147,7 @@ def log_processing(ball_generation_log, childrenDic, debug_circles_list):
     perfect_circles = generate_perfect_circles(childrenDic)
     print("Children:", childrenDic)
     b = [log.__dict__ for log in ball_generation_log]   # {'key': 'socrates', 'op': 0, 'op_args': [], 'vec': [Decimal('0.003969213617755114223681905'), ...
-    # c = [(value for key, value in dict(log.__dict__).items() if key not in ['vec']) for log in ball_generation_log]
+    c = [(value for key, value in dict(log.__dict__).items() if key not in ['vec']) for log in ball_generation_log]
 
     # IMPORTANT, a has the format that a log needs to have when you upload it to the server
     a = json.dumps(b, cls=DecimalEncoder)

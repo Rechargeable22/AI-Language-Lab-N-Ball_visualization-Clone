@@ -282,11 +282,11 @@ human 0.31 -0.2 ...
 
 \begin{tabular}{c}
 \begin{lstlisting}
-kant -0.9918952599968487 -0.12705822758005025 2.1959802804003976 0.10456600738584972
-animal -0.9910574347196298 0.13343598123050138 2.216535643937416 11.283144873641081
-chicken 0.9999999970703485 7.654608514690322e-05 8.739571619189181 0.05
-socrates -0.9946545650656365 -0.1032583952717131 2.1896836872717182 0.10456600738584972
-human -0.995477011571193 0.09500273382006987 2.1966314964104017 0.8734831363495301
+kant -0.99189525999 -0.127058225025 2.1959400376 0.104660584972
+animal -0.99105743798 0.133439810138 2.2163567416 11.2831641081
+chicken 0.99999990485 7.6546050322e-05 8.7169189181 0.05
+socrates -0.9946505665 -0.10325397131 2.1368277182 0.10453858472
+human -0.9954757193 0.095002306987 2.19663414017 0.87348315301
 \end{lstlisting}
 \end{tabular}
 \\reduced\_nballs\_before.txt
@@ -294,11 +294,11 @@ human -0.995477011571193 0.09500273382006987 2.1966314964104017 0.87348313634953
 
 \begin{tabular}{c}
 \begin{lstlisting}
-kant -0.9918952599968487 -0.12705822758005025 2.1959802804003976 0.026192692377707306
-animal -0.9910574347196298 0.13343598123050138 2.216535643937416 11.283144873641081
-chicken 0.9999999970703485 7.654608514690322e-05 8.739571619189181 0.05
-socrates -0.9946545650656365 -0.1032583952717131 2.1896836872717182 0.026192692377707306
-human -0.995477011571193 0.09500273382006987 2.1966314964104017 0.8734831363495301
+kant -0.99189525997 -0.12705225025 2.1959823976 0.026196707306
+animal -0.99105743478 0.133435981238 2.216535616 11.2831448731
+chicken 0.99999999785 7.6546085142e-05 8.7395189181 0.05
+socrates -0.9946556365 -0.10527131 2.18972717182 0.026197770306
+human -0.9954770193 0.09500006987 2.19663149647 0.873485301
 \end{lstlisting}
 \end{tabular}
 \\reduced\_nballs\_after.txt
@@ -315,7 +315,7 @@ kant 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
 \end{lstlisting}
 \end{tabular}
 \\small.catcode.txt
-\\ ?? dunno ??
+
 
 
 \begin{tabular}{c}
@@ -341,9 +341,9 @@ The server accepts txt and json files. They should be formated as such
 \begin{tabular}{c}
 \begin{lstlisting}
 
-chicken is animal
-human is animal
-socrates is human
+chicken is animal,
+human is animal,
+socrates is human,
 kant is human
 
 
@@ -353,7 +353,7 @@ kant is human
 \\The text field allows the user to rapidly test various word combinations. As the length of the input increases it might prove cumbersome to enter all words by hand. To resolve this the application supports uploading text files. These files should be structured to have one sentence in the form of “CHILD is [NOT] PARENT” per line.
 \end{center}
 
-It is furthermore possible to upload log files of an N-Ball generation process that can then be viewed in the debug animation tool. A log file is an array of JSON objects that have following key:
+It is furthermore possible to upload log files of an N-Ball generation process that can then be viewed in the debug animation tool. They consist of a children list and a log object. A log object is an array of JSON objects that have following key:
 \begin{itemize}
 \item “Key”: Name of the N-Ball that an operation is performed on
 \item “Op”: Code of the operation that is happening at this step in the log
@@ -364,9 +364,35 @@ It is furthermore possible to upload log files of an N-Ball generation process t
 \end{itemize}
 \item “Op\_args”: Arguments used in the operation
 \end{itemize}
-[ {"key": "socrates", "op": 0, "op\_args": [], "vec": [...]}, 
-{"key": "kant", "op": 0, "op\_args": [], "vec": [...]}, ... ]	
-
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}
+{
+	"children": {
+		"*root*": ["animal"],
+		"animal": ["chicken", "human"],
+		"chicken": [],
+		"human": ["socrates", "kant"],
+		"socrates": [],
+		"kant": []
+	},
+	"log": [{
+		"key": "socrates",
+		"op": "0",
+		"op_args": [],
+		"vec": []
+	},
+	{
+		"key": "kant",
+		"op": "0",
+		"op_args": [],
+		"vec": []
+	}, ...
+	]
+}
+\end{lstlisting}
+\end{tabular}
+\end{center}
 
 \subsection{Setup}
 The setup is described in the REAMDE.md.
