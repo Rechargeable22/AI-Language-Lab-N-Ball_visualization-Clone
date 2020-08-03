@@ -239,7 +239,7 @@ During the embedding generation the web server generates some files. While they 
 
 \subsection{Contents of out folder}
 When running the application a new folder is created in the directory $out/$. The embedding algorithm we based our web interface in then generates the following files in it
-
+\paragraph{Data\_out} folder containing text files of the embedded words with their word vector as content
 \begin{center}
 
 \begin{tabular}{c}
@@ -253,8 +253,8 @@ data_out/socrates
 \end{tabular}
 \end{center}
 
-Data\_out folder containing text files of the embedded words with their word vector as content
-
+\paragraph{children.txt} contains parent child relationships between words. The first word is the parent and all following words in each line are all of it's children
+\begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
 *root* animal
@@ -265,45 +265,50 @@ socrates
 kant	
 \end{lstlisting}
 \end{tabular}
-\\children.txt
-\\Contains parent child relationships between words. The first word is the parent and all following words in each line are all of it's children
+\end{center}
 
+\paragraph{nballs.txt} is a list of words with their high dimensional embedding vector
+\begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
-kant 0.1 0.2 ...
-animal 0.1 -0.2 ...
-chicken -0.1 0.2 ...
+kant     0.1  0.2 ...
+animal   0.1 -0.2 ...
+chicken -0.1  0.2 ...
 socrates 0.1 -0.2 ...
-human 0.31 -0.2 ...
+human    0.3 -0.2 ...
 \end{lstlisting}
 \end{tabular}
-\\nballs.txt
-\\List of words with their high dimensional embedding vector
+\end{center}
 
+\paragraph{reduced\_nballs\_before.txt} is a list of words after their dimensionality has been reduced to 2d. The first values are the x and y coordinate, the third the radius of the circle
+
+\begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
-kant -0.99189525999 -0.127058225025 2.1959400376 0.104660584972
-animal -0.99105743798 0.133439810138 2.2163567416 11.2831641081
-chicken 0.99999990485 7.6546050322e-05 8.7169189181 0.05
-socrates -0.9946505665 -0.10325397131 2.1368277182 0.10453858472
-human -0.9954757193 0.095002306987 2.19663414017 0.87348315301
+kant     -0.991 -0.127   2.195  0.104
+animal   -0.991  0.133   2.216 11.283
+chicken   0.999  0.0     8.716  0.05
+socrates -0.994 -0.1032  2.136  0.104
+human    -0.995  0.0950  2.196  0.873
 \end{lstlisting}
 \end{tabular}
-\\reduced\_nballs\_before.txt
-\\Words after their dimensionality has been reduced to 2d. The first values are the x and y coordinate, the third the radius of the circle
-
+\end{center}
+\paragraph{reduced\_nballs\_after.txt} While reducing the dimensionality some child parent relationships might get violated. Here are the words after fixing.
+\begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
-kant -0.99189525997 -0.12705225025 2.1959823976 0.026196707306
-animal -0.99105743478 0.133435981238 2.216535616 11.2831448731
-chicken 0.99999999785 7.6546085142e-05 8.7395189181 0.05
-socrates -0.9946556365 -0.10527131 2.18972717182 0.026197770306
-human -0.9954770193 0.09500006987 2.19663149647 0.873485301
+kant     -0.991  0.127  2.195  0.026
+animal   -0.991  0.133  2.216 11.283
+chicken   0.999  7.654 -8.739  0.05
+socrates -0.994 -0.105  2.189  0.026
+human    -0.995  0.095  2.196  0.873
 \end{lstlisting}
 \end{tabular}
-\\reduced\_nballs\_after.txt
-\\While reducing the dimensionality some child parent relationships might get violated. Here are the words after fixing.
+\end{center}
 
+\paragraph{small.catcode.txt} describes path from root to this node e.g. 1 2 from root take first child then second and so on.
+
+\begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
 *root* 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -314,10 +319,11 @@ socrates 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
 kant 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
 \end{lstlisting}
 \end{tabular}
-\\small.catcode.txt
+\end{center}
 
+\paragraph{small.wordSensePath.txt} the first word denotes the word in question. Then we see the parent child relationship path from the root node to the word in question.
 
-
+\begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}
 *root* *root* 
@@ -329,8 +335,7 @@ kant *root* animal human kant
 
 \end{lstlisting}
 \end{tabular}
-\\small.wordSensePath.txt
-\\The first word denotes the word in question. Then we see the parent child relationship path from the root node to the word in question.
+\end{center}
 
 
 
@@ -350,7 +355,11 @@ kant is human
 \end{lstlisting}
 \end{tabular}
 \\input\_file.txt
-\\The text field allows the user to rapidly test various word combinations. As the length of the input increases it might prove cumbersome to enter all words by hand. To resolve this the application supports uploading text files. These files should be structured to have one sentence in the form of “CHILD is [NOT] PARENT” per line.
+\\The text field allows the user to rapidly test various word combinations. As the length of the input increases it might prove cumbersome to enter all words by hand. To resolve this the application supports uploading text files. These files should be structured to have one sentence in the form of
+\begin{center}
+ “CHILD is [NOT] PARENT”
+\end{center}
+  per line.
 \end{center}
 
 It is furthermore possible to upload log files of an N-Ball generation process that can then be viewed in the debug animation tool. They consist of a children list and a log object. A log object is an array of JSON objects that have following key:
@@ -419,7 +428,6 @@ python app.py
 \end{lstlisting}
 \end{tabular}
 \end{center}
-
 
 \section{Conclusion}
 In this lab, we have developed a prototype of an interactive and easily portable visualization and education tool for high dimensional ball embeddings. We presented embeddings from different perspectives in order to give users a better overview of the concept. Firstly, we enabled users to generate and explore embeddings of arbitrary input word relations by providing them with plots showcasing the trees. Secondly, we visualized the generation process. Users can now clearly see in which order balls get initialized, combined, or separated by going through the sequence of plots. Both of these functions can be used to determine if the user's own embedding trees are correct. Therefore, it can be a mean to capture potential errors. Moreover, the Web application is created with a simple and intuitive manner to improve user experience. We added also a task queue to accommodate a bigger number of users at the same time. Finally, we proposed also extensions to help with a future development. 
