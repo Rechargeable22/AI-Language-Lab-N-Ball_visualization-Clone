@@ -1,0 +1,30 @@
+\appendix
+\chapter{Appendix: Quick start of the system}
+
+The system is located at
+\url{https://github.com/...}
+
+The setup is described in the REAMDE.md.
+Start with installing redis and all required packages by running the following commands
+
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		apt install redis
+		pip install rq rq-dashboard
+		pip install --upgrade -r requirements.txt
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
+
+Then prepare the server for handling requests with the following commands
+
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		rq worker high
+		rq worker low
+		python app.py
+		\end{lstlisting}
+	\end{tabular}
+\end{center}

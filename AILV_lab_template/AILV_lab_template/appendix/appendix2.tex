@@ -1,0 +1,170 @@
+\chapter{Appendix: Description of the system}
+
+\section{Developer Notes and Insights}
+During the embedding generation the web server generates some files. While they may not be of concern for the end user observing the website it is helpful for future developers of the application to understand their format.
+
+\subsection{Contents of out folder}
+When running the application a new folder is created in the directory $out/$. The embedding algorithm we based our web interface in then generates the following files in it
+\paragraph{Data\_out} folder containing text files of the embedded words with their word vector as content
+\begin{center}
+	
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		data_out/animal
+		data_out/chicken
+		data_out/human
+		data_out/kant
+		data_out/socrates
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
+
+\paragraph{children.txt} contains parent child relationships between words. The first word is the parent and all following words in each line are all of it's children
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		*root* animal
+		animal human chicken
+		chicken
+		human socrates kant
+		socrates
+		kant	
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
+
+\paragraph{nballs.txt} is a list of words with their high dimensional embedding vector
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		kant     0.1  0.2 ...
+		animal   0.1 -0.2 ...
+		chicken -0.1  0.2 ...
+		socrates 0.1 -0.2 ...
+		human    0.3 -0.2 ...
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
+
+\paragraph{reduced\_nballs\_before.txt} is a list of words after their dimensionality has been reduced to 2d. The first values are the x and y coordinate, the third the radius of the circle
+
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		kant     -0.991 -0.127   2.195  0.104
+		animal   -0.991  0.133   2.216 11.283
+		chicken   0.999  0.0     8.716  0.05
+		socrates -0.994 -0.1032  2.136  0.104
+		human    -0.995  0.0950  2.196  0.873
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
+\paragraph{reduced\_nballs\_after.txt} While reducing the dimensionality some child parent relationships might get violated. Here are the words after fixing.
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		kant     -0.991  0.127  2.195  0.026
+		animal   -0.991  0.133  2.216 11.283
+		chicken   0.999  7.654 -8.739  0.05
+		socrates -0.994 -0.105  2.189  0.026
+		human    -0.995  0.095  2.196  0.873
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
+
+\paragraph{small.catcode.txt} describes path from root to this node e.g. 1 2 from root take first child then second and so on.
+
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		*root* 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+		animal 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+		chicken 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+		human 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+		socrates 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
+		kant 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
+
+\paragraph{small.wordSensePath.txt} the first word denotes the word in question. Then we see the parent child relationship path from the root node to the word in question.
+
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		*root* *root* 
+		animal *root* animal 
+		chicken *root* animal chicken 
+		human *root* animal human 
+		socrates *root* animal human socrates 
+		kant *root* animal human kant 
+		
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
+
+
+
+\subsection{File types accepted by server}
+The server accepts txt and json files. They should be formated as such
+
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		
+		chicken is animal,
+		human is animal,
+		socrates is human,
+		kant is human
+		
+		
+		\end{lstlisting}
+	\end{tabular}
+	\\input\_file.txt
+	\\The text field allows the user to rapidly test various word combinations. As the length of the input increases it might prove cumbersome to enter all words by hand. To resolve this the application supports uploading text files. These files should be structured to have one sentence in the form of
+	\begin{center}
+		“CHILD is [NOT] PARENT”
+	\end{center}
+	per line.
+\end{center}
+
+It is furthermore possible to upload log files of an N-Ball generation process that can then be viewed in the debug animation tool. They consist of a children list and a log object. A log object is an array of JSON objects that have following key:
+\begin{itemize}
+	\item “Key”: Name of the N-Ball that an operation is performed on
+	\item “Op”: Code of the operation that is happening at this step in the log
+	\begin{itemize}
+		\item 0: initialize, the N-Ball is getting initialized 
+		\item 1: spererate, the N-Ball is getting separated from the N-Balls provided in “op\_args”
+		\item 2: contain, the N-Ball is being enlarged to contain the children provided in “op\_args”
+	\end{itemize}
+	\item “Op\_args”: Arguments used in the operation
+\end{itemize}
+\begin{center}
+	\begin{tabular}{c}
+		\begin{lstlisting}
+		{
+		"children": {
+		"*root*": ["animal"],
+		"animal": ["chicken", "human"],
+		"chicken": [],
+		"human": ["socrates", "kant"],
+		"socrates": [],
+		"kant": []
+		},
+		"log": [{
+		"key": "socrates",
+		"op": "0",
+		"op_args": [],
+		"vec": []
+		},
+		{
+		"key": "kant",
+		"op": "0",
+		"op_args": [],
+		"vec": []
+		}, ...
+		]
+		}
+		\end{lstlisting}
+	\end{tabular}
+\end{center}
