@@ -1,6 +1,28 @@
 \chapter{Introduction}
-Deep Learning popularity grew increasingly in the past years because of its various applications. However, with its growth increased also a demand for data as AI tasks require a higher number of information to learn. A higher number is needed to eliminate the common mistakes deep learning can make because of its lack of prior knowledge of relations and rules. To prevent that the known deep learning technics are getting equipped with external structures. One of them is the region-based embeddings. It defines the relations and influence between the regions. It can improve many different tasks like language processing, object classification, or voice recognition. Therefore, to explain and show how it works we propose the tool to visualize the high-dimensional Ball embeddings which preserve the topological relations in 2d. For easier availability, we created our visualization as a web service. It provides different approaches to look at regional embeddings: path tracking diagram, relational ball diagram, and construction process of ball-embeddings.
+Deep Learning popularity grew increasingly in the past years because of its various applications. However, with its growth increased also a demand for data as AI tasks require a higher number of information to learn. A higher number is needed to eliminate the common mistakes deep learning can make because of its lack of prior knowledge of relations and rules. To prevent that, the known deep learning techniques are getting equipped with external structures. One of them is the region-based embeddings. It defines the relations and influence between the regions. It can improve many different tasks like language processing, object classification, or voice recognition. Therefore, to explain and show how it works we propose the tool to visualize the high-dimensional Ball embeddings which preserve the topological relations in 2d. For easier availability, we created our visualization as a web service. It provides different approaches to look at regional embeddings: path tracking diagram, relational ball diagram, and construction process of ball-embeddings.
 
 \section{Objectives}
+\label{objectives}
+The paper \cite{dong2018encoding} introduces a novel algorithm for generating N ball embedding. The code accompanying the paper only allows for rudimentary visualization and only does so for the end result. Our task was create a robust web service that allows for simple interaction with the presented ball embedding algorithm. 
+Given a set of words, along with word embeddings and a tree structure that describes the hierarchical relationship between all words we can generate a ball embedding. \\
+
+Our objectives were as follows:
+\begin{itemize}
+	\item Simplification of the interaction with resulting ball embeddings
+	\item A visualization of the relationship tree
+	\item A flat visualization of the balls allowing for diagrammatic reasoning
+	\item Step by step visualization of the embedding construction process
+	\item This implemented as a robust web server that can handle multiple requests
+	\item Full documentation for our code
+	\item Understanding the word embedding code
+\end{itemize}
+
+
 \section{Challenges}
+In order to realize an asynchronous web service that can also provide the needed visualization we had to choose and familiarize ourselves with multiple frameworks, namely flask, plotly and redis.
+We furthermore had to reach a thorough understanding of the ball embedding generation codebase as the construction visualization required functionality that was not yet provided by the framework.
+This proved to be more challenging than expected, as the code is undocumented and stores much of the required data on disk and later reloads it instead of keeping it in memory. This makes it challenging to trace the construction of a single word embedding throughout the code as the save files also come without documentation. For future reference we provide a specification for each in appendix \ref{dev_notes}.
+The reduction of the high dimensional balls into 2d needs to be independent of the number of balls. The previous visualization used PCA which would change the ball positions with respect to each other in every step.
+
 \section{Contributions}
+We implemented the objectives in \ref{objectives} and describe them in the following chapters.

@@ -1,4 +1,4 @@
-\chapter{My project}
+\chapter{Web based N Ball Exploration}
 \section{The Architecture}
 \label{sec::arch}
 Here we will describe the basic information flow between the user interface given on the website, the Web server as well as the way request are handled. In order to display any kind website we first need to set up a Web server that serves HTML files along with their corresponding CSS and JavaScript files. As discussed previously we chose to use flask for this task as it allows us to stay in the Python ecosystem. We created a basic HTML website that provides a input field as well as some basic information about the project so that the user can understand the idea of the project and then proceed to either execute the given example or come up with his own. 
@@ -33,7 +33,7 @@ Once the server is ready to perform the task, or in words once all otherr tasks 
 
 Before we can do any kind of visualization we first need to reduce the dimension of the now extended word embeddings down to 2D. For this we use the PCA reduction method explored and implemented by a previous project. Besides simply computing the 2D PCA embedding the project further tries to resolve all instances which now violate the hierarchical embedding due to the PCA prediction. Finally this leaves us with both the high dimensional N ball embedding's as well as their fixed 2D projections.
 
-We cannot simply take these 2D projections and generate drafts for them that the user can interactively explore the results of the N ball embedding's. To allow for interactivity this has to be done with JavaScript. Fortunately the Python library plotly also has a JavaScript implementation. This allows us to generate all necessary shapes and markers within the Python code and and then later render them on the website. For more detail see section \ref{sec::plotly}.
+We cannot simply take these 2D projections and generate drafts for them that the user can interactively explore the results of the N ball embedding's. To allow for interactivity this has to be done with JavaScript. Fortunately the Python library plotly also has a JavaScript implementation. This allows us to generate all necessary shapes and markers within the Python code and and then later render them on the website. For more detail see section \ref{sec:plotly}.
 
 
 \begin{figure}[H]
@@ -66,8 +66,8 @@ We chose to use a commonly used task queue named Redis. This allows us to create
 	\end{tabular}
 \end{center}
 
-\subsection{Plotly} \label{plotly}
-Many different graphs were introduced to the web application to fully present N-Balls embeddings and help the user understand the functionality and the concept of it. A valuable tool, on which we based our figure visualizations, was the open-source library Plotly. It helped us to present data in many different forms using the Python language. It provided us with means necessary to create scatter plots, shapes, annotations, tree plots as well as was a base for the interactive animated plot, which showed the work of N-Ball embeddings tree creation algorithm. On the end leaving the user with a possibility to observe trees with different viepoint as well as examine the construction process. Not only visualizations are showing the concept and algorithm behind but also, they are a useful tool to see if an inputted tree is correct and there are no structural problems with it. Plotly provides the graphical part of the application by allowing to present data/structures with different shapes and colors. Moreover, the library brings the graph management tools like zooming in/out. Once the plots will be generated in python with the use of Plotly they are serialized to JSON string to further be transferred to JavaScript which will manage its location and size on the website. 
+\subsection{Plotly} \label{sec::plotly}
+Many different graphs were introduced to the web application to fully present N-Balls embeddings and help the user understand the functionality and the concept of it. A valuable tool, on which we based our figure visualizations, was the open-source library Plotly. It helped us to present data in many different forms using the Python language. It provided us with means necessary to create scatter plots, shapes, annotations, tree plots as well as was a base for the interactive animated plot, which showed the work of N-Ball embeddings tree creation algorithm. On the end leaving the user with a possibility to observe trees with different viewpoint as well as examine the construction process. Not only visualizations are showing the concept and algorithm behind but also, they are a useful tool to see if an inputted tree is correct and there are no structural problems with it. Plotly provides the graphical part of the application by allowing to present data/structures with different shapes and colors. Moreover, the library brings the graph management tools like zooming in/out. Once the plots will be generated in python with the use of Plotly they are serialized to JSON string to further be transferred to JavaScript which will manage its location and size on the website. 
 
 
 \subsubsection{Paths tree}
@@ -182,4 +182,4 @@ Plots provide user with different intake and presentation of the inputted tree:
 \end{itemize}
 
 All the plots are zoomable with the scrooll wheel. 
-For more information about the plots look to section \ref{plotly}.
+For more information about the plots look to section \ref{sec::plotly}.
