@@ -26,15 +26,15 @@
 \contentsline {section}{\numberline {5.3}Result Notification}{16}{section.5.3}
 \contentsline {section}{\numberline {5.4}ENN}{17}{section.5.4}
 \contentsline {section}{\numberline {5.5}Conclusion}{17}{section.5.5}
-\contentsline {chapter}{\numberline {A}Quick start of the system}{18}{appendix.A}
-\contentsline {chapter}{\numberline {B}Description of the system}{19}{appendix.B}
-\contentsline {section}{\numberline {B.1}Developer Notes and Insights}{19}{section.B.1}
-\contentsline {subsection}{\numberline {B.1.1}Contents of out folder}{19}{subsection.B.1.1}
-\contentsline {paragraph}{Data\_out}{19}{section*.8}
-\contentsline {paragraph}{children.txt}{19}{section*.9}
-\contentsline {paragraph}{nballs.txt}{19}{section*.10}
-\contentsline {paragraph}{reduced\_nballs\_before.txt}{19}{section*.11}
-\contentsline {paragraph}{reduced\_nballs\_after.txt}{20}{section*.12}
-\contentsline {paragraph}{small.catcode.txt}{20}{section*.13}
-\contentsline {paragraph}{small.wordSensePath.txt}{20}{section*.14}
-\contentsline {subsection}{\numberline {B.1.2}File types accepted by server}{20}{subsection.B.1.2}
+\contentsline {chapter}{\numberline {A}Quick start of the system\textsuperscript {\hyperref [Oliver]{(2)}}}{19}{appendix.A}
+\contentsline {chapter}{\numberline {B}Description of the system\textsuperscript {\hyperref [Oliver]{(2)}}}{20}{appendix.B}
+\contentsline {section}{\numberline {B.1}Developer Notes and Insights}{20}{section.B.1}
+\contentsline {subsection}{\numberline {B.1.1}Contents of out folder}{20}{subsection.B.1.1}
+\contentsline {paragraph}{Data\_out}{20}{section*.8}
+\contentsline {paragraph}{children.txt}{20}{section*.9}
+\contentsline {paragraph}{nballs.txt}{20}{section*.10}
+\contentsline {paragraph}{reduced\_nballs\_before.txt}{20}{section*.11}
+\contentsline {paragraph}{reduced\_nballs\_after.txt}{21}{section*.12}
+\contentsline {paragraph}{small.catcode.txt}{21}{section*.13}
+\contentsline {paragraph}{small.wordSensePath.txt}{21}{section*.14}
+\contentsline {subsection}{\numberline {B.1.2}File types accepted by server}{21}{subsection.B.1.2}

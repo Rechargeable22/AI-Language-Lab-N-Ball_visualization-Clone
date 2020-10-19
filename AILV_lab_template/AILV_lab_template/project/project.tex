@@ -1,5 +1,5 @@
 \chapter{Web based N Ball Exploration}
-\section{The Architecture}
+\section[The Architecture]{The Architecture\textsuperscript{\hyperref[Oliver]{(2)}}}
 \label{sec::arch}
 Here we will describe the basic information flow between the user interface given on the website, the Web server as well as the way request are handled. In order to display any kind website we first need to set up a Web server that serves HTML files along with their corresponding CSS and JavaScript files. As discussed previously we chose to use flask for this task as it allows us to stay in the Python ecosystem. We created a basic HTML website that provides a input field as well as some basic information about the project so that the user can understand the idea of the project and then proceed to either execute the given example or come up with his own. 
 The user provides a tree structure which he would like to embed into a  embedding. Using statements with a fixed structure
@@ -44,13 +44,14 @@ We cannot simply take these 2D projections and generate drafts for them that the
 
 To get the results back to the user without the need to reload or redirect on the website we are using asynchronous AJAX requests. As soon the user either submits his input form or a file we send an AJAX request to the Web server which is immediately returned along with information of the task ID that the user has been assigned as well as which task queue this tasks resides in. With these two informations the web client can then periodically request to get a status update on his tasks progress. This update request is answered with it's current queue position or once a task is completed with the results of our plotly visualization. The realization results are passed back as a JSON file which will be parsed in the JavaScript and passed into a JavaScript plotly instance allowing us to display the different graphs.
 
-\subsection{Flask}
+\subsection[Flask]{Flask\textsuperscript{\hyperref[Oliver]{(2)}}}
+
 \label{sec::flask}
 In order to provide a easily accessible interactive demonstration, visualization and debugging tool we choose the medium of a website. As the original N-Ball embedding is implemented in Python, Flask was chosen as a web framework.  Flask is a Python based micro framework and as such does not require any additional libraries and is readily available through the python package manager. 
 As is convention with a Flask application we provide HTML templates in the template folder. These templates are just the basic HTML skeleton which defines where and in which order a different graphs, input fields and text fields will be inserted on the website. The basic formatting is done through the CSS bootstrap framework. We further extend on this with our own CSS file which can be found under \textit{templates/static/css} along with the JavaScript code under \textit{templates/static/js}. 
 
 
-\subsection{Redis}
+\subsection[Redis]{Redis\textsuperscript{\hyperref[Oliver]{(2)}}}
 \label{sec::redis}
 For every input the system needs to generate the corresponding ball embeddings, save each step in the construction process, reduce the dimension of the embedding down to two dimensions for visualization and resolve overlapping that results from the dimensionality reduction. Depending on the size of the input tree this process can take anywhere from a few seconds to a few minutes. With a naïve implementation the Web server would simply do all of these tasks before sending back the response to the user. This would not only leave the user waiting with no feedback but even more importantly the server would not be reachable at all during that time frame for other users. While works well for single user it is obviously unacceptable for a publicly available website. We need to make sure that a large request will not block the Web server for everybody else for minutes, possibly even hours. Therefore we need to decouple the serving of the website from the actual computation of the ball embeddings. This is done by using a task queue.
 We chose to use a commonly used task queue named Redis. This allows us to create a task queue, so when the user requests the computation of a ball embedding we add it to the task queue and immediately return to the user to tell him that we received his request and that he has been placed into the task queue. Once the task is complete the results can be sent to the users browser through AJAX without the need to refresh or redirect the website. This allows for seamless display of the results. While the website will return immediately and give the user adequate feedback this still allows a single user to effectively block the queue. As he places a large request once the Web server starts computing this task it will not work on tasks that have been requested later. In order to keep the websites response time for small requests low we introduced a second high priority queue that is reserved for small to moderate input sizes to ensure that users they want to experiment with the service will not be blocked by a single large request.
@@ -66,7 +67,7 @@ We chose to use a commonly used task queue named Redis. This allows us to create
 	\end{tabular}
 \end{center}
 
-\subsection{Plotly} \label{sec::plotly}
+\subsection[Plotly]{Plotly\textsuperscript{\hyperref[Joanna]{(3)}}} \label{sec::plotly}
 Many different graphs were introduced to the web application to fully present N-Balls embeddings and help the user understand the functionality and the concept of it. A valuable tool, on which we based our figure visualizations, was the open-source library Plotly. It helped us to present data in many different forms using the Python language. It provided us with means necessary to create scatter plots, shapes, annotations, tree plots as well as was a base for the interactive animated plot, which showed the work of N-Ball embeddings tree creation algorithm. On the end leaving the user with a possibility to observe trees with different viewpoint as well as examine the construction process. Not only visualizations are showing the concept and algorithm behind but also, they are a useful tool to see if an inputted tree is correct and there are no structural problems with it. Plotly provides the graphical part of the application by allowing to present data/structures with different shapes and colors. Moreover, the library brings the graph management tools like zooming in/out. Once the plots will be generated in python with the use of Plotly they are serialized to JSON string to further be transferred to JavaScript which will manage its location and size on the website. 
 
 
@@ -128,7 +129,7 @@ However it might confuse the user that he provided a single word tank but the sy
 
 Later during the project it was decided to shift the focus of the project towards visual debugging and this feature was discontinued.
 
-\section{User Interaction}
+\section[User Interaction]{User Interaction\textsuperscript{\hyperref[Joanna]{(3)}}}
 
 \subsection{Page overview}
 The page was created in a simple and intuitive manner so the user can have a clear intuition of the functionalities as well as understand its purpose. The color scheme was chosen based on university colors. 
