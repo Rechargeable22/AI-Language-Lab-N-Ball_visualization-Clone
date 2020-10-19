@@ -3,46 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
 The style file: apalike.bst
 Database file #1: bibs/ailab.bib
-Warning--I didn't find a database entry for "bibid"
-You've used 4 entries,
+You've used 5 entries,
             1935 wiz_defined-function locations,
-            496 strings with 4576 characters,
-and the built_in function-call counts, 1787 in all, are:
-= -- 171
-> -- 97
+            499 strings with 4742 characters,
+and the built_in function-call counts, 2182 in all, are:
+= -- 206
+> -- 130
 < -- 2
-+ -- 34
-- -- 34
-* -- 144
-:= -- 313
-add.period$ -- 12
-call.type$ -- 4
-change.case$ -- 37
-chr.to.int$ -- 4
-cite$ -- 4
-duplicate$ -- 70
-empty$ -- 110
-format.name$ -- 40
-if$ -- 352
++ -- 46
+- -- 46
+* -- 181
+:= -- 390
+add.period$ -- 14
+call.type$ -- 5
+change.case$ -- 48
+chr.to.int$ -- 5
+cite$ -- 5
+duplicate$ -- 80
+empty$ -- 125
+format.name$ -- 53
+if$ -- 421
 int.to.chr$ -- 1
 int.to.str$ -- 0
 missing$ -- 3
-newline$ -- 22
-num.names$ -- 12
-pop$ -- 40
+newline$ -- 26
+num.names$ -- 15
+pop$ -- 50
 preamble$ -- 1
-purify$ -- 37
+purify$ -- 48
 quote$ -- 0
-skip$ -- 53
+skip$ -- 61
 stack$ -- 0
-substring$ -- 88
+substring$ -- 100
 swap$ -- 14
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 24
+type$ -- 30
 warning$ -- 0
-while$ -- 11
+while$ -- 13
 width$ -- 0
-write$ -- 52
-(There was 1 warning)
+write$ -- 62

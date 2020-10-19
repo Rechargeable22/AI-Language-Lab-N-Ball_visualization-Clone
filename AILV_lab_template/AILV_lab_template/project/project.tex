@@ -33,7 +33,7 @@ Once the server is ready to perform the task, or in words once all otherr tasks 
 
 Before we can do any kind of visualization we first need to reduce the dimension of the now extended word embeddings down to 2D. For this we use the PCA reduction method explored and implemented by a previous project. Besides simply computing the 2D PCA embedding the project further tries to resolve all instances which now violate the hierarchical embedding due to the PCA prediction. Finally this leaves us with both the high dimensional N ball embedding's as well as their fixed 2D projections.
 
-We cannot simply take these 2D projections and generate drafts for them that the user can interactively explore the results of the N ball embedding's. To allow for interactivity this has to be done with JavaScript. Fortunately the Python library plotly also has a JavaScript implementation. This allows us to generate all necessary shapes and markers within the Python code and and then later render them on the website. For more detail see section \ref{sec:plotly}.
+We cannot simply take these 2D projections and generate drafts for them that the user can interactively explore the results of the N ball embedding's. To allow for interactivity this has to be done with JavaScript. Fortunately the Python library plotly also has a JavaScript implementation. This allows us to generate all necessary shapes and markers within the Python code and and then later render them on the website. For more detail see section \ref{sec::plotly}.
 
 
 \begin{figure}[H]

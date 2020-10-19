@@ -7,6 +7,10 @@ Dong, T., Cremers, O., Jin, H., Li, J., Bauckhage, C., Cremers, A.~B.,
   approach.
 \newblock In {\em International Conference on Learning Representations}.
 
+\bibitem[Dong et~al., 2020]{dong2020learning}
+Dong, T., Li, C., Bauckhage, C., Li, J., Wrobel, S., and Cremers, A.~B. (2020).
+\newblock Learning syllogism with euler neural-networks.
+
 \bibitem[Howard and Ruder, 2018]{DBLP:journals/corr/abs-1801-06146}
 Howard, J. and Ruder, S. (2018).
 \newblock Fine-tuned language models for text classification.

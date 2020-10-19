@@ -1,7 +1,6 @@
 \chapter{Conclusion and outlooks}
 
-\section{Future work and Faults}
-\subsection{Visulization of construction history}
+\section{Visulization of construction history}
 Initially the idea for the project included a visual debugger. Many references to visual debugging may still persist in the code base. When using an actual debugger in any programming language the program executes up to a breakpoint from which the programmer can decide to step through the code instruction by instruction. For a visual debugger of the ball embedding process in theory you wish to achieve the same but on a more abstract level. For each entry in the tree a sphere needs to be constructed and the extended word vector needs to be adjusted. The debugger should ideally display every adjustment made to the word vector that the developer can see if his algorithm is misbehaving. This approach generates three major problems. 
 
 First is the system actually works like a traditional debugger at the time of visualizing a D debugging step t we can only access the ball embedding's that have been computed previously. However, before we can do the actual visualization we have to reduce the dimensionality of the ball embedding. The projection to the 2D space will obviously change with every additional data point that is added. Therefore the position and even size of the 2D projection of a ball embedding will not be consistent throughout the different debugging steps. This is quite obviously very irritating and will make a productive use of the visual debugging tool very difficult.
@@ -9,10 +8,13 @@ Second if the user has the ability to trigger the step in the construction proce
 Third the ball embedding framework that this project is based on is not designed to pause the construction process and much less to allow for adjustments before the next ball embedding is constructed. As such this would require significant rewriting of the ball embedding framework and is as such out of the scope of this project.
 
 Instead we decided to visualize a construction history or another words simple log of the debugging steps as a list. This has the advantage that we can provide a simple JSON format of how this construction history should be saved and then our visualization can be used with any ball embedding framework as well as the one used here.
-\subsection{Webserver deployment}
+\section{Webserver deployment}
 For the testing of the web service we have used the built in Web server that is provided by flask. If the service will be actually deployed this needs to be changed to a proper Web server as is explained in the flask tutorials.
-\subsection{Result Notification}
+\section{Result Notification}
 Currently we require the user to keep the website open until his request has been completed. Some users may only be interested in the resulting ball embedding but we currently do not offer any ability to download them directly. For these users there should be the possibility of a simple download button to retrieve the ball embedding for exploration on their own system. Further these users may also use our service to compute ball embedding's of larger input trees. For these larger requests the user would be required to provide his email address and once the task is finished we can send him a download link for his ball embedding. Further this would allow us to acquire the email addresses of persons interested in our research.
+
+\section{ENN}
+Euler neural networks \cite{dong2020learning} offer the benefit that the embedding dimension can be set to two or three. This completely removes the need for dimensionality reduction before visualization as well as accompanying challenges of temporal consistency. Therefore it is now possible to visualize the actual embeddings at every step of the gradient descent algorithm.
 
 \section{Conclusion}
 In this lab, we have developed a prototype of an interactive and easily portable visualization and education tool for high dimensional ball embeddings. We presented embeddings from different perspectives in order to give users a better overview of the concept. Firstly, we enabled users to generate and explore embeddings of arbitrary input word relations by providing them with plots showcasing the trees. Secondly, we visualized the generation process. Users can now clearly see in which order balls get initialized, combined, or separated by going through the sequence of plots. Both of these functions can be used to determine if the user's own embedding trees are correct. Therefore, it can be a mean to capture potential errors. Moreover, the Web application is created with a simple and intuitive manner to improve user experience. We added also a task queue to accommodate a bigger number of users at the same time. Finally, we proposed also extensions to help with a future development. 
