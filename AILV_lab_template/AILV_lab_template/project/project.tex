@@ -1,7 +1,7 @@
-\chapter{Web based N Ball Exploration}
+\chapter{Web based N-Ball Exploration}
 \section[The Architecture]{The Architecture\textsuperscript{\hyperref[Oliver]{(2)}}}
 \label{sec::arch}
-Here we will describe the basic information flow between the user interface given on the website, the Web server, as well as the way requests, are handled. In order to display any kind of website we first need to set up a Web server that serves HTML files along with their corresponding CSS and JavaScript files. As discussed previously we chose to use flask for this task as it allows us to stay in the Python ecosystem. We created a basic HTML website that provides an input field as well as some basic information about the project so that the user can understand the idea of the project and then proceed to either execute the given example or come up with his own input. 
+Here we will describe the basic information flow between the user interface given on the website, the Web server, as well as the way requests, are handled. In order to display any kind of website we first need to set up a Web server that serves HTML files along with their corresponding CSS and JavaScript files. As discussed previously, we chose to use flask for this task as it allows us to stay in the Python ecosystem. We created a basic HTML website that provides an input field as well as some basic information about the project so that the user can understand the idea of the project and then proceed to either execute the given example or come up with his own input. 
 The user provides a tree structure which he would like to embed into an existing word embedding. Using statements with a fixed structure
 \begin{center}
 	
@@ -33,7 +33,7 @@ Once the server is ready to perform the task, or in words, once all other tasks 
 
 Before we can do any kind of visualization we first need to reduce the dimension of the now extended word embeddings down to 2D. For this, we use the PCA reduction method explored and implemented by a previous project. Besides simply computing the 2D PCA embedding the project further tries to resolve all instances which now violate the hierarchical embedding due to the PCA prediction. Finally, this leaves us with both the high dimensional N ball embedding's as well as their fixed 2D projections.
 
-We cannot simply take these 2D projections and generate drafts for them that the user can interactively explore the results of the N ball embedding. To allow for interactivity this has to be done with JavaScript. Fortunately, the Python library plotly also has a JavaScript implementation. This allows us to generate all necessary shapes and markers within the Python code and then later render them on the website. For more detail see section \ref{sec::plotly}.
+We cannot simply take these 2D projections and generate drafts for them that the user can interactively explore the results of the N ball embedding. To allow for interactivity this has to be done with JavaScript. Fortunately, the Python library Plotly also has a JavaScript implementation. This allows us to generate all necessary shapes and markers within the Python code and then later render them on the website. For more detail see section \ref{sec::plotly}.
 
 
 \begin{figure}[H]
@@ -42,7 +42,7 @@ We cannot simply take these 2D projections and generate drafts for them that the
 	\label{fig:overview}
 \end{figure}
 
-To get the results back to the user without the need to reload or redirect on the website we are using asynchronous AJAX requests. As soon the user either submits his input form or a file we send an AJAX request to the Web server which is immediately returned along with information of the task ID that the user has been assigned as well as which task queue this task resides in. With these two pieces of information, the web client can then periodically request to get a status update on the progress of his task. This update request is answered with its current queue position or once a task is completed with the results of our plotly visualization. The realization results are passed back as a JSON file which will be parsed in the JavaScript and passed into a JavaScript plotly instance allowing us to display the different graphs.
+To get the results back to the user without the need to reload or redirect on the website we are using asynchronous AJAX requests. As soon the user either submits his input form or a file we send an AJAX request to the Web server which is immediately returned along with information of the task ID that the user has been assigned as well as which task queue this task resides in. With these two pieces of information, the web client can then periodically request to get a status update on the progress of his task. This update request is answered with its current queue position or once a task is completed with the results of our Plotly visualization. The realization results are passed back as a JSON file which will be parsed in the JavaScript and passed into a JavaScript Plotly instance allowing us to display the different graphs.
 
 \subsection[Flask]{Flask\textsuperscript{\hyperref[Oliver]{(2)}}}
 
