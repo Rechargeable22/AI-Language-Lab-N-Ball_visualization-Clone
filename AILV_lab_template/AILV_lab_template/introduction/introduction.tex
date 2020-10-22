@@ -1,29 +1,30 @@
 \chapter[Introduction]{Introduction\textsuperscript{\hyperref[Jan]{(1)}}}
 
-Many of the advances in natural language processing have been facilitated through the use of deep learning \cite{mikolov2013efficient,devlin2019bert,raffel2020exploring}. To enhance semantic reasoning \cite{Erk} proposed to extend word vectors into regions. Experiments suggest that the region based embedding provides additional information not yet captured by the word embeddings. Unlike previous word embeddings \cite{dong2018encoding} imposes hierarchical structures into word embeddings at zero energy costs. Therefore correct categorical reasoning can be guaranteed. To provide an intuitive understanding and an easy possibility to interact with the embedding system we created a web service. 
+Many of the advances in natural language processing have been facilitated through the use of deep learning \cite{mikolov2013efficient,devlin2019bert,raffel2020exploring}. To enhance semantic reasoning \cite{Erk} proposed to extend word vectors into regions. Experiments suggest that the region based embedding provides additional information not yet captured by the word embeddings. Unlike previous word embeddings \cite{dong2018encoding} imposes region-based hierarchical structures into word embeddings at zero energy costs. Therefore correct categorical reasoning can be guaranteed. To provide an intuitive understanding and an easy possibility to interact with the embedding system we created a web service that allows for intuitive access to the NBall embedding algorithm. 
 
 \section{Objectives}
 \label{objectives}
-The paper \cite{dong2018encoding} introduces a novel algorithm for generating N ball embedding. The code accompanying the paper only allows for rudimentary visualization and only does so for the end result. Our task was create a robust web service that allows for simple interaction with the presented ball embedding algorithm. 
+\cite{dong2018encoding} introduces a novel algorithm for generating N ball embedding. The code accompanying the paper only allows for rudimentary visualization and only does so for the end result. Our task was to create a robust web service that allows for simple interaction with the presented ball embedding algorithm. 
 Given a set of words, along with word embeddings and a tree structure that describes the hierarchical relationship between all words we can generate a ball embedding. \\
 
 Our objectives were as follows:
 \begin{itemize}
-	\item Simplification of the interaction with resulting ball embeddings
-	\item A visualization of the relationship tree
-	\item A flat visualization of the balls allowing for diagrammatic reasoning
+	\item Simplifying user input by offering sensible defaults to generate ball embeddings
+	\item A visualization of the input relationship tree
+	\item A flat (2D) visualization of the generated balls which also allows for diagrammatic reasoning
 	\item Step by step visualization of the embedding construction process
-	\item This implemented as a robust web server that can handle multiple requests
+	\item Implementation as a web server that can handle multiple requests
 	\item Full documentation for our code
-	\item Understanding the word embedding code
+	\item Understanding the N Ball embedding framework
 \end{itemize}
 
 
 \section{Challenges}
-In order to realize an asynchronous web service that can also provide the needed visualization we had to choose and familiarize ourselves with multiple frameworks, namely flask, plotly and redis.
+In order to realize an asynchronous web service that can also provide the needed visualization, we had to choose and familiarize ourselves with multiple frameworks, namely flask, plotly and redis.
 We furthermore had to reach a thorough understanding of the ball embedding generation codebase as the construction visualization required functionality that was not yet provided by the framework.
-This proved to be more challenging than expected, as the code is undocumented and stores much of the required data on disk and later reloads it instead of keeping it in memory. This makes it challenging to trace the construction of a single word embedding throughout the code as the save files also come without documentation. For future reference we provide a specification for each in appendix \ref{dev_notes}.
+This proved to be more challenging than expected, as the code is undocumented and stores much of the required data on disk and later reloads it instead of keeping it in memory. This makes it challenging to trace the construction of a single word embedding throughout the code as the save files also come without documentation. For future reference, we provide a specification for each in appendix \ref{dev_notes}.
 The reduction of the high dimensional balls into 2d needs to be independent of the number of balls. The previous visualization used PCA which would change the ball positions with respect to each other in every step.
 
 \section{Contributions}
 We implemented the objectives in \ref{objectives} and describe them in the following chapters. The system could help with the explanation of region-based embedding and be a visualization that could potentially benefit the creation of the relationship embedding and error handling.
+
