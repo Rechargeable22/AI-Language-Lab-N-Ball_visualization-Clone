@@ -10,7 +10,7 @@ Third the ball embedding framework that this project is based on is not designed
 Instead, we decided to visualize a construction history or in other words a simple log of the debugging steps as a list. This has the advantage that we can provide a simple JSON format of how this construction history should be saved and then our visualization can be used with any ball embedding framework as well as the one used here.
 
 
-\section[Webserver deployment]{Webserver deployment\textsuperscript{\hyperref[Oliver]{(2)}}}
+\section[Webserver deployment]{Webserver deployment\textsuperscript{\hyperref[Oliver]{(2)}}} \label{web_extension}
 For the testing of the web service, we have used the built in Web server that is provided by flask. If the service will be actually deployed this needs to be changed to a proper Web server as is explained in the flask tutorials.
 
 \section[Result Notification]{Result Notification\textsuperscript{\hyperref[Oliver]{(2)}}}
@@ -20,7 +20,7 @@ Currently we require the user to keep the website open until his request has bee
 Euler neural networks \cite{dong2020learning} offer the benefit that the embedding dimension can be set to two or three. This completely removes the need for dimensionality reduction before visualization as well as accompanying challenges of temporal consistency. Therefore it is now possible to visualize the actual embeddings at every step of the gradient descent algorithm.
 
 \section[Conclusion]{Conclusion\textsuperscript{\hyperref[Joanna]{(3)}}}
-In this lab, we have developed a prototype of an interactive and easily portable visualization and education tool for high dimensional ball embeddings. We presented embeddings from different perspectives in order to give users a better overview of the concept. Firstly, we enabled users to generate and explore embeddings of arbitrary input word relations by providing them with plots showcasing the trees. Secondly, we visualized the generation process. Users can now clearly see in which order balls get initialized, combined, or separated by going through the sequence of plots. Both of these functions can be used to determine if the user's own embedding trees are correct. Therefore, it can be used to capture potential errors. Moreover, the Web application is created in a simple and intuitive manner to improve user experience. We added also a task queue to accommodate a larger number of users at the same time. Finally, we proposed also extensions to help with future development. 
+In this lab, we have developed a prototype of an interactive and easily portable visualization and education tool for high dimensional ball embeddings. We presented embeddings from different perspectives in order to give users a better overview of the concept. Firstly, we enabled users to generate and explore embeddings of arbitrary input word relations by providing them with plots showcasing the trees. Secondly, we visualized the generation process. Users can now clearly see in which order balls get initialized, combined, or separated by going through the sequence of plots. Both of these functions can be used to determine if the user's own embedding trees are correct. Therefore, it can be used to capture potential errors. Moreover, the Web application is created in a simple and intuitive manner to improve user experience. We added also a task queue to accommodate a larger number of users at the same time. Finally, we proposed extensions to help with future development. 
 
 
 
