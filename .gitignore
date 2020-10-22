@@ -69,4 +69,6 @@ ENV/
 jupyter_notebooks/.ipynb_checkpoints
 data/
 
-
+AILV_lab_template/*.log
+AILV_lab_template/*.aux
+AILV_lab_template/*.toc

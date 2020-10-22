@@ -1,5 +1,10 @@
 \begin{thebibliography}{}
 
+\bibitem[Devlin et~al., 2019]{devlin2019bert}
+Devlin, J., Chang, M.-W., Lee, K., and Toutanova, K. (2019).
+\newblock Bert: Pre-training of deep bidirectional transformers for language
+  understanding.
+
 \bibitem[Dong et~al., 2019]{dong2018encoding}
 Dong, T., Cremers, O., Jin, H., Li, J., Bauckhage, C., Cremers, A.~B.,
   Speicher, D., and Zimmermann, J. (2019).
@@ -10,6 +15,11 @@ Dong, T., Cremers, O., Jin, H., Li, J., Bauckhage, C., Cremers, A.~B.,
 \bibitem[Dong et~al., 2020]{dong2020learning}
 Dong, T., Li, C., Bauckhage, C., Li, J., Wrobel, S., and Cremers, A.~B. (2020).
 \newblock Learning syllogism with euler neural-networks.
+
+\bibitem[Erk, 2009]{Erk}
+Erk, K. (2009).
+\newblock Supporting inferences in semantic space: representing words as
+  regions.
 
 \bibitem[Howard and Ruder, 2018]{DBLP:journals/corr/abs-1801-06146}
 Howard, J. and Ruder, S. (2018).
@@ -26,5 +36,11 @@ Pennington, J., Socher, R., and Manning, C. (2014).
 \newblock In {\em Proceedings of the 2014 Conference on Empirical Methods in
   Natural Language Processing ({EMNLP})}, pages 1532--1543, Doha, Qatar.
   Association for Computational Linguistics.
+
+\bibitem[Raffel et~al., 2020]{raffel2020exploring}
+Raffel, C., Shazeer, N., Roberts, A., Lee, K., Narang, S., Matena, M., Zhou,
+  Y., Li, W., and Liu, P.~J. (2020).
+\newblock Exploring the limits of transfer learning with a unified text-to-text
+  transformer.
 
 \end{thebibliography}
