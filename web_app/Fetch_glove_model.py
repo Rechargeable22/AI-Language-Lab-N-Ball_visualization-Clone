@@ -38,3 +38,6 @@ def fetch_glove() -> None:
                     target = open(os.path.join("res", filename), "wb")
                     with source, target:
                         shutil.copyfileobj(source, target)
+
+if __name__ == '__main__':
+    fetch_glove()
