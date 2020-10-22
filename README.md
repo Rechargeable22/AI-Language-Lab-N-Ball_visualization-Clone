@@ -20,6 +20,7 @@ pip install --upgrade -r requirements.txt
 Then to run the code:
 
 ```
+redis-server
 rq worker high
 rq worker low
 python app.py

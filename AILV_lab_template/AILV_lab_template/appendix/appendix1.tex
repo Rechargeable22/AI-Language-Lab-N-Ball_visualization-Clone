@@ -22,6 +22,7 @@ Then prepare the server for handling requests with the following commands
 \begin{center}
 	\begin{tabular}{c}
 		\begin{lstlisting}
+		redis-server
 		rq worker high
 		rq worker low
 		python app.py
